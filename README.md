@@ -1,1 +1,1 @@
-![](../../diagram_Bilingual.png) database diagram
+![../../diagram_Bilingual.png](../../diagram_Bilingual.png) database diagram
