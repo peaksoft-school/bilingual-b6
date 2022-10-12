@@ -1,1 +1,1 @@
-![diagram_Bilingual.png](diagram_Bilingual.png)
+![](diagram.png)
