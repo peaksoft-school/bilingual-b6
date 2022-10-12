@@ -23,10 +23,13 @@ public class Question {
     @SequenceGenerator(name = "question_generator", sequenceName = "question_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(length = 10000)
     private String title;
 
+    @Column(length = 10000)
     private String statement;
 
+    @Column(length = 10000)
     private String passage;
 
     private Boolean isActive;
@@ -35,10 +38,12 @@ public class Question {
 
     private int duration;
 
+    @Column(length = 10000)
     private String shortDescription;
 
     private int minNumberOfWords;
 
+    @Column(length = 10000)
     private String correctAnswer;
 
     @OneToOne(cascade = ALL)

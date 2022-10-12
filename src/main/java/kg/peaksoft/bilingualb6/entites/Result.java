@@ -31,11 +31,11 @@ public class Result {
     private int finalScore;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "result")
-    private List<ClientsAnswer> clientsAnswers;
+    private List<QuestionAnswer> questionAnswers;
 
     @ManyToOne(cascade = {MERGE, DETACH},fetch = FetchType.LAZY)
     private Client client;
 
-    @ManyToOne(cascade = {MERGE,DETACH,REFRESH,PERSIST})
+    @ManyToOne(cascade = {MERGE,DETACH,REFRESH})
     private Test test;
 }

@@ -4,6 +4,5 @@ public enum Status {
 
     EVALUATED,
 
-    NOT_EVALUATED;
-
+    NOT_EVALUATED
 }

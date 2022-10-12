@@ -20,13 +20,11 @@ public class Option {
     @SequenceGenerator(name = "option_generator", sequenceName = "option_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(length = 10000)
     private String option;
 
     private Boolean isTrue;
 
     @ManyToOne(cascade = {MERGE, DETACH, PERSIST, REFRESH})
     private Question question;
-
-    @ManyToOne(cascade = {DETACH,REFRESH,PERSIST,MERGE},fetch = FetchType.LAZY)
-    private ClientsAnswer clientsAnswer;
 }

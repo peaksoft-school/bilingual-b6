@@ -4,6 +4,5 @@ public enum OptionType {
 
     SINGLE_CHOICE,
 
-    MULTIPLE_CHOICE;
-
+    MULTIPLE_CHOICE
 }

@@ -21,5 +21,6 @@ public class Content {
     @Enumerated(EnumType.STRING)
     private ContentType answerType;
 
+    @Column(length = 10000)
     private String content;
 }

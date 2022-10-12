@@ -18,7 +18,9 @@ public class  Client {
     @SequenceGenerator(name = "client_generator", sequenceName = "client_id_sequence", allocationSize = 1)
     private Long id;
 
-    private String full_name;
+    private String firstName;
+
+    private String lastName;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AuthInfo authInfo;

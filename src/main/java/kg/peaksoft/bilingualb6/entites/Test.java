@@ -19,8 +19,10 @@ public class Test {
     @SequenceGenerator(name = "test_generator", sequenceName = "test_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(length = 10000)
     private String shortDescription;
 
+    @Column(length = 10000)
     private String title;
 
     private Boolean isActive;
