@@ -1,0 +1,23 @@
+package kg.peaksoft.bilingualb6.entites.enums;
+
+public enum QuestionType {
+
+    SELECT_REAL_ENGLISH_WORDS,
+
+    LISTEN_AND_SELECT_WORD,
+
+    TYPE_WHAT_YOU_HEAR,
+
+    RECORD_SAYING_STATEMENT,
+
+    DESCRIBE_IMAGE,
+
+    RESPOND_IN_AT_LEAST_N_WORDS,
+
+    HIGHLIGHT_THE_ANSWER,
+
+    SELECT_MAIN_IDEA,
+
+    SUBMITTED_RESULTS_PAGE;
+
+}
