@@ -19,7 +19,7 @@ public class Content {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ContentType answerType;
+    private ContentType contentType;
 
     @Column(length = 10000)
     private String content;
