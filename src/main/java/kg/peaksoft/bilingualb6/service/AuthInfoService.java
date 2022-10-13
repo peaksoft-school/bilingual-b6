@@ -1,12 +1,16 @@
 package kg.peaksoft.bilingualb6.service;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import kg.peaksoft.bilingualb6.dto.request.AuthInfoRequest;
 import kg.peaksoft.bilingualb6.dto.request.ClientRegisterRequest;
 import kg.peaksoft.bilingualb6.dto.response.AuthInfoResponse;
 import kg.peaksoft.bilingualb6.dto.response.ClientRegisterResponse;
 import kg.peaksoft.bilingualb6.entites.AuthInfo;
 import kg.peaksoft.bilingualb6.entites.Client;
+import kg.peaksoft.bilingualb6.entites.enums.Role;
 import kg.peaksoft.bilingualb6.exceptions.BadCredentialsException;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.repository.AuthInfoRepository;
@@ -86,5 +90,29 @@ public class AuthInfoService {
                 saveClient.getAuthInfo().getEmail(),
                 token,
                 saveClient.getAuthInfo().getRole());
+    }
+
+    public AuthInfoResponse authWithGoogleAccount(String tokenId) throws FirebaseAuthException {
+        FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(tokenId);
+
+        Client client;
+
+        if (!authInfoRepository.existsAuthInfoByEmail(firebaseToken.getEmail())) {
+
+            Client newClient = new Client();
+
+            newClient.setFirstName(firebaseToken.getName());
+
+            newClient.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
+
+            client = clientRepository.save(newClient);
+        }
+        client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
+
+        String token = jwtUtils.generateToken(client.getAuthInfo().getEmail());
+
+        return new AuthInfoResponse(client.getAuthInfo().getEmail(),
+                token,
+                client.getAuthInfo().getRole());
     }
 }
