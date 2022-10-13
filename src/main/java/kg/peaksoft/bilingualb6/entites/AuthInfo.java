@@ -30,17 +30,6 @@ public class AuthInfo implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public AuthInfo(String email, String password, Role role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public AuthInfo(String password, Role role) {
-        this.password = password;
-        this.role = role;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);

@@ -5,7 +5,6 @@ import kg.peaksoft.bilingualb6.dto.request.AuthInfoRequest;
 import kg.peaksoft.bilingualb6.dto.request.ClientRegisterRequest;
 import kg.peaksoft.bilingualb6.dto.response.AuthInfoResponse;
 import kg.peaksoft.bilingualb6.dto.response.ClientRegisterResponse;
-import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.entites.AuthInfo;
 import kg.peaksoft.bilingualb6.entites.Client;
 import kg.peaksoft.bilingualb6.exceptions.BadCredentialsException;
@@ -21,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
@@ -35,6 +33,7 @@ public class AuthInfoService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtils jwtUtils;
+
     private final ClientRepository clientRepository;
 
     private final PasswordEncoder passwordEncoder;

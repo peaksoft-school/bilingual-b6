@@ -1,5 +1,6 @@
 package kg.peaksoft.bilingualb6.security;
 
+import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.AuthInfoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         return authInfoRepository.findByEmail(username).orElseThrow(
-                () -> new RuntimeException("not found"));
+                () -> new NotFoundException(String.format("client with email %s not found",username)));
     }
 }
