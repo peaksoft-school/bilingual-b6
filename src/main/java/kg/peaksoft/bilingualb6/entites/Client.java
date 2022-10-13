@@ -1,5 +1,7 @@
 package kg.peaksoft.bilingualb6.entites;
 
+import kg.peaksoft.bilingualb6.dto.request.ClientRegisterRequest;
+import kg.peaksoft.bilingualb6.entites.enums.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,4 +27,19 @@ public class  Client {
     @OneToOne(cascade = CascadeType.ALL)
     private AuthInfo authInfo;
 
+    public Client(ClientRegisterRequest clientRegisterRequest) {
+        this.firstName = clientRegisterRequest.getFirstName();
+        this.lastName = clientRegisterRequest.getLastName();
+        AuthInfo authInfo1 = new AuthInfo();
+        authInfo1.setEmail(clientRegisterRequest.getEmail());
+        authInfo1.setPassword(clientRegisterRequest.getPassword());
+        authInfo1.setRole(Role.CLIENT);
+        this.authInfo = authInfo1;
+    }
+
+    public Client(String firstName, String lastName, AuthInfo authInfo) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.authInfo = authInfo;
+    }
 }
