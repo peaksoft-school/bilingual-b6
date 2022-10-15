@@ -1,4 +1,4 @@
-package kg.peaksoft.bilingualb6.security.jwt;
+package kg.peaksoft.bilingualb6.config.security.jwt;
 
 import kg.peaksoft.bilingualb6.entites.AuthInfo;
 import kg.peaksoft.bilingualb6.repository.AuthInfoRepository;

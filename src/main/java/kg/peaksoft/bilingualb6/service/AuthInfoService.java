@@ -18,7 +18,7 @@ import kg.peaksoft.bilingualb6.exceptions.BadCredentialsException;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.repository.AuthInfoRepository;
 import kg.peaksoft.bilingualb6.repository.ClientRepository;
-import kg.peaksoft.bilingualb6.security.jwt.JwtUtils;
+import kg.peaksoft.bilingualb6.config.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.ClassPathResource;

@@ -1,4 +1,4 @@
-package kg.peaksoft.bilingualb6.security.jwt;
+package kg.peaksoft.bilingualb6.config.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

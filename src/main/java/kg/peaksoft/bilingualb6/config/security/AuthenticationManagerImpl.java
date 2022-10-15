@@ -1,4 +1,4 @@
-package kg.peaksoft.bilingualb6.security;
+package kg.peaksoft.bilingualb6.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

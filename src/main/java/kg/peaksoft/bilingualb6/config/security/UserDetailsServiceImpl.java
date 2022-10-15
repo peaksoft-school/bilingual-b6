@@ -1,4 +1,4 @@
-package kg.peaksoft.bilingualb6.security;
+package kg.peaksoft.bilingualb6.config.security;
 
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.AuthInfoRepository;
