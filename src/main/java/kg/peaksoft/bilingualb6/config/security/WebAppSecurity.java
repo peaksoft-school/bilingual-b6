@@ -1,6 +1,6 @@
-package kg.peaksoft.bilingualb6.security;
+package kg.peaksoft.bilingualb6.config.security;
 
-import kg.peaksoft.bilingualb6.security.jwt.JwtTokenVerifier;
+import kg.peaksoft.bilingualb6.config.security.jwt.JwtTokenVerifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
