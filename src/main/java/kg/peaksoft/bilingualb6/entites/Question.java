@@ -55,11 +55,10 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, REFRESH},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Test test;
 
-    @OneToMany(cascade = ALL,fetch = FetchType.EAGER,mappedBy = "question")
+    @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "question")
     private List<Option> options;
-
 
 }
