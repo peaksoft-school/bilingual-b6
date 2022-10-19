@@ -11,8 +11,6 @@ import kg.peaksoft.bilingualb6.service.AuthInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
-
 
 @RestController
 @RequiredArgsConstructor
