@@ -28,6 +28,7 @@ public class Result {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column
     private int finalScore;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "result")
