@@ -13,13 +13,8 @@ public class TestController {
 
     private final TestService testService;
 
-    @PutMapping("/enabled/{id}")
-    public SimpleResponse enable(@PathVariable Long id){
-        return testService.enable(id);
-    }
-
-    @PutMapping("/disabled/{id}")
-    public SimpleResponse disable(@PathVariable Long id){
-        return testService.disable(id);
+    @PutMapping("/enableDisable/{id}")
+    public SimpleResponse enableDisable(@PathVariable Long id){
+        return testService.enableDisable(id);
     }
 }
