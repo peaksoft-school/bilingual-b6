@@ -18,11 +18,13 @@ public class QuestionAnswer {
 
     @Id
     @GeneratedValue(generator = "clients_answer_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "clients_answer_generator", sequenceName = "clients_answer_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "clients_answer_generator", sequenceName = "clients_answer_id_sequence", allocationSize = 1,initialValue = 10)
     private Long id;
 
+    @Column
     private int numberOfWords;//user's answer's counter words
 
+    @Column
     private int score;
 
     @OneToOne(cascade = ALL)
