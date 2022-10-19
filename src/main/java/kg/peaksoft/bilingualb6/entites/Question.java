@@ -35,16 +35,16 @@ public class Question {
     private Boolean isActive;
 
     @Column
-    private int numberOfReplays;
+    private Integer numberOfReplays;
 
     @Column
-    private int duration;
+    private Integer duration;
 
     @Column(length = 10000)
     private String shortDescription;
 
     @Column
-    private int minNumberOfWords;
+    private Integer minNumberOfWords;
 
     @Column(length = 10000)
     private String correctAnswer;

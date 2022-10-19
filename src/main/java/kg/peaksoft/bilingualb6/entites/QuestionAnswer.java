@@ -1,5 +1,6 @@
 package kg.peaksoft.bilingualb6.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,25 +19,25 @@ public class QuestionAnswer {
 
     @Id
     @GeneratedValue(generator = "clients_answer_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "clients_answer_generator", sequenceName = "clients_answer_id_sequence", allocationSize = 1,initialValue = 10)
+    @SequenceGenerator(name = "clients_answer_generator", sequenceName = "clients_answer_id_sequence", allocationSize = 1, initialValue = 10)
     private Long id;
 
     @Column
-    private int numberOfWords;//user's answer's counter words
+    private Integer numberOfWords;//user's answer's counter words
 
     @Column
-    private int score;
+    private Integer score;
 
     @OneToOne(cascade = ALL)
     private Content content;
 
-    @OneToOne(cascade = {DETACH, MERGE, REFRESH},fetch = FetchType.LAZY)
+    @OneToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Question question;
 
-    @OneToMany(cascade = {DETACH,MERGE,REFRESH})
+    @OneToMany(cascade = {DETACH, MERGE, REFRESH},mappedBy = "questionAnswer")
     List<Option> options;
 
-    @ManyToOne(cascade = {DETACH,PERSIST,MERGE,REMOVE})
+    @ManyToOne(cascade = {DETACH, PERSIST, MERGE, REMOVE})
     private Result result;
 
 

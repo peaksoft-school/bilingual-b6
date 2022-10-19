@@ -15,12 +15,19 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
     @Modifying
     @Transactional
     @Query("update Option " +
-            "set question = null where id = ?1 ")
-    void updateByIdForDelete(Long id);
+            "set question = null where id = ?1")
+    void updateByIdForDeleteInQuestion(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update QuestionAnswer " +
+            "set options = null where id = ?1")
+    void updateByIdForDeleteInQuestionAnswer(Long id);
 
     @Modifying
     @Transactional
     @Query("delete from Option " +
             "where id = ?1")
     void deleteById(Long id);
+
 }

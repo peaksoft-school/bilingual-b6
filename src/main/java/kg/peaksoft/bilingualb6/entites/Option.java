@@ -29,4 +29,10 @@ public class Option {
     @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
     @JsonIgnore
     private Question question;
+
+    @ManyToOne(cascade = {REFRESH,MERGE,DETACH})
+    @JoinTable(name = "question_answers_options",joinColumns = @JoinColumn(name = "options_id"),
+    inverseJoinColumns = @JoinColumn(name = "question_answer_id"))
+    @JsonIgnore
+    private QuestionAnswer questionAnswer;
 }
