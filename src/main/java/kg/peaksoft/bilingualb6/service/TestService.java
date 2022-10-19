@@ -23,7 +23,8 @@ public class TestService {
         if (test.getIsActive()){
             a = "enabled";
         } else {
-            a = "disabled";
+            a = "disabled" +
+                    "";
         }
         return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
     }
