@@ -15,11 +15,11 @@ import javax.persistence.*;
 public class Content {
     @Id
     @GeneratedValue(generator = "answer_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "answer_generator", sequenceName = "answer_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "answer_generator", sequenceName = "answer_sequence", allocationSize = 1,initialValue = 4)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ContentType answerType;
+    private ContentType contentType;
 
     @Column(length = 10000)
     private String content;

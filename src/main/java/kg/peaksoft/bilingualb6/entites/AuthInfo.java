@@ -20,7 +20,7 @@ public class AuthInfo implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "auth_info_generator",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "auth_info_generator", sequenceName = "auth_info_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "auth_info_generator", sequenceName = "auth_info_id_sequence", allocationSize = 1,initialValue = 3)
     private Long id;
 
     private String email;

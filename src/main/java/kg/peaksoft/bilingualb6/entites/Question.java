@@ -20,7 +20,7 @@ public class Question {
 
     @Id
     @GeneratedValue(generator = "question_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "question_generator", sequenceName = "question_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "question_generator", sequenceName = "question_id_sequence", allocationSize = 1,initialValue = 10)
     private Long id;
 
     @Column(length = 10000)
@@ -34,13 +34,16 @@ public class Question {
 
     private Boolean isActive;
 
+    @Column
     private int numberOfReplays;
 
+    @Column
     private int duration;
 
     @Column(length = 10000)
     private String shortDescription;
 
+    @Column
     private int minNumberOfWords;
 
     @Column(length = 10000)

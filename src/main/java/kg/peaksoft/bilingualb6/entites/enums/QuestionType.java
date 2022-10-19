@@ -18,6 +18,6 @@ public enum QuestionType {
 
     SELECT_MAIN_IDEA,
 
-    SUBMITTED_RESULTS_PAGE;
+    SELECT_BEST_TITLE
 
 }
