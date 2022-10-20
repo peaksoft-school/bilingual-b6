@@ -28,7 +28,8 @@ public class QuestionAnswer {
     @Column
     private Integer score;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne(cascade = {REFRESH,MERGE,DETACH,PERSIST})
+    @JsonIgnore
     private Content content;
 
     @OneToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/option")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "Option's method", description = "The option's method for delete")
+@Tag(name = "Option API", description = "The option's method for delete")
 public class OptionController {
 
     private final OptionService optionService;

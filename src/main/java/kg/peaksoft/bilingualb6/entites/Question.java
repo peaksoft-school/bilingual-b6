@@ -1,5 +1,6 @@
 package kg.peaksoft.bilingualb6.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.Getter;
@@ -49,7 +50,8 @@ public class Question {
     @Column(length = 10000)
     private String correctAnswer;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne(cascade = {PERSIST, DETACH, MERGE, REFRESH})
+    @JsonIgnore
     private Content content;
 
     @Enumerated(EnumType.STRING)
@@ -63,5 +65,8 @@ public class Question {
 
     @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "question")
     private List<Option> options;
+
+    @OneToOne(cascade = ALL,mappedBy = "question")
+    private QuestionAnswer questionAnswer;
 
 }
