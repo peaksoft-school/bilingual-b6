@@ -35,16 +35,16 @@ public class Question {
     private Boolean isActive;
 
     @Column
-    private int numberOfReplays;
+    private Integer numberOfReplays;
 
     @Column
-    private int duration;
+    private Integer duration;
 
     @Column(length = 10000)
     private String shortDescription;
 
     @Column
-    private int minNumberOfWords;
+    private Integer minNumberOfWords;
 
     @Column(length = 10000)
     private String correctAnswer;
@@ -58,11 +58,10 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, REFRESH},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Test test;
 
-    @OneToMany(cascade = ALL,fetch = FetchType.EAGER,mappedBy = "question")
+    @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "question")
     private List<Option> options;
-
 
 }

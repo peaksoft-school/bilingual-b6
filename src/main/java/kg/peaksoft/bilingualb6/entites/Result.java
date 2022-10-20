@@ -29,7 +29,7 @@ public class Result {
     private Status status;
 
     @Column
-    private int finalScore;
+    private Integer finalScore;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "result")
     private List<QuestionAnswer> questionAnswers;

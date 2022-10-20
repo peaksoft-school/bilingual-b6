@@ -40,4 +40,5 @@ public class AuthInfoController {
         return authInfoService.authWithGoogleAccount(tokenId);
     }
 
+
 }

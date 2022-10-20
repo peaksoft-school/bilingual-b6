@@ -1,8 +1,7 @@
 package kg.peaksoft.bilingualb6.entites;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +12,8 @@ import static javax.persistence.CascadeType.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Option {
 
     @Id
@@ -25,6 +26,13 @@ public class Option {
 
     private Boolean isTrue;
 
-    @ManyToOne(cascade = {MERGE, DETACH, PERSIST, REFRESH})
+    @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
+    @JsonIgnore
     private Question question;
+
+    @ManyToOne(cascade = {REFRESH,MERGE,DETACH})
+    @JoinTable(name = "question_answers_options",joinColumns = @JoinColumn(name = "options_id"),
+    inverseJoinColumns = @JoinColumn(name = "question_answer_id"))
+    @JsonIgnore
+    private QuestionAnswer questionAnswer;
 }
