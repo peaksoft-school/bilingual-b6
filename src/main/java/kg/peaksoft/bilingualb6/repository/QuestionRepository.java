@@ -9,14 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Modifying
-    @Query("delete from QuestionAnswer q where q.question.id = ?1")
-    void deleteQuestionAnswers(Long id);
-
-    //    @Modifying
-//    @Query("update QuestionAnswer set question = null where id = ?1")
-//    void updateQuestionIdAtQuestionAnswer(Long id);
-//
-    @Modifying
     @Transactional
     @Query("update Question set test = null where id = ?1")
     void updateByIdForDeleteQuestionToTestId(Long id);
