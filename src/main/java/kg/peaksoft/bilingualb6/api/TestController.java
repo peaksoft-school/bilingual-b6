@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,8 @@ public class TestController {
     private final TestService testService;
     @Operation(summary = "Test status",
             description = "This endpoint returns test status to enable and disable for test further requests to the API")
-    @PutMapping("/enableDisable/{id}")
+    @PutMapping("/enable-disable/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SimpleResponse enableDisable(@PathVariable Long id){
         return testService.enableDisable(id);
     }

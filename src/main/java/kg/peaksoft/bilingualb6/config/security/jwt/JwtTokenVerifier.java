@@ -25,7 +25,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION = "Authorization";
 
-    public static final String BEARER = "Bearer";
+    public static final String BEARER = "Bearer ";
 
     public JwtTokenVerifier(JwtUtils jwtUtils, AuthInfoRepository authInfoRepository) {
         this.jwtUtils = jwtUtils;
