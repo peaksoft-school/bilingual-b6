@@ -9,9 +9,6 @@ import javax.transaction.Transactional;
 
 public interface OptionRepository extends JpaRepository<Option, Long> {
 
-    @Query("select o from Option o where o.id = ?1")
-    Option findOptionById(Long id);
-
     @Modifying
     @Transactional
     @Query("update Option " +
