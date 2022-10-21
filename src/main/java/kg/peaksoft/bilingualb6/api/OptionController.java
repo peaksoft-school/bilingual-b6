@@ -21,6 +21,7 @@ public class OptionController {
     @Operation(summary = "Delete option",
             description = "Delete option by option id")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SimpleResponse delete(@PathVariable Long id) {
         return optionService.deleteOption(id);
     }
