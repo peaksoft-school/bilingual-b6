@@ -33,6 +33,7 @@ public class Question {
     @Column(length = 10000)
     private String passage;
 
+    @Column
     private Boolean isActive;
 
     @Column
