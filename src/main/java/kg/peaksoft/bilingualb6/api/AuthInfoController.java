@@ -11,6 +11,8 @@ import kg.peaksoft.bilingualb6.service.AuthInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -24,13 +26,13 @@ public class AuthInfoController {
     @Operation(summary = "Retrieve Authentication Token",
             description = "This endpoint returns a JWT for authenticating further requests to the API")
     @PostMapping("/login")
-    public AuthInfoResponse login(@RequestBody AuthInfoRequest authInfoRequest) {
+    public AuthInfoResponse login(@RequestBody @Valid AuthInfoRequest authInfoRequest) {
         return authInfoService.login(authInfoRequest);
     }
 
     @Operation(summary = "Registration", description = "The endpoint for register user")
     @PostMapping("/register")
-    public ClientRegisterResponse register(@RequestBody ClientRegisterRequest clientRegisterRequest) {
+    public ClientRegisterResponse register(@RequestBody @Valid ClientRegisterRequest clientRegisterRequest) {
         return authInfoService.register(clientRegisterRequest);
     }
 
