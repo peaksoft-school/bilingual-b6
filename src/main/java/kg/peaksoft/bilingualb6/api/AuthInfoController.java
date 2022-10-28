@@ -26,7 +26,7 @@ public class AuthInfoController {
     @Operation(summary = "Retrieve Authentication Token",
             description = "This endpoint returns a JWT for authenticating further requests to the API")
     @PostMapping("/login")
-    public AuthInfoResponse login(@RequestBody @Valid AuthInfoRequest authInfoRequest) {
+    public AuthInfoResponse login(@RequestBody AuthInfoRequest authInfoRequest) {
         return authInfoService.login(authInfoRequest);
     }
 

@@ -7,8 +7,8 @@ public class PasswordValidation implements ConstraintValidator<PasswordValid, St
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
-        if (password.length() > 6) {
-            return password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$");
+        if (password.length() >= 4) {
+            return true;
         } else {
             return false;
         }

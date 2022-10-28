@@ -17,12 +17,12 @@ import javax.validation.constraints.Size;
 @Valid
 public class ClientRegisterRequest {
 
-    @NotNull(message = "First name not null!")
+    @NotNull(message = "First name should be not null")
     @Size(min = 2,max = 30)
     private String firstName;
 
     @Size(min = 2,max = 30)
-    @NotNull(message = "Last name not null!")
+    @NotNull(message = "Last name should be not null")
     private String lastName;
 
     @Email(message = "Email should be valid")
