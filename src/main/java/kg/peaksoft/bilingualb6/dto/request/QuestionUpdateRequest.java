@@ -12,5 +12,4 @@ public class QuestionUpdateRequest {
     private String title;
 
     private Integer duration;
-
 }
