@@ -11,6 +11,8 @@ import kg.peaksoft.bilingualb6.service.AuthInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class AuthInfoController {
 
     @Operation(summary = "Registration", description = "The endpoint for register user")
     @PostMapping("/register")
-    public ClientRegisterResponse register(@RequestBody ClientRegisterRequest clientRegisterRequest) {
+    public ClientRegisterResponse register(@RequestBody @Valid ClientRegisterRequest clientRegisterRequest) {
         return authInfoService.register(clientRegisterRequest);
     }
 
