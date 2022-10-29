@@ -3,6 +3,7 @@ package kg.peaksoft.bilingualb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,13 @@ public class QuestionController {
     @PutMapping("/{id}")
     public SimpleResponse update(@PathVariable Long id, @RequestBody QuestionUpdateRequest questionUpdateRequest) {
         return questionService.update(id,questionUpdateRequest);
+    }
+
+    @Operation(summary = "Get questions by TestId method",
+               description = "Getting questions by test id")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PutMapping("/{testId}")
+    public QuestionResponse getQuestionsByTestId(@PathVariable Long testId){
+        return (QuestionResponse) questionService.getQuestionByTestId(testId);
     }
 }

@@ -8,8 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class TestGetByIdResponse {
-
+public class TestResponse {
+    private Long id;
+    private String title;
+    private String description;
     private List<QuestionResponse> questionResponses;
-
 }

@@ -3,6 +3,8 @@ package kg.peaksoft.bilingualb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,5 +24,9 @@ public class TestController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public SimpleResponse enableDisable(@PathVariable Long id){
         return testService.enableDisable(id);
+    }
+
+    public Test getTestById(@PathVariable Long id){
+        return testService.getTestById(id);
     }
 }

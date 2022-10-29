@@ -1,10 +1,13 @@
 package kg.peaksoft.bilingualb6.repository;
 
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.entites.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -17,6 +20,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     @Query("update Question set content = null where id = ?1")
     void updateByIdForDeleteQuestionToContentId(Long id);
+
+    @Query("select q from Question q where q.test.id=?1")
+    List<QuestionResponse> getQuestionsByTestId(Long id);
 }
 
 
