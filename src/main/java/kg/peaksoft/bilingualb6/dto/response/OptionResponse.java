@@ -1,16 +1,18 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class OptionResponse {
     private Long id;
     private String option;
     private Boolean isTrue;
+
+    public OptionResponse(Long id, String option, Boolean isTrue) {
+        this.id = id;
+        this.option = option;
+        this.isTrue = isTrue;
+    }
 }

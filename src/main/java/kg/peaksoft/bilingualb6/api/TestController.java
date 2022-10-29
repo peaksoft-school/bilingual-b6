@@ -25,8 +25,11 @@ public class TestController {
     public SimpleResponse enableDisable(@PathVariable Long id){
         return testService.enableDisable(id);
     }
-
-    public Test getTestById(@PathVariable Long id){
-        return testService.getTestById(id);
+    @Operation(summary = "Get test by Id",
+               description = "This endpoint returns test by id and their questions")
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public TestResponse getById(@PathVariable Long id){
+       return testService.getTestById(id);
     }
 }

@@ -1,13 +1,15 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TestResponse {
     private Long id;
     private String title;

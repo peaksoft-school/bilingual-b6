@@ -23,6 +23,9 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
             "where id = ?1")
     void deleteById(Long id);
 
-    @Query("select o from Option o where o.question.id=?1")
-    List<OptionResponse> getAllByQuestionId(Long id);
+    @Query("select new kg.peaksoft.bilingualb6.dto.response.OptionResponse(" +
+            "o.id," +
+            "o.option," +
+            "o.isTrue) from Option o where o.question.id = ?1")
+    List<OptionResponse> getAllOptionsByQuestionId(Long id);
 }

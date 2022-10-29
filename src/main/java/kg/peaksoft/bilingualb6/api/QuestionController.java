@@ -6,6 +6,7 @@ import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.QuestionService;
+import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final TestService testService;
 
     @Operation(summary = "Question status option",
             description = "This endpoint returns test status to enable and disable for test further requests to the API")
@@ -41,13 +43,5 @@ public class QuestionController {
     @PutMapping("/{id}")
     public SimpleResponse update(@PathVariable Long id, @RequestBody QuestionUpdateRequest questionUpdateRequest) {
         return questionService.update(id,questionUpdateRequest);
-    }
-
-    @Operation(summary = "Get questions by TestId method",
-               description = "Getting questions by test id")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PutMapping("/{testId}")
-    public QuestionResponse getQuestionsByTestId(@PathVariable Long testId){
-        return (QuestionResponse) questionService.getQuestionByTestId(testId);
     }
 }

@@ -58,8 +58,4 @@ public class QuestionService {
         questionRepository.save(question);
         return new SimpleResponse("updated", "ok");
     }
-
-    public List<QuestionResponse> getQuestionByTestId(Long id){
-       return questionRepository.getQuestionsByTestId(id);
-    }
 }

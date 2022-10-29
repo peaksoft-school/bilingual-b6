@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -21,8 +22,17 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("update Question set content = null where id = ?1")
     void updateByIdForDeleteQuestionToContentId(Long id);
 
-    @Query("select q from Question q where q.test.id=?1")
-    List<QuestionResponse> getQuestionsByTestId(Long id);
+    @Query("select new kg.peaksoft.bilingualb6.dto.response.QuestionResponse(" +
+            "q.id," +
+            "q.title," +
+            "q.passage," +
+            "q.isActive," +
+            "q.numberOfReplays," +
+            "q.duration," +
+            "q.shortDescription," +
+            "q.questionType," +
+            "q.statement) from Question q where q.test.id = ?1 and q.isActive=true")
+    List<QuestionResponse> getQuestionByTestId(Long id);
 }
 
 

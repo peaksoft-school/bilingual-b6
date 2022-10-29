@@ -5,9 +5,11 @@ import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
+import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,9 +28,5 @@ public class OptionService {
             optionRepository.deleteById(id);
         }
         return new SimpleResponse("option with id: " + id + " is deleted","DELETE");
-    }
-
-    public List<OptionResponse> getAllByQuestionId(Long id){
-       return optionRepository.getAllByQuestionId(id);
     }
 }
