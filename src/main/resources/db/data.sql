@@ -51,7 +51,7 @@ VALUES (1, true, 'string'),
        (13, false, 'My family'),
        (14, true, 'Programming language');
 
-INSERT INTO question_options(question_id, options_id)
+INSERT INTO questions_options(question_id, options_id)
 VALUES (1,1),
        (1,2),
        (1,3),
@@ -66,6 +66,7 @@ VALUES (1,1),
        (9,12),
        (9,13),
        (9,14);
+
 INSERT INTO question_answers (id, number_of_words, score, content_id, question_id, result_id)
 VALUES (1, null, 5, 3, 1, null),
        (2, null, 5, 1, 2, null),

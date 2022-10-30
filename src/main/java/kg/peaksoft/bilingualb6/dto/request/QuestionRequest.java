@@ -25,8 +25,6 @@ public class QuestionRequest {
 
     private Integer duration;
 
-    private String shortDescription;
-
     private Integer minNumberOfWords;
 
     private String correctAnswer;

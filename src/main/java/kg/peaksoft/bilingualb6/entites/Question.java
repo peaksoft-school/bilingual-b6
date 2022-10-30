@@ -42,9 +42,6 @@ public class Question {
     @Column
     private Integer duration;
 
-    @Column(length = 10000)
-    private String shortDescription;
-
     @Column
     private Integer minNumberOfWords;
 
@@ -64,7 +61,7 @@ public class Question {
     @ManyToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Test test;
 
-    @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "question")
+    @OneToMany(cascade = ALL, fetch = FetchType.EAGER)
     private List<Option> options;
 
     @OneToOne(cascade = ALL,mappedBy = "question")
