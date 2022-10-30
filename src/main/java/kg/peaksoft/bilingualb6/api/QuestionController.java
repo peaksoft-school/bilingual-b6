@@ -2,6 +2,7 @@ package kg.peaksoft.bilingualb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.QuestionService;
@@ -17,6 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController {
 
     private final QuestionService questionService;
+
+    @Operation(summary = "The question save method",
+            description = "The save question with different types and options")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/{testId}")
+    public SimpleResponse save(@PathVariable("testId") Long id,
+                               @RequestBody QuestionRequest questionRequest){
+        return questionService.save(id, questionRequest);
+    }
 
     @Operation(summary = "Question status option",
             description = "This endpoint returns test status to enable and disable for test further requests to the API")

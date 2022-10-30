@@ -27,6 +27,9 @@ public class Option {
     private Boolean isTrue;
 
     @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
+    @JoinTable(name = "question_options",
+            joinColumns = @JoinColumn(name = "options_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id"))
     @JsonIgnore
     private Question question;
 

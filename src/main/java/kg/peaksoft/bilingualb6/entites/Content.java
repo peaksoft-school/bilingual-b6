@@ -1,9 +1,7 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import kg.peaksoft.bilingualb6.entites.enums.ContentType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Content {
     @Id
     @GeneratedValue(generator = "answer_generator", strategy = GenerationType.SEQUENCE)

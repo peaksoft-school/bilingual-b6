@@ -32,26 +32,40 @@ VALUES (1, null, 1, true, null, null, 'MULTIPLE_CHOICE', null, 'SELECT_REAL_ENGL
        (9, null, 1, true, null, null, 'SINGLE_CHOICE', 'A programming language is a system of notation for writing computer programs. Most programming languages are text-based formal languages, but they may also be graphical. They are a kind of computer language. The description of a programming language is usually split into the two components of syntax (form) and semantics (meaning), which are usually defined by a formal language. Some languages are defined by a specification document (for example, the C programming language is specified by an ISO Standard) while other languages (such as Perl) have a dominant implementation that is treated as a reference. Some languages have both, with the basic language defined by a standard and extensions taken from the dominant implementation being common. Programming language theory is a subfield of computer science that deals with the design, implementation, analysis, characterization, and classification of programming languages.',
         'SELECT_BEST_TITLE', null, null, 'Select the best title for the passage', 3, 1);
 
-INSERT INTO options (id, is_true, option, question_id)
-VALUES (1, true, 'string',1),
-       (2, false, 'intejer',1),
-       (3, true, 'boolean',1),
-       (4, false, 'cshar',1),
+INSERT INTO options (id, is_true, option)
+VALUES (1, true, 'string'),
+       (2, false, 'intejer'),
+       (3, true, 'boolean'),
+       (4, false, 'cshar'),
 
-       (5, true, 'word1',2),
-       (6, true, 'word2',2),
-       (7, false, 'word3',2),
-       (8, false, 'word4',2),
+       (5, true, 'word1'),
+       (6, true, 'word2'),
+       (7, false, 'word3'),
+       (8, false, 'word4'),
 
-       (9, true, 'This text is written about the English subject and shows that English is needed and relevant everywhere',8),
-       (10, false, 'Drawing is an interesting subject, too. I''m fond of drawing and painting. When we draw, we make pictures with a pen or chalk.',8),
-       (11, false, 'I do not understand this text!!!!',8),
+       (9, true, 'This text is written about the English subject and shows that English is needed and relevant everywhere'),
+       (10, false, 'Drawing is an interesting subject, too. I''m fond of drawing and painting. When we draw, we make pictures with a pen or chalk.'),
+       (11, false, 'I do not understand this text!!!!'),
 
-       (12, false, 'English language',9),
-       (13, false, 'My family',9),
-       (14, true, 'Programming language',9);
+       (12, false, 'English language'),
+       (13, false, 'My family'),
+       (14, true, 'Programming language');
 
-
+INSERT INTO question_options(question_id, options_id)
+VALUES (1,1),
+       (1,2),
+       (1,3),
+       (1,4),
+       (2,5),
+       (2,6),
+       (2,7),
+       (2,8),
+       (8,9),
+       (8,10),
+       (8,11),
+       (9,12),
+       (9,13),
+       (9,14);
 INSERT INTO question_answers (id, number_of_words, score, content_id, question_id, result_id)
 VALUES (1, null, 5, 3, 1, null),
        (2, null, 5, 1, 2, null),
