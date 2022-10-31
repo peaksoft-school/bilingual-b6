@@ -13,6 +13,7 @@ import java.util.List;
 public class TestResponse {
     private Long id;
     private String title;
-    private String description;
+    private String shortDescription;
+    private Boolean isActive;
     private List<QuestionResponse> questionResponses;
 }
