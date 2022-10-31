@@ -1,31 +1,53 @@
 package kg.peaksoft.bilingualb6.service;
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponse;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
+import kg.peaksoft.bilingualb6.repository.OptionRepository;
+import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class TestService {
+public class  TestService {
 
     private final TestRepository testRepository;
+    private final QuestionRepository questionRepository;
+    private final OptionRepository optionRepository;
 
-    public SimpleResponse enableDisable(Long id){
+    public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Test with =%s id not " +
                         "found", id)));
         test.setIsActive(!test.getIsActive());
         String a;
-        if (test.getIsActive()){
+        if (test.getIsActive()) {
             a = "enabled";
         } else {
             a = "disabled" +
                     "";
         }
         return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
+    }
+
+
+    public TestResponse getTestById(Long id) {
+
+        Test test = testRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+
+        List<QuestionResponse> questions = questionRepository.getQuestionByTestId(id);
+        for (QuestionResponse question : questions) {
+            question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
+        }
+
+        return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), questions);
     }
 }
