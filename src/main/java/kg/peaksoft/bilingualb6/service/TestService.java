@@ -33,14 +33,6 @@ public class  TestService {
                 .build();
     }
 
-    private Test mapToEntity(TestRequest request) {
-        return Test.builder()
-                .shortDescription(request.getShortDescription())
-                .title(request.getTitle())
-                .isActive(request.getIsActive())
-                .build();
-    }
-
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Test with =%s id not " +
@@ -94,13 +86,13 @@ public class  TestService {
     public List<TestResponse> getAll() {
         List<TestResponse> responses = new ArrayList<>();
         for (Test test : testRepository.findAll()) {
-            responses.add(mapToResponse(test));
+            responses.add(new TestResponse(test.getId(), test.getTitle(),test.getShortDescription(),test.getIsActive()));
         }
         return responses;
     }
 
     public SimpleResponse save(TestRequest request) {
-        testRepository.save(mapToEntity(request));
+        testRepository.save(new Test(request));
         return new SimpleResponse("Test successfully saved", "CREATE");
     }
 }

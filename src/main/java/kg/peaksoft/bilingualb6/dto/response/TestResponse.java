@@ -16,4 +16,11 @@ public class TestResponse {
     private String shortDescription;
     private Boolean isActive;
     private List<QuestionResponse> questionResponses;
+
+    public TestResponse(Long id, String title, String shortDescription, Boolean isActive) {
+        this.id = id;
+        this.title = title;
+        this.shortDescription = shortDescription;
+        this.isActive = isActive;
+    }
 }

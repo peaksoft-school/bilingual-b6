@@ -37,7 +37,7 @@ public class TestController {
         return testService.getTestById(id);
     }
 
-    @Operation(summary = "Create test", description = "Add new test")
+    @Operation(summary = "Create test", description = "Create new test by ADMIN")
     @PostMapping
     public SimpleResponse save(@RequestBody TestRequest request) {
         return testService.save(request);
