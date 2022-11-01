@@ -1,4 +1,5 @@
 package kg.peaksoft.bilingualb6.service;
+
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
@@ -18,20 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class  TestService {
+public class TestService {
 
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
     private final OptionRepository optionRepository;
-
-    private TestResponse mapToResponse(Test test) {
-        return TestResponse.builder()
-                .id(test.getId())
-                .shortDescription(test.getShortDescription())
-                .title(test.getTitle())
-                .isActive(test.getIsActive())
-                .build();
-    }
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
@@ -66,6 +58,7 @@ public class  TestService {
                 .questionResponses(questions)
                 .build();
     }
+
     public SimpleResponse deleteTest(Long id) {
         testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
                 "Test with id=%d not found! ", id)));
@@ -80,13 +73,14 @@ public class  TestService {
         test.setShortDescription(testRequest.getShortDescription());
         test.setTitle(testRequest.getTitle());
         test.setIsActive(testRequest.getIsActive());
-        return mapToResponse(testRepository.save(test));
+        testRepository.save(test);
+        return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 
     public List<TestResponse> getAll() {
         List<TestResponse> responses = new ArrayList<>();
         for (Test test : testRepository.findAll()) {
-            responses.add(new TestResponse(test.getId(), test.getTitle(),test.getShortDescription(),test.getIsActive()));
+            responses.add(new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive()));
         }
         return responses;
     }
