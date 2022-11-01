@@ -15,12 +15,16 @@ public class TestResponse {
     private String title;
     private String shortDescription;
     private Boolean isActive;
+
     private List<QuestionResponse> questionResponses;
 
-    public TestResponse(Long id, String title, String shortDescription, Boolean isActive) {
+    private Integer duration;
+
+
+    public TestResponse(Long id,String title,Boolean isActive,String shortDescription) {
         this.id = id;
         this.title = title;
-        this.shortDescription = shortDescription;
         this.isActive = isActive;
+        this.shortDescription = shortDescription;
     }
 }

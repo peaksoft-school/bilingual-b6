@@ -47,13 +47,16 @@ public class TestService {
                 () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestId(id);
+        Integer duration = 0;
         for (QuestionResponse question : questions) {
             question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
+            duration += question.getDuration();
         }
         return TestResponse.builder()
                 .id(test.getId())
-                .shortDescription(test.getShortDescription())
                 .title(test.getTitle())
+                .shortDescription(test.getShortDescription())
+                .duration(duration)
                 .isActive(test.getIsActive())
                 .questionResponses(questions)
                 .build();
@@ -74,19 +77,24 @@ public class TestService {
         test.setTitle(testRequest.getTitle());
         test.setIsActive(testRequest.getIsActive());
         testRepository.save(test);
-        return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
+        return new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription());
     }
 
     public List<TestResponse> getAll() {
         List<TestResponse> responses = new ArrayList<>();
         for (Test test : testRepository.findAll()) {
-            responses.add(new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive()));
+            responses.add(new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription()));
         }
         return responses;
     }
 
-    public SimpleResponse save(TestRequest request) {
-        testRepository.save(new Test(request));
-        return new SimpleResponse("Test successfully saved", "CREATE");
+    public TestResponse save(TestRequest request) {
+        Test test = Test.builder()
+                .title(request.getTitle())
+                .shortDescription(request.getShortDescription())
+                .isActive(request.getIsActive())
+                .build();
+        testRepository.save(test);
+        return new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription());
     }
 }

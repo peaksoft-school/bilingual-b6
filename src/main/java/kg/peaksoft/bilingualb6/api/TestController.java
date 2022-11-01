@@ -39,7 +39,7 @@ public class TestController {
 
     @Operation(summary = "Create test", description = "Create new test by ADMIN")
     @PostMapping
-    public SimpleResponse save(@RequestBody TestRequest request) {
+    public TestResponse save(@RequestBody TestRequest request) {
         return testService.save(request);
     }
 
