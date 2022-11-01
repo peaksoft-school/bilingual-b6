@@ -22,9 +22,19 @@ public class ResultResponses {
 
     private Integer finalScore;
 
-    private List<QuestionAnswer> questionAnswers;
-
     private Client client;
 
     private Test test;
+
+    private List<QuestionAnswer> questionAnswers;
+
+    public ResultResponses(Long id, LocalDateTime dateOfSubmission,
+                           Status status, Integer finalScore, Client client, Test test) {
+        this.id = id;
+        this.dateOfSubmission = dateOfSubmission;
+        this.status = status;
+        this.finalScore = finalScore;
+        this.client = client;
+        this.test = test;
+    }
 }

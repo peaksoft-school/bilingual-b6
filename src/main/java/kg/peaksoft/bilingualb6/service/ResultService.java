@@ -13,7 +13,7 @@ public class ResultService {
 
     private final ResultRepository resultRepository;
 
-    public List<ResultResponses> getAll(){
-        return resultRepository.findAll();
+    public List<ResultResponses> getAll(Long id) {
+        return resultRepository.findAll(id);
     }
 }
