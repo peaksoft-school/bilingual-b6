@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseTwo;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,13 +40,13 @@ public class TestController {
 
     @Operation(summary = "Create test", description = "Create new test by ADMIN")
     @PostMapping
-    public TestResponse save(@RequestBody TestRequest request) {
+    public TestResponseTwo save(@RequestBody TestRequest request) {
         return testService.save(request);
     }
 
     @Operation(summary = "Get all tests", description = "Get all tests")
     @GetMapping
-    public List<TestResponse> getAll() {
+    public List<TestResponseTwo> getAll() {
         return testService.getAll();
     }
 
@@ -57,7 +58,7 @@ public class TestController {
 
     @Operation(summary = "Update test", description = "Update test by id")
     @PutMapping("/{id}")
-    public TestResponse updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
+    public TestResponseTwo updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
         return testService.updateTest(id, request);
     }
 }

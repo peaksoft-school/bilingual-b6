@@ -4,6 +4,7 @@ import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseTwo;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
@@ -22,7 +23,9 @@ import java.util.List;
 public class TestService {
 
     private final TestRepository testRepository;
+
     private final QuestionRepository questionRepository;
+
     private final OptionRepository optionRepository;
 
     public SimpleResponse enableDisable(Long id) {
@@ -40,9 +43,7 @@ public class TestService {
         return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
     }
 
-
     public TestResponse getTestById(Long id) {
-
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
 
@@ -57,7 +58,6 @@ public class TestService {
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())
                 .duration(duration)
-                .isActive(test.getIsActive())
                 .questionResponses(questions)
                 .build();
     }
@@ -69,7 +69,7 @@ public class TestService {
         return new SimpleResponse(" DELETED ", String.format(" Test with %d id successfully deleted", id));
     }
 
-    public TestResponse updateTest(Long id, TestRequest testRequest) {
+    public TestResponseTwo updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(
                         "Test with %d id not found", id)));
@@ -77,24 +77,24 @@ public class TestService {
         test.setTitle(testRequest.getTitle());
         test.setIsActive(testRequest.getIsActive());
         testRepository.save(test);
-        return new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription());
+        return new TestResponseTwo(test.getId(), test.getTitle(), test.getShortDescription());
     }
 
-    public List<TestResponse> getAll() {
-        List<TestResponse> responses = new ArrayList<>();
+    public List<TestResponseTwo> getAll() {
+        List<TestResponseTwo> responses = new ArrayList<>();
         for (Test test : testRepository.findAll()) {
-            responses.add(new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription()));
+            responses.add(new TestResponseTwo(test.getId(), test.getTitle(), test.getIsActive()));
         }
         return responses;
     }
 
-    public TestResponse save(TestRequest request) {
+    public TestResponseTwo save(TestRequest request) {
         Test test = Test.builder()
                 .title(request.getTitle())
                 .shortDescription(request.getShortDescription())
                 .isActive(request.getIsActive())
                 .build();
         testRepository.save(test);
-        return new TestResponse(test.getId(),test.getTitle(),test.getIsActive(),test.getShortDescription());
+        return new TestResponseTwo(test.getId(), test.getTitle(), test.getShortDescription());
     }
 }
