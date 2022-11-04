@@ -9,9 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TestRequest {
 
-    private String shortDescription;
-
     private String title;
 
-    private Boolean isActive;
+    private String shortDescription;
 }

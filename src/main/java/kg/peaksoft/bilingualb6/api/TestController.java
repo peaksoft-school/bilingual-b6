@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponseTwo;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseForGetById;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,31 +34,35 @@ public class TestController {
             description = "This endpoint returns test by id and their questions and options for ADMIN")
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public TestResponse getById(@PathVariable Long id) {
+    public TestResponseForGetById getById(@PathVariable Long id) {
         return testService.getTestById(id);
     }
 
     @Operation(summary = "Create test", description = "Create new test by ADMIN")
     @PostMapping
-    public TestResponseTwo save(@RequestBody TestRequest request) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public TestResponse save(@RequestBody TestRequest request) {
         return testService.save(request);
     }
 
     @Operation(summary = "Get all tests", description = "Get all tests")
     @GetMapping
-    public List<TestResponseTwo> getAll() {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<TestResponse> getAll() {
         return testService.getAll();
     }
 
     @Operation(summary = "Delete test", description = "Delete test by id")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SimpleResponse deleteTest(@PathVariable Long id) {
         return testService.deleteTest(id);
     }
 
     @Operation(summary = "Update test", description = "Update test by id")
     @PutMapping("/{id}")
-    public TestResponseTwo updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public TestResponse updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
         return testService.updateTest(id, request);
     }
 }

@@ -4,8 +4,9 @@ import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponseTwo;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseForGetById;
 import kg.peaksoft.bilingualb6.entites.Test;
+import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
@@ -13,13 +14,11 @@ import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class TestService {
 
     private final TestRepository testRepository;
@@ -43,7 +42,7 @@ public class TestService {
         return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
     }
 
-    public TestResponse getTestById(Long id) {
+    public TestResponseForGetById getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
 
@@ -53,7 +52,7 @@ public class TestService {
             question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
             duration += question.getDuration();
         }
-        return TestResponse.builder()
+        return TestResponseForGetById.builder()
                 .id(test.getId())
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())
@@ -63,38 +62,45 @@ public class TestService {
     }
 
     public SimpleResponse deleteTest(Long id) {
-        testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
+        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
                 "Test with id=%d not found! ", id)));
-        testRepository.deleteById(id);
+        testRepository.delete(test);
         return new SimpleResponse(" DELETED ", String.format(" Test with %d id successfully deleted", id));
     }
 
-    public TestResponseTwo updateTest(Long id, TestRequest testRequest) {
+    public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(
                         "Test with %d id not found", id)));
+        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
+            throw new BadRequestException("The question title and description should not be an empty!!!");
+        }
         test.setShortDescription(testRequest.getShortDescription());
         test.setTitle(testRequest.getTitle());
-        test.setIsActive(testRequest.getIsActive());
+        test.setIsActive(test.getIsActive());
         testRepository.save(test);
-        return new TestResponseTwo(test.getId(), test.getTitle(), test.getShortDescription());
+        return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 
-    public List<TestResponseTwo> getAll() {
-        List<TestResponseTwo> responses = new ArrayList<>();
-        for (Test test : testRepository.findAll()) {
-            responses.add(new TestResponseTwo(test.getId(), test.getTitle(), test.getIsActive()));
+    public List<TestResponse> getAll() {
+        List<TestResponse> responses = new ArrayList<>();
+        for (TestResponse response : testRepository.getAll()) {
+            responses.add(new TestResponse(response.getId(), response.getTitle(), response.getShortDescription(), response.getIsActive()));
         }
         return responses;
     }
 
-    public TestResponseTwo save(TestRequest request) {
+
+    public TestResponse save(TestRequest request) {
+        if (request.getTitle().isEmpty() || request.getShortDescription().isEmpty()){
+            throw new BadRequestException("The question title and short description should not be an empty!");
+        }
         Test test = Test.builder()
                 .title(request.getTitle())
                 .shortDescription(request.getShortDescription())
-                .isActive(request.getIsActive())
+                .isActive(true)
                 .build();
         testRepository.save(test);
-        return new TestResponseTwo(test.getId(), test.getTitle(), test.getShortDescription());
+        return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 }
