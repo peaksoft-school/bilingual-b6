@@ -32,4 +32,10 @@ public class Test {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "test")
     private List<Question> questions;
+
+    public Test(TestRequest request) {
+        this.title = request.getTitle();
+        this.shortDescription = request.getShortDescription();
+        this.isActive = true;
+    }
 }

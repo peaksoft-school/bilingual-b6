@@ -14,7 +14,6 @@ import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -83,23 +82,12 @@ public class TestService {
     }
 
     public List<TestResponse> getAll() {
-        List<TestResponse> responses = new ArrayList<>();
-        for (TestResponse response : testRepository.getAll()) {
-            responses.add(new TestResponse(response.getId(), response.getTitle(), response.getShortDescription(), response.getIsActive()));
-        }
-        return responses;
+        return testRepository.getAllTest();
     }
 
 
     public TestResponse save(TestRequest request) {
-        if (request.getTitle().isEmpty() || request.getShortDescription().isEmpty()){
-            throw new BadRequestException("The question title and short description should not be an empty!");
-        }
-        Test test = Test.builder()
-                .title(request.getTitle())
-                .shortDescription(request.getShortDescription())
-                .isActive(true)
-                .build();
+        Test test = new Test(request);
         testRepository.save(test);
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }

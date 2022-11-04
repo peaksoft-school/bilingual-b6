@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TestRepository extends JpaRepository<Test, Long> {
 
-    @Query("select new kg.peaksoft.bilingualb6.dto.response.TestResponse (" +
+    @Query("select new kg.peaksoft.bilingualb6.dto.response.TestResponse(" +
             "t.id, t.title, t.shortDescription, t.isActive) from Test t")
-    List<TestResponse> getAll();
+    List<TestResponse> getAllTest();
 }
