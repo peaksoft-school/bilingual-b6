@@ -3,8 +3,8 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponseForGetById;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
@@ -41,7 +41,7 @@ public class TestService {
         return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
     }
 
-    public TestResponseForGetById getTestById(Long id) {
+    public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
 
@@ -51,7 +51,7 @@ public class TestService {
             question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
             duration += question.getDuration();
         }
-        return TestResponseForGetById.builder()
+        return TestInnerPageResponse.builder()
                 .id(test.getId())
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())

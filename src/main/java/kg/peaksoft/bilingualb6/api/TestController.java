@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponseForGetById;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +34,7 @@ public class TestController {
             description = "This endpoint returns test by id and their questions and options for ADMIN")
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public TestResponseForGetById getById(@PathVariable Long id) {
+    public TestInnerPageResponse getById(@PathVariable Long id) {
         return testService.getTestById(id);
     }
 
