@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -13,17 +16,19 @@ import java.util.List;
 @Builder
 public class QuestionRequest {
 
+    private Long testId;
+
+    @NotNull(message = "The title should not be empty")
+    @NotBlank
     private String title;
+
+    private Integer duration;
 
     private String statement;
 
     private String passage;
 
-    private Boolean isActive;
-
     private Integer numberOfReplays;
-
-    private Integer duration;
 
     private Integer minNumberOfWords;
 

@@ -1,11 +1,14 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
+import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -67,4 +70,78 @@ public class Question {
     @OneToOne(cascade = ALL,mappedBy = "question")
     private QuestionAnswer questionAnswer;
 
+    public Question(QuestionRequest request) {
+        this.title = request.getTitle();
+        this.duration = request.getDuration();
+        this.optionType = request.getOptionType();
+        this.questionType = request.getQuestionType();
+        this.isActive = true;
+        this.content = new Content(request.getContentRequest().getContentType(),request.getContentRequest().getContent());
+        this.options = new ArrayList<>();
+        for (OptionRequest o : request.getOptions()){
+            this.options.add(new Option(o));
+        }
+    }
+
+    public Question(QuestionRequest request, QuestionType questionType) {
+        this.title = request.getTitle();
+        this.duration = request.getDuration();
+        this.optionType = request.getOptionType();
+        this.questionType = questionType;
+        this.passage = request.getPassage();
+        this.isActive = true;
+        this.content = new Content(request.getContentRequest().getContentType(),request.getContentRequest().getContent());
+        this.options = new ArrayList<>();
+        for (OptionRequest o : request.getOptions()){
+            this.options.add(new Option(o));
+        }
+    }
+
+    public Question(String title, Integer duration, String statement, Integer numberOfReplays, String correctAnswer, Content content, QuestionType questionType) {
+        this.title = title;
+        this.duration = duration;
+        this.statement = statement;
+        this.isActive = true;
+        this.numberOfReplays = numberOfReplays;
+        this.correctAnswer = correctAnswer;
+        this.content = content;
+        this.questionType = questionType;
+    }
+
+    public Question(String title, Integer duration, String correctAnswer, Content content, QuestionType questionType) {
+        this.title = title;
+        this.duration = duration;
+        this.isActive = true;
+        this.correctAnswer = correctAnswer;
+        this.content = content;
+        this.questionType = questionType;
+    }
+
+    public Question(String title, String statement, String passage, Integer duration, String correctAnswer, QuestionType questionType) {
+        this.title = title;
+        this.isActive = true;
+        this.statement = statement;
+        this.passage = passage;
+        this.duration = duration;
+        this.correctAnswer = correctAnswer;
+        this.questionType = questionType;
+    }
+
+    public Question(String title, String statement, Integer duration, String correctAnswer, QuestionType questionType) {
+        this.title = title;
+        this.isActive = true;
+        this.statement = statement;
+        this.duration = duration;
+        this.correctAnswer = correctAnswer;
+        this.questionType = questionType;
+    }
+
+    public Question(String title, Integer duration, QuestionType questionType, String statement, Integer minNumberOfWords) {
+        this.title = title;
+        this.isActive = true;
+        this.statement = statement;
+        this.duration = duration;
+        this.minNumberOfWords = minNumberOfWords;
+        this.questionType = questionType;
+    }
 }

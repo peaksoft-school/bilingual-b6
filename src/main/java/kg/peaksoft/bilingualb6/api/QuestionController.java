@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/question")
@@ -22,10 +25,9 @@ public class QuestionController {
     @Operation(summary = "The question save method",
             description = "The save question with different types and options")
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/{testId}")
-    public SimpleResponse save(@PathVariable("testId") Long id,
-                               @RequestBody QuestionRequest questionRequest){
-        return questionService.save(id, questionRequest);
+    @PostMapping
+    public SimpleResponse save(@RequestBody @Valid QuestionRequest questionRequest){
+        return questionService.save(questionRequest);
     }
 
     @Operation(summary = "Question status option",

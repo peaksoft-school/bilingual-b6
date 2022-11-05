@@ -23,4 +23,9 @@ public class Content {
 
     @Column(length = 10000)
     private String content;
+
+    public Content(ContentType contentType, String content) {
+        this.contentType = contentType;
+        this.content = content;
+    }
 }
