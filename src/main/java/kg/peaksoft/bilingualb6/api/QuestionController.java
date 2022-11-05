@@ -4,8 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.QuestionService;
+import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final TestService testService;
 
     @Operation(summary = "The question save method",
             description = "The save question with different types and options")
