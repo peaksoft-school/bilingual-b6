@@ -23,9 +23,8 @@ import javax.validation.Valid;
 public class QuestionController {
 
     private final QuestionService questionService;
-    private final TestService testService;
 
-    @Operation(summary = "The question save method",
+    @Operation(summary = "Save question",
             description = "The save question with different types and options")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping

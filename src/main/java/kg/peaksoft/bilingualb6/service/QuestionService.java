@@ -50,7 +50,6 @@ public class QuestionService {
                 questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE) {
-
             if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
                     questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
                     questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE && questionRequest.getContentRequest().getContentType() != ContentType.TEXT) {
@@ -58,29 +57,41 @@ public class QuestionService {
             }
             if (questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD && questionRequest.getContentRequest().getContentType() != ContentType.AUDIO) {
                 throw new BadRequestException("The question option type should be the <AUDIO> format!");
-            } else {
+            } else if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
+                    questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
                 int numberOfTrueOptions = 0;
                 for (OptionRequest optionRequest : questionRequest.getOptions()) {
                     if (optionRequest.getIsTrue()) {
                         numberOfTrueOptions++;
                     }
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                        throw new BadRequestException("The option should not be empty!");
+                    }
                 }
                 if (numberOfTrueOptions > 1) {
-                    questionRequest.setOptionType(OptionType.MULTIPLE_CHOICE);
-                } else if (numberOfTrueOptions == 1) {
-                    questionRequest.setOptionType(OptionType.SINGLE_CHOICE);
-                } else if (numberOfTrueOptions == 0) {
-                    throw new BadRequestException("Add at least one or two correct options!");
-                }
-                if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS || questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
                     Question question = questionRepository.save(new Question(questionRequest));
+                    question.setOptionType(OptionType.MULTIPLE_CHOICE);
                     question.setTest(test);
+                    return new SimpleResponse("Successfully saved", "SAVE");
+                } else throw new BadRequestException("Add at least two or more correct options!");
+
+            } else if (questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE ||
+                    questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA) {
+                int numberOfTrueOption = 0;
+                for (OptionRequest optionRequest : questionRequest.getOptions()) {
+                    if (optionRequest.getIsTrue()) {
+                        numberOfTrueOption++;
+                    }
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                        throw new BadRequestException("The option should not be empty!");
+                    }
                 }
-                if (questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE || questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA) {
-                    Question question = questionRepository.save(new Question(questionRequest,questionRequest.getQuestionType()));
+                if (numberOfTrueOption == 1) {
+                    Question question = questionRepository.save(new Question(questionRequest, questionRequest.getQuestionType()));
+                    question.setOptionType(OptionType.SINGLE_CHOICE);
                     question.setTest(test);
-                }
-                return new SimpleResponse("Successfully saved", "SAVE");
+                    return new SimpleResponse("Successfully saved", "SAVE");
+                } else throw new BadRequestException("The count of correct option of the question should be one!");
             }
         }
 
@@ -92,8 +103,9 @@ public class QuestionService {
         }
         if (questionRequest.getQuestionType() == QuestionType.TYPE_WHAT_YOU_HEAR) {
             if (questionRequest.getContentRequest().getContentType() == ContentType.AUDIO) {
-                Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getStatement(), questionRequest.getNumberOfReplays(),
-                        questionRequest.getCorrectAnswer(), new Content(questionRequest.getContentRequest().getContentType(), questionRequest.getContentRequest().getContent()),
+                Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(),
+                        questionRequest.getStatement(), questionRequest.getNumberOfReplays(), questionRequest.getCorrectAnswer(),
+                        new Content(questionRequest.getContentRequest().getContentType(), questionRequest.getContentRequest().getContent()),
                         questionRequest.getQuestionType()));
                 question.setTest(test);
                 return new SimpleResponse("Successfully saved", "SAVE");
@@ -129,7 +141,7 @@ public class QuestionService {
         }
         if (questionRequest.getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS && questionRequest.getMinNumberOfWords() <= 0) {
             throw new BadRequestException("In this question, there should not be an empty or zero field <Minimum words>!!!");
-        } else if (questionRequest.getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS){
+        } else if (questionRequest.getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS) {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getQuestionType(),
                     questionRequest.getStatement(), questionRequest.getMinNumberOfWords()));
             question.setTest(test);
@@ -157,7 +169,7 @@ public class QuestionService {
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
         question.setIsActive(!question.getIsActive());
         String a;
-        if (question.getIsActive()){
+        if (question.getIsActive()) {
             a = "enabled";
         } else {
             a = "disabled";
@@ -176,14 +188,13 @@ public class QuestionService {
         return new SimpleResponse("deleted", "ok");
     }
 
-    public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest){
+    public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
         question.setTitle(questionUpdateRequest.getTitle());
         question.setDuration(questionUpdateRequest.getDuration());
         question.setQuestionType(question.getQuestionType());
         question.setIsActive(question.getIsActive());
-        questionRepository.save(question);
         return new SimpleResponse("updated", "ok");
     }
 }

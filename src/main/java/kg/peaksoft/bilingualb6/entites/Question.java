@@ -73,7 +73,6 @@ public class Question {
     public Question(QuestionRequest request) {
         this.title = request.getTitle();
         this.duration = request.getDuration();
-        this.optionType = request.getOptionType();
         this.questionType = request.getQuestionType();
         this.isActive = true;
         this.content = new Content(request.getContentRequest().getContentType(),request.getContentRequest().getContent());
@@ -86,7 +85,6 @@ public class Question {
     public Question(QuestionRequest request, QuestionType questionType) {
         this.title = request.getTitle();
         this.duration = request.getDuration();
-        this.optionType = request.getOptionType();
         this.questionType = questionType;
         this.passage = request.getPassage();
         this.isActive = true;

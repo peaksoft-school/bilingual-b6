@@ -1,6 +1,5 @@
 package kg.peaksoft.bilingualb6.dto.request;
 
-import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +34,6 @@ public class QuestionRequest {
     private String correctAnswer;
 
     private ContentRequest contentRequest;
-
-    private OptionType optionType;
 
     private QuestionType questionType;
 

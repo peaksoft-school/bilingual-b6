@@ -14,10 +14,12 @@ import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class TestService {
 
     private final TestRepository testRepository;
@@ -77,7 +79,6 @@ public class TestService {
         test.setShortDescription(testRequest.getShortDescription());
         test.setTitle(testRequest.getTitle());
         test.setIsActive(test.getIsActive());
-        testRepository.save(test);
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 
