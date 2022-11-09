@@ -68,7 +68,7 @@ public class QuestionService {
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
-                if (numberOfTrueOptions > 1) {
+                if (numberOfTrueOptions >= 1) {
                     Question question = questionRepository.save(new Question(questionRequest));
                     question.setOptionType(OptionType.MULTIPLE_CHOICE);
                     question.setTest(test);
