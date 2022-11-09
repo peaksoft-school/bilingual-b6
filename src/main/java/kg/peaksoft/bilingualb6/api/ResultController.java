@@ -28,6 +28,7 @@ public class ResultController {
     @GetMapping()
     public List<ResultResponses> getAll(Authentication authentication) {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
+        System.out.println(authInfo.toString());
         return resultService.getAll(authInfo.getEmail());
     }
 }

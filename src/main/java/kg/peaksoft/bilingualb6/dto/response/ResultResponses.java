@@ -20,17 +20,17 @@ public class ResultResponses {
 
     private Integer finalScore;
 
-    private Client client;
+    private String testTitle;
 
-    private Test test;
+    private Long testId;
 
     public ResultResponses(Long id, LocalDateTime dateOfSubmission,
-                           Status status, Integer finalScore, Client client, Test test) {
+                           Status status, Integer finalScore, String testTitle, Long testId) {
         this.id = id;
         this.dateOfSubmission = dateOfSubmission;
         this.status = status;
         this.finalScore = finalScore;
-        this.client = client;
-        this.test = test;
+        this.testTitle = testTitle;
+        this.testId = testId;
     }
 }

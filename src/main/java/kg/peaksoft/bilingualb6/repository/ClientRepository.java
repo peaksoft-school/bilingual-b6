@@ -12,4 +12,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("select c from Client c where c.authInfo.email = :email")
     Optional<Client> findClientByAuthInfoEmailOptional(String email);
+
+    Client getClientByAuthInfoEmail(String email);
 }
