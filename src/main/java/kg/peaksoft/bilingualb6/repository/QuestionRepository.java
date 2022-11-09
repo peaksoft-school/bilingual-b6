@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -29,7 +28,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.isActive," +
             "q.numberOfReplays," +
             "q.duration," +
-            "q.shortDescription," +
             "q.questionType," +
             "q.statement) from Question q where q.test.id = ?1 and q.isActive=true")
     List<QuestionResponse> getQuestionByTestId(Long id);
