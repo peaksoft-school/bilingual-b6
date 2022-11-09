@@ -18,17 +18,7 @@ public class ResultService {
 
     private final ResultRepository resultRepository;
 
-    private final ClientRepository clientRepository;
-
-    public List<ResultResponses> getAll() {
-        Client client = getPrinciple();
-        return resultRepository.findAll(client.getAuthInfo().getEmail());
-    }
-
-    public Client getPrinciple() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return clientRepository.findClientByAuthInfoEmailOptional(email).orElseThrow(
-                () -> new NotFoundException(String.format("Client with email = %s not found",email)));
+    public List<ResultResponses> getAll(String email) {
+        return resultRepository.findAll(email);
     }
 }
