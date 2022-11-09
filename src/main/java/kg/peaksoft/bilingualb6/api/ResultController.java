@@ -25,8 +25,8 @@ public class ResultController {
     @Operation(summary = "The result getAll method",
             description = "GetAll method by client id for result")
     @PreAuthorize("hasAuthority('CLIENT')")
-    @GetMapping("/{id}")
-    public List<ResultResponses> getAll(@PathVariable Long id) {
-        return resultService.getAll(id);
+    @GetMapping()
+    public List<ResultResponses> getAll() {
+        return resultService.getAll();
     }
 }

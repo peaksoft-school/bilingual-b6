@@ -16,6 +16,6 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
             "r.finalScore," +
             "r.client," +
             "r.test" +
-            ") from Result r where r.client.id = ?1")
-    List<ResultResponses> findAll(Long id);
+            ") from Result r where r.client.authInfo.email = :email")
+    List<ResultResponses> findAll(String email);
 }
