@@ -19,10 +19,11 @@ public class QuestionResponse {
     private String shortDescription;
     private QuestionType questionType;
     private String statement;
+
     private List<OptionResponse> optionResponseList;
 
     public QuestionResponse(Long id, String title, String passage, Boolean isActive,
-                            Integer numberOfReplays, Integer duration, String shortDescription,
+                            Integer numberOfReplays, Integer duration,
                             QuestionType questionType, String statement) {
         this.id = id;
         this.title = title;
@@ -30,7 +31,6 @@ public class QuestionResponse {
         this.isActive = isActive;
         this.numberOfReplays = numberOfReplays;
         this.duration = duration;
-        this.shortDescription = shortDescription;
         this.questionType = questionType;
         this.statement = statement;
     }

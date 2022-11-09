@@ -1,9 +1,12 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static javax.persistence.CascadeType.*;
 
@@ -27,6 +30,9 @@ public class Option {
     private Boolean isTrue;
 
     @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
+    @JoinTable(name = "questions_options",
+            joinColumns = @JoinColumn(name = "options_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id"))
     @JsonIgnore
     private Question question;
 
@@ -35,4 +41,9 @@ public class Option {
     inverseJoinColumns = @JoinColumn(name = "question_answer_id"))
     @JsonIgnore
     private QuestionAnswer questionAnswer;
+
+    public Option (OptionRequest request) {
+        this.option = request.getOption();
+        this.isTrue = request.getIsTrue();
+    }
 }
