@@ -22,8 +22,8 @@ public class ResultController {
 
     private final ResultService resultService;
 
-    @Operation(summary = "The result getAll method",
-            description = "GetAll method by client id for result")
+    @Operation(summary = "Client results",
+            description = "Authenticate client test results")
     @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping()
     public List<ResultResponses> getAll() {
