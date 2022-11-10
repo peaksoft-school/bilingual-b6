@@ -51,12 +51,4 @@ public class JwtUtils {
 
         return jwtVerifier.verify(jwt);
     }
-
-    public LocalDateTime getIssuedAt(String jwt) {
-        DecodedJWT decodedJWT = getDecodedJWT(jwt);
-
-        return LocalDateTime.ofInstant(
-                decodedJWT.getIssuedAt().toInstant(),
-                ZoneId.systemDefault());
-    }
 }
