@@ -1,7 +1,5 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
-import kg.peaksoft.bilingualb6.entites.Client;
-import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.entites.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
