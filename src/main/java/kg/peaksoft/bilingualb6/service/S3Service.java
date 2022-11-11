@@ -38,6 +38,10 @@ public class S3Service {
         String key = System.currentTimeMillis() + file.getOriginalFilename();
         PutObjectRequest put = PutObjectRequest.builder()
                 .bucket(BUCKET_NAME)
+                .contentType("jpeg")
+                .contentType("png")
+                .contentType("pdf")
+                .contentLength(file.getSize())
                 .key(key)
                 .build();
         s3.putObject(put, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
