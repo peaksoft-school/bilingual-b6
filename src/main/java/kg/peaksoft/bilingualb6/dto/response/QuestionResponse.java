@@ -11,13 +11,23 @@ import java.util.List;
 @Builder
 public class QuestionResponse {
     private Long id;
+
     private String title;
+
     private String passage;
+
     private Boolean isActive;
+
+    private String correctAnswer;
+
     private Integer numberOfReplays;
+
     private Integer duration;
+
     private String shortDescription;
+
     private QuestionType questionType;
+
     private String statement;
 
     private List<OptionResponse> optionResponseList;

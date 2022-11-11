@@ -24,7 +24,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @Operation(summary = "Save question",
+    @Operation(summary = "This method for save question",
             description = "The save question with different types and options")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
@@ -32,8 +32,16 @@ public class QuestionController {
         return questionService.save(questionRequest);
     }
 
-    @Operation(summary = "Question status option",
-            description = "This endpoint returns test status to enable and disable for test further requests to the API")
+    @Operation(summary = "This method for get question by id",
+            description = "With this endpoint we can get question by id")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/{id}")
+    public QuestionResponse getQuestionById(@PathVariable Long id){
+        return questionService.getQuestionById(id);
+    }
+
+    @Operation(summary = "Question enable-disable method",
+            description = "This endpoint returns question's status to enable and disable for test further requests to the API")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/enable-disable/{id}")
     public SimpleResponse enableDisable(@PathVariable Long id){
