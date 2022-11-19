@@ -1,5 +1,6 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
+import kg.peaksoft.bilingualb6.entites.Content;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.*;
 
@@ -21,6 +22,10 @@ public class QuestionResponse {
     private String correctAnswer;
 
     private Integer numberOfReplays;
+
+    private Integer minNumberOfWords;
+
+    private Content content;
 
     private Integer duration;
 

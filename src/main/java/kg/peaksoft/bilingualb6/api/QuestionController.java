@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
+import kg.peaksoft.bilingualb6.dto.response.QuestionUpdateResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.service.QuestionService;
 import kg.peaksoft.bilingualb6.service.TestService;
@@ -40,7 +41,7 @@ public class QuestionController {
         return questionService.getQuestionById(id);
     }
 
-    @Operation(summary = "Question enable-disable method",
+    @Operation(summary = "This method for enable-disable question",
             description = "This endpoint returns question's status to enable and disable for test further requests to the API")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/enable-disable/{id}")
@@ -48,7 +49,7 @@ public class QuestionController {
         return questionService.enableDisable(id);
     }
 
-    @Operation(summary = "The question delete method",
+    @Operation(summary = "This method for delete question",
             description = "The delete method by question id for question")
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
@@ -56,11 +57,11 @@ public class QuestionController {
         return questionService.delete(id);
     }
 
-    @Operation(summary = "The question update method",
+    @Operation(summary = "This method for update question",
             description = "The update method by question id for question")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public SimpleResponse update(@PathVariable Long id, @RequestBody QuestionUpdateRequest questionUpdateRequest) {
+    public QuestionUpdateResponse update(@PathVariable Long id, @RequestBody QuestionUpdateRequest questionUpdateRequest) {
         return questionService.update(id,questionUpdateRequest);
     }
 }
