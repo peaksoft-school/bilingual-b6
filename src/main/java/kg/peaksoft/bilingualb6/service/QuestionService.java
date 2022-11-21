@@ -224,7 +224,8 @@ public class QuestionService {
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
 
         Content content = contentRepository.findById(questionUpdateRequest.getContent().getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Content with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Content with id = %s not found",
+                        questionUpdateRequest.getContent().getId())));
         content.setContent(questionUpdateRequest.getContent().getContent());
 
         question.setTitle(questionUpdateRequest.getTitle());
