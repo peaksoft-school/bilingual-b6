@@ -30,7 +30,7 @@ public class QuestionService {
 
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(
-                () -> new NotFoundException(String.format("Test with id=" + questionRequest.getTestId() + " does not exists in database"))
+                () -> new NotFoundException(String.format("Please write existing question id!"))
         );
         if (questionRequest.getDuration().equals(0) || questionRequest.getDuration() == null) {
             throw new BadRequestException("The duration should not equal to zero or not be an empty!");
@@ -166,7 +166,7 @@ public class QuestionService {
 
     public SimpleResponse enableDisable(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Please write existing question id!")));
         question.setIsActive(!question.getIsActive());
         String a;
         if (question.getIsActive()) {
@@ -174,12 +174,12 @@ public class QuestionService {
         } else {
             a = "disabled";
         }
-        return new SimpleResponse(String.format("Question with id = %s is = %s", id, a), "ok");
+        return new SimpleResponse(String.format("Question successfully %s", a), "ok");
     }
 
     public SimpleResponse delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Please write existing question id!")));
         if (question != null) {
             questionRepository.updateByIdForDeleteQuestionToContentId(id);
             questionRepository.updateByIdForDeleteQuestionToTestId(id);
@@ -190,7 +190,7 @@ public class QuestionService {
 
     public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Please write existing question id!")));
         question.setTitle(questionUpdateRequest.getTitle());
         question.setDuration(questionUpdateRequest.getDuration());
         question.setQuestionType(question.getQuestionType());

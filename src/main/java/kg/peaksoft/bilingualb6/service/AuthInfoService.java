@@ -69,14 +69,14 @@ public class AuthInfoService {
                         authInfoRequest.getPassword()));
 
         AuthInfo authInfo = authInfoRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new BadCredentialsException("bad credentials"));
+                .orElseThrow(() -> new BadCredentialsException("Please write existing email!"));
 
         if (authInfoRequest.getPassword().isBlank()) {
-            throw new BadRequestException("password cannot be empty");
+            throw new BadRequestException("Write password!");
         }
 
         if (!passwordEncoder.matches(authInfoRequest.getPassword(), authInfo.getPassword())) {
-            throw new BadCredentialsException("incorrect password");
+            throw new BadCredentialsException("Please write correct answer!");
         }
 
         String token = jwtUtils.generateToken(authInfo.getEmail());
@@ -91,7 +91,7 @@ public class AuthInfoService {
 
     if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
         throw new BadRequestException("This email: " +
-                clientRegisterRequest.getEmail() + " is already in use!");
+                clientRegisterRequest.getEmail() + " is not empty!");
     }
 
         clientRegisterRequest.setPassword(passwordEncoder.encode(clientRegisterRequest.getPassword()));

@@ -30,8 +30,7 @@ public class TestService {
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Test with =%s id not " +
-                        "found", id)));
+                () -> new NotFoundException(String.format("Please write existing test id!")));
         test.setIsActive(!test.getIsActive());
         String a;
         if (test.getIsActive()) {
@@ -40,12 +39,12 @@ public class TestService {
             a = "disabled" +
                     "";
         }
-        return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
+        return new SimpleResponse(String.format("Test successfully deleted!", a), "ok");
     }
 
     public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+                () -> new NotFoundException(String.format("Please write existing test id!")));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestId(id);
         Integer duration = 0;
@@ -64,15 +63,15 @@ public class TestService {
 
     public SimpleResponse deleteTest(Long id) {
         Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
-                "Test with id=%d not found! ", id)));
+                "Please write existing test id!")));
         testRepository.delete(test);
-        return new SimpleResponse(" DELETED ", String.format(" Test with %d id successfully deleted", id));
+        return new SimpleResponse(" DELETED ", String.format(" Test successfully deleted"));
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(
-                        "Test with %d id not found", id)));
+                        "Please write existing test id!")));
         if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }

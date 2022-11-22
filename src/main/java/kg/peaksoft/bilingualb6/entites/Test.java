@@ -1,7 +1,6 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
-import kg.peaksoft.bilingualb6.dto.response.TestResponse;
 import lombok.*;
 
 import javax.persistence.*;
