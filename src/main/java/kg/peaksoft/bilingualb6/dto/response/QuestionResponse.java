@@ -25,7 +25,7 @@ public class QuestionResponse {
 
     private Integer minNumberOfWords;
 
-    private Content content;
+    private String content;
 
     private Integer duration;
 
@@ -38,15 +38,19 @@ public class QuestionResponse {
     private List<OptionResponse> optionResponseList;
 
     public QuestionResponse(Long id, String title, String passage, Boolean isActive,
-                            Integer numberOfReplays, Integer duration,
-                            QuestionType questionType, String statement) {
+                            Integer numberOfReplays, Integer duration, String content,
+                            QuestionType questionType, String statement, Integer minNumberOfWords,
+                            String correctAnswer) {
         this.id = id;
         this.title = title;
         this.passage = passage;
         this.isActive = isActive;
         this.numberOfReplays = numberOfReplays;
         this.duration = duration;
+        this.content = content;
         this.questionType = questionType;
         this.statement = statement;
+        this.minNumberOfWords = minNumberOfWords;
+        this.correctAnswer = correctAnswer;
     }
 }
