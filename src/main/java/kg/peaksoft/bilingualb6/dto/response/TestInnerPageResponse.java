@@ -18,7 +18,7 @@ public class TestInnerPageResponse {
 
     private String shortDescription;
 
-    private List<QuestionResponse> questionResponses;
+    private List<QuestionResponseForGetByTestId> questionResponses;
 
     private Integer duration;
 }
