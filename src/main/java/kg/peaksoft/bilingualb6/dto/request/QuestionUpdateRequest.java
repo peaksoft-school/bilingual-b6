@@ -25,5 +25,5 @@ public class QuestionUpdateRequest {
 
     private String correctAnswer;
 
-    private UpdateContentRequest content;
+    private String content;
 }
