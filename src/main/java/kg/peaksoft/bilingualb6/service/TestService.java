@@ -58,6 +58,25 @@ public class TestService {
                 .build();
     }
 
+    public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
+        Test test = testRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+
+        List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
+        Integer duration = 0;
+        for (QuestionResponse question : questions) {
+            question.setOptionResponseList(optionRepository.getOptions(question.getId()));
+            duration += question.getDuration();
+        }
+        return TestResponseGetTestByIdForClient.builder()
+                .id(test.getId())
+                .title(test.getTitle())
+                .shortDescription(test.getShortDescription())
+                .duration(duration)
+                .questionResponses(questions)
+                .build();
+    }
+
     public SimpleResponse deleteTest(Long id) {
         Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
                 "Test with id=%d not found! ", id)));

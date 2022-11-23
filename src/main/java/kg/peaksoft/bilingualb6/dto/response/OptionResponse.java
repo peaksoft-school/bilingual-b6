@@ -15,4 +15,9 @@ public class OptionResponse {
         this.option = option;
         this.isTrue = isTrue;
     }
+
+    public OptionResponse(Long id, String option) {
+        this.id = id;
+        this.option = option;
+    }
 }
