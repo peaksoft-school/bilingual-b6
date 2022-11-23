@@ -1,6 +1,5 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
-import kg.peaksoft.bilingualb6.entites.Content;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.*;
 

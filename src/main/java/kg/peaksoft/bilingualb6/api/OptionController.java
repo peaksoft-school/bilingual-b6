@@ -3,7 +3,6 @@ package kg.peaksoft.bilingualb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
-import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.service.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
