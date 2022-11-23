@@ -3,7 +3,7 @@ package kg.peaksoft.bilingualb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
-import kg.peaksoft.bilingualb6.dto.response.ShowResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseForClient;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
@@ -65,10 +65,5 @@ public class TestController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public TestResponse updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
         return testService.updateTest(id, request);
-    }
-
-    @GetMapping("/GetAllTestsNames")
-    public List<ShowResponse> showTestsNames() {
-        return testService.getNames();
     }
 }

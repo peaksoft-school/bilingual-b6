@@ -31,6 +31,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.questionType," +
             "q.statement) from Question q where q.test.id = ?1 and q.isActive=true")
     List<QuestionResponse> getQuestionByTestId(Long id);
+
+    @Query("select q from Question q where q.test.id = ?1 and q.isActive=true")
+    List<Question> getQuestionsByTestId(Long id);
 }
 
 

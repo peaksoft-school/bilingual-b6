@@ -92,21 +92,23 @@ public class TestService {
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 
-    public List<ShowResponse> getNames() {
+    public List<TestResponseForClient> getAllTestForClient() {
         List<Test> tests = testRepository.findAll();
-        List<ShowResponse> responses = new ArrayList<>();
+        List<TestResponseForClient> responses = new ArrayList<>();
 
         for (Test t: tests) {
-            ShowResponse showResponse = new ShowResponse();
-            showResponse.setTitle(t.getTitle());
-            showResponse.setShortDescription(t.getShortDescription());
-            showResponse.setId(t.getId());
-            int a = 0;
-            for (Question q: t.getQuestions()) {
-                a += q.getDuration();
+            if (t.getIsActive().equals(true)) {
+                TestResponseForClient testResponseForClient = new TestResponseForClient();
+                testResponseForClient.setTitle(t.getTitle());
+                testResponseForClient.setShortDescription(t.getShortDescription());
+                testResponseForClient.setId(t.getId());
+                int a = 0;
+                for (Question q : t.getQuestions()) {
+                    a += q.getDuration();
+                }
+                testResponseForClient.setDuration(a);
+                responses.add(testResponseForClient);
             }
-            showResponse.setDuration(a);
-            responses.add(showResponse);
         }
         return responses;
     }

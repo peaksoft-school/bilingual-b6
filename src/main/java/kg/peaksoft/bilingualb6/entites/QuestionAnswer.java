@@ -40,6 +40,4 @@ public class QuestionAnswer {
 
     @ManyToOne(cascade = {DETACH, PERSIST, MERGE, REMOVE})
     private Result result;
-
-
 }

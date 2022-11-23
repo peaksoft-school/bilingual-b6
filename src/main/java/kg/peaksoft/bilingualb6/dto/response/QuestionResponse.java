@@ -16,6 +16,7 @@ public class QuestionResponse {
     private Boolean isActive;
     private Integer numberOfReplays;
     private Integer duration;
+
     private String shortDescription;
     private QuestionType questionType;
     private String statement;

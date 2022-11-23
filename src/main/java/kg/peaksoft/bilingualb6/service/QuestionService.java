@@ -3,6 +3,7 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
+import kg.peaksoft.bilingualb6.dto.response.QuestionsResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.entites.Content;
 import kg.peaksoft.bilingualb6.entites.Question;
@@ -17,6 +18,9 @@ import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -195,5 +199,33 @@ public class QuestionService {
         question.setQuestionType(question.getQuestionType());
         question.setIsActive(question.getIsActive());
         return new SimpleResponse("updated", "ok");
+    }
+
+    public List<QuestionsResponse> getQuestionById(Long id) {
+        Question question = questionRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+        List<Question> questions = questionRepository.getQuestionsByTestId(id);
+        List<QuestionsResponse> responses = new ArrayList<>();
+
+        for (Question q: questions) {
+            QuestionsResponse questionsResponse = new QuestionsResponse();
+            questionsResponse.setId(q.getId());
+            questionsResponse.setDuration(q.getDuration());
+            questionsResponse.setPassage(q.getPassage());
+            questionsResponse.setNumberOfReplays(q.getNumberOfReplays());
+            questionsResponse.setStatement(q.getStatement());
+            questionsResponse.setTitle(q.getTitle());
+            questionsResponse.setContent(q.getContent());
+            questionsResponse.setMinNumberOfWords(q.getMinNumberOfWords());
+
+            Integer a = 0;
+            for () {
+            }
+        }
+
+
+
+
+        return responses;
     }
 }

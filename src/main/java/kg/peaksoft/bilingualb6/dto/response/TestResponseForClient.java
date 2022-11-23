@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShowResponse {
+public class TestResponseForClient {
 
     private Long id;
 
