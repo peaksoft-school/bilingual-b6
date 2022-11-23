@@ -2,10 +2,13 @@ package kg.peaksoft.bilingualb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.peaksoft.bilingualb6.dto.request.PassTestRequest;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseForClient;
+import kg.peaksoft.bilingualb6.service.PassTestService;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +24,8 @@ import java.util.List;
 public class TestController {
 
     private final TestService testService;
+
+    private final PassTestService passTestService;
 
     @Operation(summary = "Test status",
             description = "This endpoint returns test status to enable and disable for test further requests to the API")
@@ -64,5 +69,12 @@ public class TestController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public TestResponse updateTest(@PathVariable Long id, @RequestBody TestRequest request) {
         return testService.updateTest(id, request);
+    }
+
+    @Operation(summary = "Pass test", description = "Pass test for client")
+    @PostMapping("/pass-test")
+    @PreAuthorize("hasAuthority('CLIENT')")
+    public SimpleResponse passTest(@RequestBody PassTestRequest request) {
+        return passTestService.passTest(request);
     }
 }

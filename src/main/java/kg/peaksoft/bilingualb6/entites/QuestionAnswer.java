@@ -26,20 +26,26 @@ public class QuestionAnswer {
     private Integer numberOfWords;//user's answer's counter words
 
     @Column
+    private String textResponseUser;
+
+    @Column
     private Integer score;
 
-    @OneToOne(cascade = {REFRESH,MERGE,DETACH,PERSIST})
+    @OneToOne(cascade = {REFRESH, MERGE, DETACH, PERSIST})
     @JsonIgnore
     private Content content;
 
     @OneToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Question question;
 
-    @OneToMany(cascade = {DETACH, MERGE, REFRESH},mappedBy = "questionAnswer")
+    @OneToMany(cascade = {DETACH, MERGE, REFRESH}, mappedBy = "questionAnswer")
     List<Option> options;
 
     @ManyToOne(cascade = {DETACH, PERSIST, MERGE, REMOVE})
     private Result result;
 
-
+    public void addOption(Option option) {
+        this.options.add(option);
+        option.setQuestionAnswer(this);
+    }
 }

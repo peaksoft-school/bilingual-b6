@@ -1,10 +1,7 @@
 package kg.peaksoft.bilingualb6.service;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
-import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
-import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
@@ -85,7 +82,6 @@ public class TestService {
     public List<TestResponse> getAll() {
         return testRepository.getAllTest();
     }
-
 
     public TestResponse save(TestRequest request) {
         Test test = new Test(request);
