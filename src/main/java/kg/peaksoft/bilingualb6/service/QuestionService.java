@@ -37,8 +37,6 @@ public class QuestionService {
 
     private final OptionRepository optionRepository;
 
-    private final ContentRepository contentRepository;
-
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(
                 () -> new NotFoundException(String.format("Test with id=" + questionRequest.getTestId() + " does not exists in database"))
@@ -219,11 +217,6 @@ public class QuestionService {
     public QuestionUpdateResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
-
-//        Content content = contentRepository.findById(questionUpdateRequest.getContent().getId()).orElseThrow(
-//                () -> new NotFoundException(String.format("Content with id = %s not found",
-//                        questionUpdateRequest.getContent().getId())));
-//        content.setContent(questionUpdateRequest.getContent().getContent());
 
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
