@@ -1,6 +1,6 @@
 package kg.peaksoft.bilingualb6.repository;
 
-import kg.peaksoft.bilingualb6.dto.response.QuestionResponseForGetByTestId;
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
 import kg.peaksoft.bilingualb6.entites.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,14 +21,19 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("update Question set content = null where id = ?1")
     void updateByIdForDeleteQuestionToContentId(Long id);
 
-    @Query("select new kg.peaksoft.bilingualb6.dto.response.QuestionResponseForGetByTestId(" +
+    @Query("select new kg.peaksoft.bilingualb6.dto.response.QuestionResponse(" +
             "q.id," +
             "q.title," +
+            "q.passage," +
+            "q.isActive," +
+            "q.numberOfReplays," +
             "q.duration," +
+            "q.content.content," +
             "q.questionType," +
-            "q.isActive)"+
-            "from Question q where q.test.id = ?1")
-    List<QuestionResponseForGetByTestId> getQuestionByTestId(Long id);
+            "q.statement," +
+            "q.minNumberOfWords," +
+            "q.correctAnswer) from Question q where q.test.id = ?1 and q.isActive=true")
+    List<QuestionResponse> getQuestionByTestId(Long id);
 }
 
 
