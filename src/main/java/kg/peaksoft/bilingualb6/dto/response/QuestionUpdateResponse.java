@@ -1,6 +1,6 @@
-package kg.peaksoft.bilingualb6.dto.request;
+package kg.peaksoft.bilingualb6.dto.response;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class QuestionUpdateRequest {
+@Builder
+public class QuestionUpdateResponse {
 
     private String title;
 
@@ -25,5 +25,5 @@ public class QuestionUpdateRequest {
 
     private String correctAnswer;
 
-    private UpdateContentRequest content;
+    private String content;
 }

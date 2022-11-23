@@ -28,8 +28,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.isActive," +
             "q.numberOfReplays," +
             "q.duration," +
+            "q.content.content," +
             "q.questionType," +
-            "q.statement) from Question q where q.test.id = ?1 and q.isActive=true")
+            "q.statement," +
+            "q.minNumberOfWords," +
+            "q.correctAnswer) from Question q where q.test.id = ?1 and q.isActive=true")
     List<QuestionResponse> getQuestionByTestId(Long id);
 }
 
