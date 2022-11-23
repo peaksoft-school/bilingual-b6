@@ -3,10 +3,7 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
-import kg.peaksoft.bilingualb6.dto.response.OptionResponse;
-import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
-import kg.peaksoft.bilingualb6.dto.response.QuestionUpdateResponse;
-import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
+import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Content;
 import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
@@ -23,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -247,5 +245,27 @@ public class QuestionService {
                 .minNumberOfWords(questionUpdateRequest.getMinNumberOfWords())
                 .content(question.getContent().getContent())
                 .build();
+    }
+
+    public List<QuestionsResponse> getQuestionsById(Long id){
+        Question question = questionRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+        List<Question> questions = questionRepository.getQuestionsByTestId(id);
+        List<QuestionsResponse> responses = new ArrayList<>();
+
+        for (Question q: questions) {
+            QuestionsResponse questionsResponse = new QuestionsResponse();
+            questionsResponse.setId(q.getId());
+            questionsResponse.setTitle(q.getTitle());
+            questionsResponse.setStatement(q.getStatement());
+            questionsResponse.setPassage(q.getPassage());
+            questionsResponse.setContent(q.getContent());
+            questionsResponse.setMinNumberOfWords(q.getMinNumberOfWords());
+            questionsResponse.setNumberOfReplays(q.getNumberOfReplays());
+
+
+            return responses;
+
+        }
     }
 }

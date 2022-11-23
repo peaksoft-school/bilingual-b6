@@ -35,6 +35,6 @@ public class TestControllerForClient {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('CLIENT')")
     public List<QuestionsResponse> getById(@PathVariable Long id){
-        return questionService.getQuestionById(id);
+        return questionService.getQuestionsById(id);
     }
 }
