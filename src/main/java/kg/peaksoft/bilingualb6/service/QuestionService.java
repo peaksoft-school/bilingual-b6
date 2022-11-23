@@ -221,11 +221,6 @@ public class QuestionService {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
 
-        Content content = contentRepository.findById(questionUpdateRequest.getContent().getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Content with id = %s not found",
-                        questionUpdateRequest.getContent().getId())));
-        content.setContent(questionUpdateRequest.getContent().getContent());
-
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
         question.setPassage(questionUpdateRequest.getPassage());
@@ -233,7 +228,7 @@ public class QuestionService {
         question.setDuration(questionUpdateRequest.getDuration());
         question.setCorrectAnswer(questionUpdateRequest.getCorrectAnswer());
         question.setMinNumberOfWords(questionUpdateRequest.getMinNumberOfWords());
-        question.setContent(content);
+        question.getContent().setContent(questionUpdateRequest.getContent());
 
         return QuestionUpdateResponse.builder()
                 .title(question.getTitle())
