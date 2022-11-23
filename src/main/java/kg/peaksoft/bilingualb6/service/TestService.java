@@ -93,11 +93,10 @@ public class TestService {
     }
 
     public List<TestResponseForClient> getAllTestForClient() {
-        List<Test> tests = testRepository.findAll();
+        List<Test> tests = testRepository.findAllForClient();
         List<TestResponseForClient> responses = new ArrayList<>();
 
         for (Test t: tests) {
-            if (t.getIsActive().equals(true)) {
                 TestResponseForClient testResponseForClient = new TestResponseForClient();
                 testResponseForClient.setTitle(t.getTitle());
                 testResponseForClient.setShortDescription(t.getShortDescription());
@@ -108,7 +107,6 @@ public class TestService {
                 }
                 testResponseForClient.setDuration(a);
                 responses.add(testResponseForClient);
-            }
         }
         return responses;
     }

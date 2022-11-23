@@ -247,25 +247,25 @@ public class QuestionService {
                 .build();
     }
 
-    public List<QuestionsResponse> getQuestionsById(Long id){
-        Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
-        List<Question> questions = questionRepository.getQuestionsByTestId(id);
-        List<QuestionsResponse> responses = new ArrayList<>();
-
-        for (Question q: questions) {
-            QuestionsResponse questionsResponse = new QuestionsResponse();
-            questionsResponse.setId(q.getId());
-            questionsResponse.setTitle(q.getTitle());
-            questionsResponse.setStatement(q.getStatement());
-            questionsResponse.setPassage(q.getPassage());
-            questionsResponse.setContent(q.getContent());
-            questionsResponse.setMinNumberOfWords(q.getMinNumberOfWords());
-            questionsResponse.setNumberOfReplays(q.getNumberOfReplays());
-
-
-            return responses;
-
-        }
-    }
+//    public List<QuestionsResponse> getQuestionsById(Long id){
+//        Question question = questionRepository.findById(id).orElseThrow(
+//                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+//        List<Question> questions = questionRepository.getQuestionsByTestId(id);
+//        List<QuestionsResponse> responses = new ArrayList<>();
+//
+//        for (Question q: questions) {
+//            QuestionsResponse questionsResponse = new QuestionsResponse();
+//            questionsResponse.setId(q.getId());
+//            questionsResponse.setTitle(q.getTitle());
+//            questionsResponse.setStatement(q.getStatement());
+//            questionsResponse.setPassage(q.getPassage());
+//            questionsResponse.setContent(q.getContent());
+//            questionsResponse.setMinNumberOfWords(q.getMinNumberOfWords());
+//            questionsResponse.setNumberOfReplays(q.getNumberOfReplays());
+//
+//
+//            return responses;
+//
+//        }
+//    }
 }

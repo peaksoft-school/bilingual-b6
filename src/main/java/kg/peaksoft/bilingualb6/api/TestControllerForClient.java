@@ -30,11 +30,11 @@ public class TestControllerForClient {
         return testService.getAllTestForClient();
     }
 
-    @Operation(summary = "Get question by id",
-            description = "This endpoint returns question by id")
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('CLIENT')")
-    public List<QuestionsResponse> getById(@PathVariable Long id){
-        return questionService.getQuestionsById(id);
-    }
+//    @Operation(summary = "Get question by id",
+//            description = "This endpoint returns question by id")
+//    @GetMapping("/{id}")
+//    @PreAuthorize("hasAuthority('CLIENT')")
+//    public List<QuestionsResponse> getById(@PathVariable Long id){
+//        return questionService.getQuestionsById(id);
+//    }
 }
