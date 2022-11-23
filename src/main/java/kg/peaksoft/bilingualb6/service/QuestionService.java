@@ -178,9 +178,7 @@ public class QuestionService {
     public QuestionResponse getQuestionById(Long id){
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
-        questionRepository.findById(id);
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
-
         return QuestionResponse.builder()
                 .id(question.getId())
                 .title(question.getTitle())
