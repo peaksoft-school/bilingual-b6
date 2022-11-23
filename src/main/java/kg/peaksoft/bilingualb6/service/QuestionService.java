@@ -61,14 +61,7 @@ public class QuestionService {
                 questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE) {
-            if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
-                    questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
-                    questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE && questionRequest.getContentRequest().getContentType() != ContentType.TEXT) {
-                throw new BadRequestException("The question option type should be the <TEXT> format!");
-            }
-            if (questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD && questionRequest.getContentRequest().getContentType() != ContentType.AUDIO) {
-                throw new BadRequestException("The question option type should be the <AUDIO> format!");
-            } else if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
+                if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
                     questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
                 int numberOfTrueOptions = 0;
                 for (OptionRequest optionRequest : questionRequest.getOptions()) {
@@ -80,11 +73,19 @@ public class QuestionService {
                     }
                 }
                 if (numberOfTrueOptions >= 1) {
-                    Question question = questionRepository.save(new Question(questionRequest));
-                    question.setOptionType(OptionType.MULTIPLE_CHOICE);
-                    question.setTest(test);
-                    return new SimpleResponse("Successfully saved", "SAVE");
-                } else throw new BadRequestException("Add at least two or more correct options!");
+                    if (questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
+                        Question question = questionRepository.save(new Question(questionRequest));
+                        question.setOptionType(OptionType.MULTIPLE_CHOICE);
+                        question.setTest(test);
+                        return new SimpleResponse("Successfully saved", "SAVE");
+                    }
+                    if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS) {
+                        Question question = questionRepository.save(new Question(questionRequest,questionRequest.getContentRequest()));
+                        question.setOptionType(OptionType.MULTIPLE_CHOICE);
+                        question.setTest(test);
+                        return new SimpleResponse("Successfully saved", "SAVE");
+                    }
+                }else throw new BadRequestException("Add at least two or more correct options!");
 
             } else if (questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE ||
                     questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA) {
@@ -113,26 +114,22 @@ public class QuestionService {
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!");
         }
         if (questionRequest.getQuestionType() == QuestionType.TYPE_WHAT_YOU_HEAR) {
-            if (questionRequest.getContentRequest().getContentType() == ContentType.AUDIO) {
                 Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(),
                         questionRequest.getStatement(), questionRequest.getNumberOfReplays(), questionRequest.getCorrectAnswer(),
-                        new Content(questionRequest.getContentRequest().getContentType(), questionRequest.getContentRequest().getContent()),
+                        new Content(ContentType.AUDIO, questionRequest.getContentRequest().getContent()),
                         questionRequest.getQuestionType()));
                 question.setTest(test);
                 return new SimpleResponse("Successfully saved", "SAVE");
-            } else throw new BadRequestException("The questions content type should be <AUDIO>!");
         }
 
         if (questionRequest.getQuestionType() == QuestionType.DESCRIBE_IMAGE && questionRequest.getCorrectAnswer().isEmpty()) {
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!");
         }
         if (questionRequest.getQuestionType() == QuestionType.DESCRIBE_IMAGE) {
-            if (questionRequest.getContentRequest().getContentType() == ContentType.IMAGE) {
                 Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getCorrectAnswer(),
-                        new Content(questionRequest.getContentRequest().getContentType(), questionRequest.getContentRequest().getContent()), questionRequest.getQuestionType()));
+                        new Content(ContentType.IMAGE, questionRequest.getContentRequest().getContent()), questionRequest.getQuestionType()));
                 question.setTest(test);
                 return new SimpleResponse("Successfully saved", "SAVE");
-            } else throw new BadRequestException("The questions content type should be <IMAGE>!");
         }
 
         if (questionRequest.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT && questionRequest.getStatement().isEmpty()) {
@@ -223,10 +220,10 @@ public class QuestionService {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
 
-        Content content = contentRepository.findById(questionUpdateRequest.getContent().getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Content with id = %s not found",
-                        questionUpdateRequest.getContent().getId())));
-        content.setContent(questionUpdateRequest.getContent().getContent());
+//        Content content = contentRepository.findById(questionUpdateRequest.getContent().getId()).orElseThrow(
+//                () -> new NotFoundException(String.format("Content with id = %s not found",
+//                        questionUpdateRequest.getContent().getId())));
+//        content.setContent(questionUpdateRequest.getContent().getContent());
 
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
@@ -235,7 +232,7 @@ public class QuestionService {
         question.setDuration(questionUpdateRequest.getDuration());
         question.setCorrectAnswer(questionUpdateRequest.getCorrectAnswer());
         question.setMinNumberOfWords(questionUpdateRequest.getMinNumberOfWords());
-        question.setContent(content);
+        question.getContent().setContent(questionUpdateRequest.getContent());
 
         return QuestionUpdateResponse.builder()
                 .title(question.getTitle())

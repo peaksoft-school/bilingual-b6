@@ -1,8 +1,10 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kg.peaksoft.bilingualb6.dto.request.ContentRequest;
 import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
+import kg.peaksoft.bilingualb6.entites.enums.ContentType;
 import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import lombok.*;
@@ -70,12 +72,24 @@ public class Question {
     @OneToOne(cascade = ALL,mappedBy = "question")
     private QuestionAnswer questionAnswer;
 
+    public Question(QuestionRequest request, ContentRequest contentRequest) {
+        this.title = request.getTitle();
+        this.duration = request.getDuration();
+        this.questionType = request.getQuestionType();
+        this.isActive = true;
+        this.content = new Content(ContentType.TEXT,request.getContentRequest().getContent());
+        this.options = new ArrayList<>();
+        for (OptionRequest o : request.getOptions()){
+            this.options.add(new Option(o));
+        }
+    }
+
     public Question(QuestionRequest request) {
         this.title = request.getTitle();
         this.duration = request.getDuration();
         this.questionType = request.getQuestionType();
         this.isActive = true;
-        this.content = new Content(request.getContentRequest().getContentType(),request.getContentRequest().getContent());
+        this.content = new Content(ContentType.AUDIO,request.getContentRequest().getContent());
         this.options = new ArrayList<>();
         for (OptionRequest o : request.getOptions()){
             this.options.add(new Option(o));
@@ -88,7 +102,7 @@ public class Question {
         this.questionType = questionType;
         this.passage = request.getPassage();
         this.isActive = true;
-        this.content = new Content(request.getContentRequest().getContentType(),request.getContentRequest().getContent());
+        this.content = new Content(ContentType.TEXT,request.getContentRequest().getContent());
         this.options = new ArrayList<>();
         for (OptionRequest o : request.getOptions()){
             this.options.add(new Option(o));

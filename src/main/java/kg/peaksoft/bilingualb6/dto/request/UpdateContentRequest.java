@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UpdateContentRequest {
-    private Long id;
+//    private Long id;
     private String content;
 }
