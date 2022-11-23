@@ -1,10 +1,7 @@
 package kg.peaksoft.bilingualb6.service;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
-import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
-import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
@@ -46,13 +43,31 @@ public class TestService {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Please write existing test id!")));
 
-        List<QuestionResponse> questions = questionRepository.getQuestionByTestId(id);
+        List<QuestionResponseForGetByTestId> questions = questionRepository.getQuestionByTestId(id);
         Integer duration = 0;
-        for (QuestionResponse question : questions) {
-            question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
+        for (QuestionResponseForGetByTestId question : questions) {
             duration += question.getDuration();
         }
         return TestInnerPageResponse.builder()
+                .id(test.getId())
+                .title(test.getTitle())
+                .shortDescription(test.getShortDescription())
+                .duration(duration)
+                .questionResponses(questions)
+                .build();
+    }
+
+    public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
+        Test test = testRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+
+        List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
+        Integer duration = 0;
+        for (QuestionResponse question : questions) {
+            question.setOptionResponseList(optionRepository.getOptions(question.getId()));
+            duration += question.getDuration();
+        }
+        return TestResponseGetTestByIdForClient.builder()
                 .id(test.getId())
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())
