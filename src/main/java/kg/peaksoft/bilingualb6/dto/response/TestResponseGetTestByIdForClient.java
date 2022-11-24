@@ -1,16 +1,18 @@
 package kg.peaksoft.bilingualb6.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TestInnerPageResponse {
+public class TestResponseGetTestByIdForClient {
+
 
     private Long id;
 
@@ -18,7 +20,7 @@ public class TestInnerPageResponse {
 
     private String shortDescription;
 
-    private List<QuestionResponseForGetByTestId> questionResponses;
+    private List<QuestionResponse> questionResponses;
 
     private Integer duration;
 }
