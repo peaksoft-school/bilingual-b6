@@ -36,7 +36,7 @@ public class TestService {
             a = "disabled" +
                     "";
         }
-        return new SimpleResponse(String.format("Test successfully deleted!", a), "ok");
+        return new SimpleResponse(String.format("Test successfully %s", a), "ok");
     }
 
     public TestInnerPageResponse getTestById(Long id) {
@@ -59,7 +59,7 @@ public class TestService {
 
     public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+                () -> new NotFoundException(String.format("Please write existing test id!")));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
         Integer duration = 0;
@@ -80,7 +80,7 @@ public class TestService {
         Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
                 "Please write existing test id!")));
         testRepository.delete(test);
-        return new SimpleResponse(" DELETED ", String.format(" Test successfully deleted"));
+        return new SimpleResponse(" DELETED ", String.format("Test successfully deleted!"));
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
