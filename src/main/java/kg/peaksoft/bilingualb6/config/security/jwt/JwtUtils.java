@@ -23,7 +23,7 @@ public class JwtUtils {
     private String secret;
     private String issuer;
 
-    private long expires;
+    private Long expires;
 
     public String generateToken(String email) {
 

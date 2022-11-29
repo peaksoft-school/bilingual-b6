@@ -27,14 +27,14 @@ public class ResultService {
         return resultRepository.findAll(client.getId());
     }
 
-    public String sendMail(String email) throws MessagingException {
-        Client client = clientRepository.findClientByAuthInfoEmailOptional(email).
+    public String sendMail(Long id) throws MessagingException {
+        Client client = clientRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("Почтa не найдена"));
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
         messageHelper.setSubject("[bilingual-b6] send result");
         messageHelper.setFrom("bilingualbatch6@gmail.com");
-        messageHelper.setTo(email);
+        messageHelper.setTo(client.getAuthInfo().getEmail());
         messageHelper.setText("Result: ",true);
         javaMailSender.send(mimeMessage);
         return "Email send";
