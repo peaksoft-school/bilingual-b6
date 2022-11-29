@@ -42,8 +42,4 @@ public class WebAppSecurity {
         return new BCryptPasswordEncoder();
     }
 
-
-    public JavaMailSender javaMailSender() {
-        return new JavaMailSenderImpl();
-    }
 }
