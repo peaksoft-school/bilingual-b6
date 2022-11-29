@@ -27,7 +27,7 @@ public class TestService {
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Please write existing test id!")));
+                () -> new NotFoundException("Test not found!"));
         test.setIsActive(!test.getIsActive());
         String a;
         if (test.getIsActive()) {
@@ -41,7 +41,7 @@ public class TestService {
 
     public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Please write existing test id!")));
+                () -> new NotFoundException("Test not found!"));
 
         List<QuestionResponseForGetByTestId> questions = questionRepository.getQuestionByTestId(id);
         Integer duration = 0;
@@ -59,7 +59,7 @@ public class TestService {
 
     public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Please write existing test id!")));
+                () -> new NotFoundException("Test not found!"));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
         Integer duration = 0;
@@ -77,16 +77,14 @@ public class TestService {
     }
 
     public SimpleResponse deleteTest(Long id) {
-        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
-                "Please write existing test id!")));
+        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException("Test not found!"));
         testRepository.delete(test);
         return new SimpleResponse(" DELETED ", String.format("Test successfully deleted!"));
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format(
-                        "Please write existing test id!")));
+                new NotFoundException("Test not found!"));
         if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }

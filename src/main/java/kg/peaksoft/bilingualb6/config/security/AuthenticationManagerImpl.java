@@ -25,7 +25,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
 
         if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
-            throw new BadCredentialsException("Please write existing email!");
+            throw new BadCredentialsException("Password or email not found!");
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());

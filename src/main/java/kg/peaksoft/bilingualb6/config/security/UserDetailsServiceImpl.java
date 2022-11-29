@@ -20,6 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         return authInfoRepository.findByEmail(username).orElseThrow(
-                () -> new NotFoundException(String.format("Please write existing email!")));
+                () -> new NotFoundException(String.format("Password or email not found!")));
     }
 }

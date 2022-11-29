@@ -16,7 +16,7 @@ public class OptionService {
 
     public SimpleResponse deleteOption(Long id) {
         Option option = optionRepository.findById(id).orElseThrow(
-                ()->new NotFoundException(String.format("Please write existing option id!")));
+                ()->new NotFoundException(String.format("Option not found!")));
         if (option != null) {
             optionRepository.updateByIdForDeleteInQuestion(id);
             optionRepository.deleteById(id);

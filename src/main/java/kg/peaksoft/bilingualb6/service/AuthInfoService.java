@@ -69,14 +69,14 @@ public class AuthInfoService {
                         authInfoRequest.getPassword()));
 
         AuthInfo authInfo = authInfoRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new BadCredentialsException("Please write existing email!"));
+                .orElseThrow(() -> new BadCredentialsException("Password or email not found!"));
 
         if (authInfoRequest.getPassword().isBlank()) {
             throw new BadRequestException("Write password!");
         }
 
         if (!passwordEncoder.matches(authInfoRequest.getPassword(), authInfo.getPassword())) {
-            throw new BadCredentialsException("Please write correct answer!");
+            throw new BadCredentialsException("Password or email not found!");
         }
 
         String token = jwtUtils.generateToken(authInfo.getEmail());
