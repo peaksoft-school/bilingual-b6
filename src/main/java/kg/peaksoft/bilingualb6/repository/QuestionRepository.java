@@ -33,7 +33,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.questionType," +
             "q.statement," +
             "q.minNumberOfWords," +
-            "q.correctAnswer) from Question q where q.test.id = ?1")
+            "q.correctAnswer) from Question q where q.test.id = ?1 and q.isActive = true")
     List<QuestionResponse> getQuestionByTestIdForClient(Long id);
 
     @Query("select new kg.peaksoft.bilingualb6.dto.response.QuestionResponseForGetByTestId(" +
