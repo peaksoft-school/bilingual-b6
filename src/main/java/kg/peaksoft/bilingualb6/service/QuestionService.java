@@ -242,7 +242,7 @@ public class QuestionService {
             }
         }
 
-        for (OptionRequest q: questionUpdateRequest.getOptionRequests()) {
+        for (OptionRequest q : questionUpdateRequest.getOptionRequests()) {
             Option option = new Option(q);
             optionRepository.save(option);
         }
