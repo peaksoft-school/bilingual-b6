@@ -30,4 +30,6 @@ public class QuestionUpdateRequest {
     private List<Long> willDelete;
 
     private List<Long> willUpdate;
+
+    private List<OptionRequest> optionRequests;
 }

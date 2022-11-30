@@ -242,6 +242,11 @@ public class QuestionService {
             }
         }
 
+        for (OptionRequest q: questionUpdateRequest.getOptionRequests()) {
+            Option option = new Option(q);
+            optionRepository.save(option);
+        }
+
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
         question.setPassage(questionUpdateRequest.getPassage());
