@@ -2,6 +2,7 @@ package kg.peaksoft.bilingualb6.service;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.*;
+import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -103,5 +105,23 @@ public class TestService {
         Test test = new Test(request);
         testRepository.save(test);
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
+    }
+
+    public List<TestResponseForClient> getAllTestForClient(){
+        List<Test> tests = testRepository.findAllForClient();
+        List<TestResponseForClient> responses = new ArrayList<>();
+        for (Test t: tests) {
+            TestResponseForClient testResponseForClient = new TestResponseForClient();
+            testResponseForClient.setTitle(t.getTitle());
+            testResponseForClient.setShortDescription(t.getShortDescription());
+            testResponseForClient.setId(t.getId());
+            int a = 0;
+            for (Question q: t.getQuestions()) {
+                a += q.getDuration();
+            }
+            testResponseForClient.setDuration(a);
+            responses.add(testResponseForClient);
+        }
+        return responses;
     }
 }
