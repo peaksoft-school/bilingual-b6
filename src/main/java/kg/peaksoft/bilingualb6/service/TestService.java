@@ -87,7 +87,7 @@ public class TestService {
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Test not found!"));
-        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
+        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }
         test.setShortDescription(testRequest.getShortDescription());
@@ -107,16 +107,16 @@ public class TestService {
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 
-    public List<TestResponseForClient> getAllTestForClient(){
+    public List<TestResponseForClient> getAllTestForClient() {
         List<Test> tests = testRepository.findAllForClient();
         List<TestResponseForClient> responses = new ArrayList<>();
-        for (Test t: tests) {
+        for (Test t : tests) {
             TestResponseForClient testResponseForClient = new TestResponseForClient();
             testResponseForClient.setTitle(t.getTitle());
             testResponseForClient.setShortDescription(t.getShortDescription());
             testResponseForClient.setId(t.getId());
             int a = 0;
-            for (Question q: t.getQuestions()) {
+            for (Question q : t.getQuestions()) {
                 a += q.getDuration();
             }
             testResponseForClient.setDuration(a);
