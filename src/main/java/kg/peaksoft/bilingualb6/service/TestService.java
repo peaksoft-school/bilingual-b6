@@ -3,7 +3,6 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Question;
-import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
@@ -91,7 +90,7 @@ public class TestService {
         Test test = testRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(
                         "Test with %d id not found", id)));
-        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
+        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }
         test.setShortDescription(testRequest.getShortDescription());
@@ -104,7 +103,6 @@ public class TestService {
         return testRepository.getAllTest();
     }
 
-
     public TestResponse save(TestRequest request) {
         Test test = new Test(request);
         testRepository.save(test);
@@ -114,18 +112,17 @@ public class TestService {
     public List<TestResponseForClient> getAllTestForClient() {
         List<Test> tests = testRepository.findAllForClient();
         List<TestResponseForClient> responses = new ArrayList<>();
-
-        for (Test t: tests) {
-                TestResponseForClient testResponseForClient = new TestResponseForClient();
-                testResponseForClient.setTitle(t.getTitle());
-                testResponseForClient.setShortDescription(t.getShortDescription());
-                testResponseForClient.setId(t.getId());
-                int a = 0;
-                for (Question q : t.getQuestions()) {
-                    a += q.getDuration();
-                }
-                testResponseForClient.setDuration(a);
-                responses.add(testResponseForClient);
+        for (Test t : tests) {
+            TestResponseForClient testResponseForClient = new TestResponseForClient();
+            testResponseForClient.setTitle(t.getTitle());
+            testResponseForClient.setShortDescription(t.getShortDescription());
+            testResponseForClient.setId(t.getId());
+            int a = 0;
+            for (Question q : t.getQuestions()) {
+                a += q.getDuration();
+            }
+            testResponseForClient.setDuration(a);
+            responses.add(testResponseForClient);
         }
         return responses;
     }

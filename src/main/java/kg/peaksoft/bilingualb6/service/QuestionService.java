@@ -20,9 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -73,7 +71,7 @@ public class QuestionService {
                     if (optionRequest.getIsTrue()) {
                         numberOfTrueOptions++;
                     }
-                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -91,7 +89,7 @@ public class QuestionService {
                     if (optionRequest.getIsTrue()) {
                         numberOfTrueOption++;
                     }
-                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -173,7 +171,7 @@ public class QuestionService {
         return new SimpleResponse("Successfully saved", "SAVE");
     }
 
-    public QuestionResponse getQuestionById(Long id){
+    public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Question with id = %s not found", id)));
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
@@ -241,26 +239,4 @@ public class QuestionService {
                 .content(question.getContent().getContent())
                 .build();
     }
-
-//    public List<QuestionsResponse> getQuestionsById(Long id){
-//        Question question = questionRepository.findById(id).orElseThrow(
-//                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
-//        List<Question> questions = questionRepository.getQuestionsByTestId(id);
-//        List<QuestionsResponse> responses = new ArrayList<>();
-//
-//        for (Question q: questions) {
-//            QuestionsResponse questionsResponse = new QuestionsResponse();
-//            questionsResponse.setId(q.getId());
-//            questionsResponse.setTitle(q.getTitle());
-//            questionsResponse.setStatement(q.getStatement());
-//            questionsResponse.setPassage(q.getPassage());
-//            questionsResponse.setContent(q.getContent());
-//            questionsResponse.setMinNumberOfWords(q.getMinNumberOfWords());
-//            questionsResponse.setNumberOfReplays(q.getNumberOfReplays());
-//
-//
-//            return responses;
-//
-//        }
-//    }
 }

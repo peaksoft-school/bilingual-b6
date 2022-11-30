@@ -33,7 +33,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.questionType," +
             "q.statement," +
             "q.minNumberOfWords," +
-            "q.correctAnswer) from Question q where q.test.id = ?1")
+            "q.correctAnswer) from Question q where q.test.id = ?1 and q.isActive = true")
     List<QuestionResponse> getQuestionByTestIdForClient(Long id);
 
     @Query("select new kg.peaksoft.bilingualb6.dto.response.QuestionResponseForGetByTestId(" +
@@ -41,14 +41,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "q.title," +
             "q.duration," +
             "q.questionType," +
-            "q.isActive)"+
+            "q.isActive)" +
             "from Question q where q.test.id = ?1")
     List<QuestionResponseForGetByTestId> getQuestionByTestId(Long id);
-            "q.correctAnswer) from Question q where q.test.id = ?1 and q.isActive=true")
-    List<QuestionResponse> getQuestionByTestId(Long id);
-
-    @Query("select q from Question q where q.test.id = ?1 and q.isActive=true")
-    List<Question> getQuestionsByTestId(Long id);
 }
 
 

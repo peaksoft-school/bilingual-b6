@@ -2,8 +2,8 @@ package kg.peaksoft.bilingualb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.peaksoft.bilingualb6.dto.response.QuestionsResponse;
 import kg.peaksoft.bilingualb6.dto.response.TestResponseForClient;
+import kg.peaksoft.bilingualb6.dto.response.TestResponseGetTestByIdForClient;
 import kg.peaksoft.bilingualb6.service.QuestionService;
 import kg.peaksoft.bilingualb6.service.TestService;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +30,11 @@ public class TestControllerForClient {
         return testService.getAllTestForClient();
     }
 
-//    @Operation(summary = "Get question by id",
-//            description = "This endpoint returns question by id")
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('CLIENT')")
-//    public List<QuestionsResponse> getById(@PathVariable Long id){
-//        return questionService.getQuestionsById(id);
-//    }
+    @Operation(summary = "Get test by id for client",
+            description = "This endpoint returns test by id and their questions and options for CLIENT")
+    @GetMapping("/client{id}")
+    @PreAuthorize("hasAuthority('CLIENT')")
+    public TestResponseGetTestByIdForClient getByIdForClient(@PathVariable Long id) {
+        return testService.getTestByIdForClient(id);
+    }
 }
