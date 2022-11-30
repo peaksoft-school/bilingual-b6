@@ -37,7 +37,7 @@ public class QuestionService {
 
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(
-                () -> new NotFoundException(String.format("Test with id=" + questionRequest.getTestId() + " does not exists in database"))
+                () -> new NotFoundException(String.format("Test not found"))
         );
         if (questionRequest.getDuration().equals(0) || questionRequest.getDuration() == null) {
             throw new BadRequestException("The duration should not equal to zero or not be an empty!");
@@ -173,7 +173,7 @@ public class QuestionService {
 
     public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
         return QuestionResponse.builder()
                 .id(question.getId())
@@ -193,7 +193,7 @@ public class QuestionService {
 
     public SimpleResponse enableDisable(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
         question.setIsActive(!question.getIsActive());
         String a;
         if (question.getIsActive()) {
@@ -201,12 +201,12 @@ public class QuestionService {
         } else {
             a = "disabled";
         }
-        return new SimpleResponse(String.format("Question with id = %s is = %s", id, a), "ok");
+        return new SimpleResponse(String.format("Question successfully is %s", a), "ok");
     }
 
     public SimpleResponse delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
         if (question != null) {
             questionRepository.updateByIdForDeleteQuestionToContentId(id);
             questionRepository.updateByIdForDeleteQuestionToTestId(id);
@@ -217,7 +217,7 @@ public class QuestionService {
 
     public QuestionUpdateResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
 
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
