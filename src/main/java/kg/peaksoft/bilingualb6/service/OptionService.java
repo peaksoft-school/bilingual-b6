@@ -7,9 +7,12 @@ import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OptionService {
 
     private final OptionRepository optionRepository;
