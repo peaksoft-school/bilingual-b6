@@ -224,12 +224,17 @@ public class QuestionService {
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
 
+        for (OptionRequest q : questionUpdateRequest.getOptionRequests()) {
+            Option option = new Option(q);
+            question.addOption(option);
+        }
+
         for (OptionResponse option : optionsList) {
             Long optionId = option.getId();
 
             for (Long requestId : questionUpdateRequest.getWillDelete()) {
                 if (requestId.equals(optionId)) {
-                    optionRepository.deleteById(optionId);
+                    optionRepository.deleteById(requestId);
                 }
             }
 
@@ -240,11 +245,6 @@ public class QuestionService {
                     option1.setIsTrue(!option1.getIsTrue());
                 }
             }
-        }
-
-        for (OptionRequest q : questionUpdateRequest.getOptionRequests()) {
-            Option option = new Option(q);
-            optionRepository.save(option);
         }
 
         question.setTitle(questionUpdateRequest.getTitle());
