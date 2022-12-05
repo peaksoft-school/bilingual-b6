@@ -30,11 +30,18 @@ public class ResultController {
         return resultService.getAll(authInfo.getEmail());
     }
 
-    @GetMapping("/result//{}id")
+    @GetMapping("/{id}")
     @Operation(summary = "Send result",
             description = "Send result to client")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String sendEmail(@PathVariable Long id) throws MessagingException {
-        return resultService.sendMail(id);
+        return resultService.sendResult(id);
     }
+
+
+
+
+
+
+
 }
