@@ -25,6 +25,9 @@ public class Option {
     @Column(length = 10000)
     private String option;
 
+    @Column(length = 10000)
+    private String link;
+
     private Boolean isTrue;
 
     @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
@@ -42,6 +45,7 @@ public class Option {
 
     public Option (OptionRequest request) {
         this.option = request.getOption();
+        this.link = request.getLink();
         this.isTrue = request.getIsTrue();
     }
 }
