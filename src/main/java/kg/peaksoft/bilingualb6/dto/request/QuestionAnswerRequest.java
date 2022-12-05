@@ -17,5 +17,4 @@ public class QuestionAnswerRequest {
 
     private String answer;
 
-    private ContentRequest contentRequest;
 }

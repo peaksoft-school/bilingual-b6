@@ -15,7 +15,6 @@ import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.ContentRepository;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
@@ -36,8 +35,6 @@ public class QuestionService {
     private final TestRepository testRepository;
 
     private final OptionRepository optionRepository;
-
-    private final ContentRepository contentRepository;
 
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(

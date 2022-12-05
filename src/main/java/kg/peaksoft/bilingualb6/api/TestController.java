@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -83,7 +84,7 @@ public class TestController {
     @Operation(summary = "Pass test", description = "Pass test for client")
     @PostMapping("/pass-test")
     @PreAuthorize("hasAuthority('CLIENT')")
-    public SimpleResponse passTest(@RequestBody PassTestRequest request) {
-        return passTestService.passTest(request);
+    public SimpleResponse passTest(@RequestBody PassTestRequest request, Principal principal) {
+        return passTestService.passTest(request,principal);
     }
 }

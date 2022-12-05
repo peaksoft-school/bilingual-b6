@@ -1,16 +1,11 @@
 package kg.peaksoft.bilingualb6.service;
 
-import kg.peaksoft.bilingualb6.dto.response.OptionResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
-import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
