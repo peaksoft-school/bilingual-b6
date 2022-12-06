@@ -11,7 +11,7 @@ public class OptionRequest {
 
     private String option;
 
-    private String link;
+    private String title;
 
     private Boolean isTrue;
 

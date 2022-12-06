@@ -26,7 +26,7 @@ public class Option {
     private String option;
 
     @Column(length = 10000)
-    private String link;
+    private String title;
 
     private Boolean isTrue;
 
@@ -45,7 +45,7 @@ public class Option {
 
     public Option (OptionRequest request) {
         this.option = request.getOption();
-        this.link = request.getLink();
+        this.title = request.getTitle();
         this.isTrue = request.getIsTrue();
     }
 }

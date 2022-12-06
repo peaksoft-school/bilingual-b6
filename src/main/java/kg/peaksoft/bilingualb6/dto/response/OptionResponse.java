@@ -11,20 +11,20 @@ public class OptionResponse {
 
     private String option;
 
-    private String link;
+    private String title;
 
     private Boolean isTrue;
 
-    public OptionResponse(Long id, String option, String link, Boolean isTrue) {
+    public OptionResponse(Long id, String option, String title, Boolean isTrue) {
         this.id = id;
         this.option = option;
-        this.link = link;
+        this.title = title;
         this.isTrue = isTrue;
     }
 
-    public OptionResponse(Long id, String option, String link) {
+    public OptionResponse(Long id, String option, String title) {
         this.id = id;
         this.option = option;
-        this.link = link;
+        this.title = title;
     }
 }
