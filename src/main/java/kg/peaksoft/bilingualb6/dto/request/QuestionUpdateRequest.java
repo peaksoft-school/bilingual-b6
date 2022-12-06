@@ -26,4 +26,10 @@ public class QuestionUpdateRequest {
     private String correctAnswer;
 
     private String content;
+
+    private List<Long> willDelete;
+
+    private List<Long> willUpdate;
+
+    private List<OptionRequest> optionRequests;
 }

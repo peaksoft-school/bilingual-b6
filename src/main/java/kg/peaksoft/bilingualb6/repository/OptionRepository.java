@@ -26,11 +26,13 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
     @Query("select new kg.peaksoft.bilingualb6.dto.response.OptionResponse(" +
             "o.id," +
             "o.option," +
+            "o.title," +
             "o.isTrue) from Option o where o.question.id = ?1")
     List<OptionResponse> getAllOptionsByQuestionId(Long id);
 
     @Query("select new kg.peaksoft.bilingualb6.dto.response.OptionResponse(" +
             "o.id," +
-            "o.option) from Option o where o.question.id = ?1")
+            "o.option," +
+            "o.title) from Option o where o.question.id = ?1")
     List<OptionResponse> getOptions(Long id);
 }

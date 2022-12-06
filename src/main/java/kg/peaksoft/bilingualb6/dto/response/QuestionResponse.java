@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class QuestionResponse {
+
     private Long id;
 
     private String title;

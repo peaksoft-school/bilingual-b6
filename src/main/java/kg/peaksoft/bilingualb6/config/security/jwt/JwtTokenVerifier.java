@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
-
 @Component
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
@@ -44,7 +43,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             AuthInfo authInfo = authInfoRepository.findByEmail(email)
                     .orElseThrow(
                             () -> new UsernameNotFoundException(
-                                    String.format("email(%s) not found", email)));
+                                    String.format("Please write existing email!")));
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     authInfo, null, authInfo.getAuthorities());

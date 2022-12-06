@@ -16,12 +16,11 @@ public class OptionService {
 
     public SimpleResponse deleteOption(Long id) {
         Option option = optionRepository.findById(id).orElseThrow(
-                ()->new NotFoundException(String.format("Option with =%s id not " +
-                        "found", id)));
+                ()->new NotFoundException(String.format("Option not found!")));
         if (option != null) {
             optionRepository.updateByIdForDeleteInQuestion(id);
             optionRepository.deleteById(id);
         }
-        return new SimpleResponse("option with id: " + id + " is deleted","DELETE");
+        return new SimpleResponse("Option is successfully deleted!","DELETE");
     }
 }

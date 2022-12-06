@@ -8,10 +8,9 @@ import kg.peaksoft.bilingualb6.service.ResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -29,5 +28,13 @@ public class ResultController {
     public List<ResultResponses> getAll(Authentication authentication) {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
         return resultService.getAll(authInfo.getEmail());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Send result",
+            description = "Send result to client")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String sendEmail(@PathVariable Long id) throws MessagingException {
+        return resultService.sendResult(id);
     }
 }

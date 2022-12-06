@@ -28,6 +28,9 @@ public class Option {
     @Column(length = 10000)
     private String option;
 
+    @Column(length = 10000)
+    private String title;
+
     private Boolean isTrue;
 
     @ManyToOne(cascade = {MERGE, DETACH, REFRESH})
@@ -37,12 +40,14 @@ public class Option {
     @JsonIgnore
     private Question question;
 
+
     @ManyToMany(cascade = {REFRESH,MERGE,DETACH}, mappedBy = "options")
     @JsonIgnore
     private List<QuestionAnswer> questionAnswer;
 
     public Option (OptionRequest request) {
         this.option = request.getOption();
+        this.title = request.getTitle();
         this.isTrue = request.getIsTrue();
     }
 }

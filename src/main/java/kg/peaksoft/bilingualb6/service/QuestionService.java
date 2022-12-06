@@ -5,9 +5,9 @@ import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
 import kg.peaksoft.bilingualb6.dto.response.OptionResponse;
 import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
-import kg.peaksoft.bilingualb6.dto.response.QuestionUpdateResponse;
 import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.entites.Content;
+import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.entites.enums.ContentType;
@@ -38,7 +38,7 @@ public class QuestionService {
 
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(
-                () -> new NotFoundException(String.format("Test with id=" + questionRequest.getTestId() + " does not exists in database"))
+                () -> new NotFoundException(String.format("Test not found"))
         );
         if (questionRequest.getDuration().equals(0) || questionRequest.getDuration() == null) {
             throw new BadRequestException("The duration should not equal to zero or not be an empty!");
@@ -72,7 +72,7 @@ public class QuestionService {
                     if (optionRequest.getIsTrue()) {
                         numberOfTrueOptions++;
                     }
-                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -90,7 +90,7 @@ public class QuestionService {
                     if (optionRequest.getIsTrue()) {
                         numberOfTrueOption++;
                     }
-                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null){
+                    if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -172,10 +172,12 @@ public class QuestionService {
         return new SimpleResponse("Successfully saved", "SAVE");
     }
 
-    public QuestionResponse getQuestionById(Long id){
+    public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
+
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
+
         return QuestionResponse.builder()
                 .id(question.getId())
                 .title(question.getTitle())
@@ -194,7 +196,7 @@ public class QuestionService {
 
     public SimpleResponse enableDisable(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
         question.setIsActive(!question.getIsActive());
         String a;
         if (question.getIsActive()) {
@@ -202,12 +204,12 @@ public class QuestionService {
         } else {
             a = "disabled";
         }
-        return new SimpleResponse(String.format("Question with id = %s is = %s", id, a), "ok");
+        return new SimpleResponse(String.format("Question successfully is %s", a), "ok");
     }
 
     public SimpleResponse delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
         if (question != null) {
             questionRepository.updateByIdForDeleteQuestionToContentId(id);
             questionRepository.updateByIdForDeleteQuestionToTestId(id);
@@ -216,9 +218,34 @@ public class QuestionService {
         return new SimpleResponse("deleted", "ok");
     }
 
-    public QuestionUpdateResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
+    public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Question with id = %s not found", id)));
+                () -> new NotFoundException("Question not found!"));
+
+        List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
+
+        for (OptionRequest q : questionUpdateRequest.getOptionRequests()) {
+            Option option = new Option(q);
+            question.addOption(option);
+        }
+
+        for (OptionResponse option : optionsList) {
+            Long optionId = option.getId();
+
+            for (Long requestId : questionUpdateRequest.getWillDelete()) {
+                if (requestId.equals(optionId)) {
+                    optionRepository.deleteById(requestId);
+                }
+            }
+
+            for (Long requestId : questionUpdateRequest.getWillUpdate()) {
+                if (requestId.equals(optionId)) {
+                    Option option1 = optionRepository.findById(requestId).orElseThrow(
+                            () -> new NotFoundException("Option not found!"));
+                    option1.setIsTrue(!option1.getIsTrue());
+                }
+            }
+        }
 
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
@@ -229,15 +256,6 @@ public class QuestionService {
         question.setMinNumberOfWords(questionUpdateRequest.getMinNumberOfWords());
         question.getContent().setContent(questionUpdateRequest.getContent());
 
-        return QuestionUpdateResponse.builder()
-                .title(question.getTitle())
-                .statement(question.getStatement())
-                .passage(question.getPassage())
-                .numberOfReplays(question.getNumberOfReplays())
-                .duration(question.getDuration())
-                .correctAnswer(question.getCorrectAnswer())
-                .minNumberOfWords(questionUpdateRequest.getMinNumberOfWords())
-                .content(question.getContent().getContent())
-                .build();
+        return new SimpleResponse("Question is successfully updated!", "ok");
     }
 }

@@ -45,7 +45,7 @@ public class S3Service {
                 .key(key)
                 .build();
         s3.putObject(put, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
-        log.info("Upload completed");
+        log.info("Upload successfully deleted!");
         return Map.of(
                 "link", BUCKET_PATH + key);
     }
