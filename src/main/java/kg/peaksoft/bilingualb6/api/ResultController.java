@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/result")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Result API", description = "The result's GET methods")
 public class ResultController {
 
