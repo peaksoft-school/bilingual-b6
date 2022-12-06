@@ -18,7 +18,6 @@ import java.util.Date;
 public class JwtUtils {
 
     private String secret;
-
     private String issuer;
 
     private Long expires;
@@ -36,6 +35,7 @@ public class JwtUtils {
     }
 
     public String validateJWTToken(String jwt) {
+
         DecodedJWT verify = getDecodedJWT(jwt);
 
         return verify.getClaim("email").asString();
