@@ -37,11 +37,4 @@ public class ResultController {
     public String sendEmail(@PathVariable Long id) throws MessagingException {
         return resultService.sendResult(id);
     }
-
-
-
-
-
-
-
 }

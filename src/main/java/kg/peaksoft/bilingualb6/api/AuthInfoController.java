@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
@@ -41,6 +40,4 @@ public class AuthInfoController {
     public AuthInfoResponse authWithGoogleAccount(String tokenId) throws FirebaseAuthException {
         return authInfoService.authWithGoogleAccount(tokenId);
     }
-
-
 }

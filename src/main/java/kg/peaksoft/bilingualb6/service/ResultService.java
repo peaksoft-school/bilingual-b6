@@ -21,17 +21,15 @@ import java.util.List;
 public class ResultService {
 
     private final ResultRepository resultRepository;
+
     private final ClientRepository clientRepository;
+
     private final JavaMailSender javaMailSender;
 
     public List<ResultResponses> getAll(String email) {
         Client client = clientRepository.getClientByAuthInfoEmail(email);
         return resultRepository.findAll(client.getId());
     }
-
-
-
-
 
     public String sendResult(Long id) throws MessagingException {
         Result result = resultRepository.findById(id).
@@ -48,5 +46,4 @@ public class ResultService {
         javaMailSender.send(mimeMessage);
         return email;
     }
-
 }
