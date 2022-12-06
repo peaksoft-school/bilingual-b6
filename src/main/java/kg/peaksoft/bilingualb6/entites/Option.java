@@ -7,6 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 
+import java.util.List;
+
 import static javax.persistence.CascadeType.*;
 
 @Entity
@@ -35,11 +37,9 @@ public class Option {
     @JsonIgnore
     private Question question;
 
-    @ManyToOne(cascade = {REFRESH,MERGE,DETACH})
-    @JoinTable(name = "question_answers_options",joinColumns = @JoinColumn(name = "options_id"),
-    inverseJoinColumns = @JoinColumn(name = "question_answer_id"))
+    @ManyToMany(cascade = {REFRESH,MERGE,DETACH}, mappedBy = "options")
     @JsonIgnore
-    private QuestionAnswer questionAnswer;
+    private List<QuestionAnswer> questionAnswer;
 
     public Option (OptionRequest request) {
         this.option = request.getOption();

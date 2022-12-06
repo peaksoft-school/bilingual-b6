@@ -39,12 +39,10 @@ public class QuestionAnswer {
     @OneToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Question question;
 
-    @OneToMany(cascade = {DETACH, MERGE, REFRESH}, mappedBy = "questionAnswer")
-//            @JoinTable(name = "question_answers_options",
-//                    foreignKey =@ForeignKey(name = "question_answer_id"),
-//            inverseForeignKey = @ForeignKey(name = "options_id"))
-//        @JoinTable(name = "question_answers_options",joinColumns = @JoinColumn(name = "question_answer_id"),
-//    inverseJoinColumns = @JoinColumn(name = "options_id"))
+    @ManyToMany(cascade = {DETACH, MERGE, REFRESH})
+        @JoinTable(name = "question_answers_options",
+                joinColumns = @JoinColumn(name = "question_answer_id"),
+                inverseJoinColumns = @JoinColumn(name = "options_id"))
     Set<Option> options;
 
     @ManyToOne(cascade = {DETACH, PERSIST, MERGE, REMOVE})
@@ -81,8 +79,4 @@ public class QuestionAnswer {
         this.result = result;
     }
 
-    public void addOption(Option option) {
-        this.options.add(option);
-        option.setQuestionAnswer(this);
-    }
 }
