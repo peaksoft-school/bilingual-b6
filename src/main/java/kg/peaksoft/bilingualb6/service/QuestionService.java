@@ -178,20 +178,7 @@ public class QuestionService {
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
         QuestionResponse response = new QuestionResponse();
-//        return QuestionResponse.builder()
-//                .id(question.getId())
-//                .title(question.getTitle())
-//                .passage(question.getPassage())
-//                .isActive(question.getIsActive())
-//                .correctAnswer(question.getCorrectAnswer())
-//                .numberOfReplays(question.getNumberOfReplays())
-//                .minNumberOfWords(question.getMinNumberOfWords())
-//                .duration(question.getDuration())
-//                .content(question.getContent().getContent())
-//                .shortDescription(question.getTest().getShortDescription())
-//                .questionType(question.getQuestionType())
-//                .statement(question.getStatement())
-//                .optionResponseList(optionsList).build();
+
         response.setId(question.getId());
         response.setTitle(question.getTitle());
         response.setPassage(question.getPassage());
@@ -272,8 +259,11 @@ public class QuestionService {
         question.setDuration(questionUpdateRequest.getDuration());
         question.setCorrectAnswer(questionUpdateRequest.getCorrectAnswer());
         question.setMinNumberOfWords(questionUpdateRequest.getMinNumberOfWords());
-        question.getContent().setContent(questionUpdateRequest.getContent());
-
+        if (question.getContent() == null) {
+            question.setContent(null);
+        } else {
+            question.getContent().setContent(questionUpdateRequest.getContent());
+        }
         return new SimpleResponse("Question is successfully updated!", "ok");
     }
 }
