@@ -177,21 +177,39 @@ public class QuestionService {
                 () -> new NotFoundException("Question not found!"));
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
-
-        return QuestionResponse.builder()
-                .id(question.getId())
-                .title(question.getTitle())
-                .passage(question.getPassage())
-                .isActive(question.getIsActive())
-                .correctAnswer(question.getCorrectAnswer())
-                .numberOfReplays(question.getNumberOfReplays())
-                .minNumberOfWords(question.getMinNumberOfWords())
-                .duration(question.getDuration())
-                .content(question.getContent().getContent())
-                .shortDescription(question.getTest().getShortDescription())
-                .questionType(question.getQuestionType())
-                .statement(question.getStatement())
-                .optionResponseList(optionsList).build();
+        QuestionResponse response = new QuestionResponse();
+//        return QuestionResponse.builder()
+//                .id(question.getId())
+//                .title(question.getTitle())
+//                .passage(question.getPassage())
+//                .isActive(question.getIsActive())
+//                .correctAnswer(question.getCorrectAnswer())
+//                .numberOfReplays(question.getNumberOfReplays())
+//                .minNumberOfWords(question.getMinNumberOfWords())
+//                .duration(question.getDuration())
+//                .content(question.getContent().getContent())
+//                .shortDescription(question.getTest().getShortDescription())
+//                .questionType(question.getQuestionType())
+//                .statement(question.getStatement())
+//                .optionResponseList(optionsList).build();
+        response.setId(question.getId());
+        response.setTitle(question.getTitle());
+        response.setPassage(question.getPassage());
+        response.setIsActive(question.getIsActive());
+        response.setCorrectAnswer(question.getCorrectAnswer());
+        response.setNumberOfReplays(question.getNumberOfReplays());
+        response.setMinNumberOfWords(question.getMinNumberOfWords());
+        response.setDuration(question.getDuration());
+        if (question.getContent() == null) {
+            response.setContent(null);
+        } else {
+            response.setContent(question.getContent().getContent());
+        }
+        response.setShortDescription(question.getTest().getShortDescription());
+        response.setQuestionType(question.getQuestionType());
+        response.setStatement(question.getStatement());
+        response.setOptionResponseList(optionsList);
+        return response;
     }
 
     public SimpleResponse enableDisable(Long id) {
