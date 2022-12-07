@@ -40,7 +40,12 @@ public class S3Service {
                 .bucket(BUCKET_NAME)
                 .contentType("jpeg")
                 .contentType("png")
-                .contentType("pdf")
+                .contentType("ogg")
+                .contentType("mp3")
+                .contentType("mpeg")
+                .contentType("ogg")
+                .contentType("m4a")
+                .contentType("oga")
                 .contentLength(file.getSize())
                 .key(key)
                 .build();
