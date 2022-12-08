@@ -22,5 +22,4 @@ public class TestResponseGetTestByIdForClient {
 
     private List<QuestionResponse> questionResponses;
 
-    private Integer duration;
 }
