@@ -24,7 +24,7 @@ public class ResultController {
     private final ResultService resultService;
 
     @Operation(summary = "Client results",
-            description = "Authenticate client test results")
+            description = "Authenticate client test results(for client)")
     @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping()
     public List<ResultResponses> getAll(Authentication authentication) {
@@ -41,7 +41,7 @@ public class ResultController {
     }
 
     @Operation(summary = "Delete result",
-            description = "Сlient method that deletes its results")
+            description = "Client method that deletes its results(for client)")
     @PreAuthorize("hasAuthority('CLIENT')")
     @DeleteMapping("/{id}")
     public List<ResultResponses> delete(@PathVariable Long id, Principal principal){

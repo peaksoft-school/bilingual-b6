@@ -43,18 +43,14 @@ public class ResultService {
         messageHelper.setSubject("[bilingual-b6] result");
         messageHelper.setFrom("bilingualbatch6@gmail.com");
         messageHelper.setTo(email);
-        messageHelper.setText("Здраствуйте Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готова " + result.getFinalScore()+"",true);
+        messageHelper.setText("Здраствуйте, Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готова " + result.getFinalScore()+"",true);
         javaMailSender.send(mimeMessage);
         return email;
     }
 
     public List<ResultResponses> deleteResult(Long id, Principal principal) {
         Result result = resultRepository.findById(id).orElseThrow();
-//        result.setClient(null);
-//        result.setTest(null);
         resultRepository.delete(result);
-//        Client client = clientRepository.findClientByAuthInfoEmail(principal.getName());
-//        return resultRepository.findAll(client.getId());
         return getAll(principal.getName());
     }
 }
