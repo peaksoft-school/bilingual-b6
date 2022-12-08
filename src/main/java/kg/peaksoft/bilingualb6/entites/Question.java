@@ -142,4 +142,11 @@ public class Question {
         this.minNumberOfWords = minNumberOfWords;
         this.questionType = questionType;
     }
+
+    public void addOption(Option option){
+        if (options==null){
+            options=new ArrayList<>();
+        }
+        options.add(option);
+    }
 }

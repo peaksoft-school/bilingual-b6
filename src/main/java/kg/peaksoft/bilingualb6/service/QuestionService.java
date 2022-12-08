@@ -3,8 +3,12 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.OptionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionRequest;
 import kg.peaksoft.bilingualb6.dto.request.QuestionUpdateRequest;
+import kg.peaksoft.bilingualb6.dto.response.OptionResponse;
+import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
+import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
 import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Content;
+import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.entites.enums.ContentType;
@@ -12,7 +16,6 @@ import kg.peaksoft.bilingualb6.entites.enums.OptionType;
 import kg.peaksoft.bilingualb6.entites.enums.QuestionType;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.ContentRepository;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
@@ -32,8 +35,6 @@ public class QuestionService {
     private final TestRepository testRepository;
 
     private final OptionRepository optionRepository;
-
-    private final ContentRepository contentRepository;
 
     public SimpleResponse save(QuestionRequest questionRequest) {
         Test test = testRepository.findById(questionRequest.getTestId()).orElseThrow(
@@ -174,21 +175,28 @@ public class QuestionService {
     public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Question not found!"));
+
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
-        return QuestionResponse.builder()
-                .id(question.getId())
-                .title(question.getTitle())
-                .passage(question.getPassage())
-                .isActive(question.getIsActive())
-                .correctAnswer(question.getCorrectAnswer())
-                .numberOfReplays(question.getNumberOfReplays())
-                .minNumberOfWords(question.getMinNumberOfWords())
-                .duration(question.getDuration())
-                .content(question.getContent().getContent())
-                .shortDescription(question.getTest().getShortDescription())
-                .questionType(question.getQuestionType())
-                .statement(question.getStatement())
-                .optionResponseList(optionsList).build();
+        QuestionResponse response = new QuestionResponse();
+
+        response.setId(question.getId());
+        response.setTitle(question.getTitle());
+        response.setPassage(question.getPassage());
+        response.setIsActive(question.getIsActive());
+        response.setCorrectAnswer(question.getCorrectAnswer());
+        response.setNumberOfReplays(question.getNumberOfReplays());
+        response.setMinNumberOfWords(question.getMinNumberOfWords());
+        response.setDuration(question.getDuration());
+        if (question.getContent() == null) {
+            response.setContent(null);
+        } else {
+            response.setContent(question.getContent().getContent());
+        }
+        response.setShortDescription(question.getTest().getShortDescription());
+        response.setQuestionType(question.getQuestionType());
+        response.setStatement(question.getStatement());
+        response.setOptionResponseList(optionsList);
+        return response;
     }
 
     public SimpleResponse enableDisable(Long id) {
@@ -215,9 +223,34 @@ public class QuestionService {
         return new SimpleResponse("deleted", "ok");
     }
 
-    public QuestionUpdateResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
+    public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Question not found!"));
+
+        List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
+
+        for (OptionRequest q : questionUpdateRequest.getOptionRequests()) {
+            Option option = new Option(q);
+            question.addOption(option);
+        }
+
+        for (OptionResponse option : optionsList) {
+            Long optionId = option.getId();
+
+            for (Long requestId : questionUpdateRequest.getWillDelete()) {
+                if (requestId.equals(optionId)) {
+                    optionRepository.deleteById(requestId);
+                }
+            }
+
+            for (Long requestId : questionUpdateRequest.getWillUpdate()) {
+                if (requestId.equals(optionId)) {
+                    Option option1 = optionRepository.findById(requestId).orElseThrow(
+                            () -> new NotFoundException("Option not found!"));
+                    option1.setIsTrue(!option1.getIsTrue());
+                }
+            }
+        }
 
         question.setTitle(questionUpdateRequest.getTitle());
         question.setStatement(questionUpdateRequest.getStatement());
@@ -226,17 +259,11 @@ public class QuestionService {
         question.setDuration(questionUpdateRequest.getDuration());
         question.setCorrectAnswer(questionUpdateRequest.getCorrectAnswer());
         question.setMinNumberOfWords(questionUpdateRequest.getMinNumberOfWords());
-        question.getContent().setContent(questionUpdateRequest.getContent());
-
-        return QuestionUpdateResponse.builder()
-                .title(question.getTitle())
-                .statement(question.getStatement())
-                .passage(question.getPassage())
-                .numberOfReplays(question.getNumberOfReplays())
-                .duration(question.getDuration())
-                .correctAnswer(question.getCorrectAnswer())
-                .minNumberOfWords(questionUpdateRequest.getMinNumberOfWords())
-                .content(question.getContent().getContent())
-                .build();
+        if (question.getContent() == null) {
+            question.setContent(null);
+        } else {
+            question.getContent().setContent(questionUpdateRequest.getContent());
+        }
+        return new SimpleResponse("Question is successfully updated!", "ok");
     }
 }

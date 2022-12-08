@@ -81,7 +81,7 @@ public class TestService {
     public SimpleResponse deleteTest(Long id) {
         Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException("Test not found!"));
         testRepository.delete(test);
-        return new SimpleResponse(" DELETED ", String.format("Test successfully deleted!"));
+        return new SimpleResponse("Test successfully deleted!", "Ok");
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
@@ -99,7 +99,6 @@ public class TestService {
     public List<TestResponse> getAll() {
         return testRepository.getAllTest();
     }
-
 
     public TestResponse save(TestRequest request) {
         Test test = new Test(request);

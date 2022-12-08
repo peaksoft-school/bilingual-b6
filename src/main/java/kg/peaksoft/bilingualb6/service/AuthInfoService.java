@@ -37,7 +37,6 @@ import java.io.IOException;
 @Transactional
 public class AuthInfoService {
 
-
     private final AuthInfoRepository authInfoRepository;
 
     private final AuthenticationManager authenticationManager;
