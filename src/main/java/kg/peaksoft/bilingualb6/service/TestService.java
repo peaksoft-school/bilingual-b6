@@ -2,16 +2,17 @@ package kg.peaksoft.bilingualb6.service;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.*;
+import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,8 +23,6 @@ public class TestService {
     private final TestRepository testRepository;
 
     private final QuestionRepository questionRepository;
-
-    private final OptionRepository optionRepository;
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
@@ -62,18 +61,32 @@ public class TestService {
                 () -> new NotFoundException("Test not found!"));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
-        Integer duration = 0;
-        for (QuestionResponse question : questions) {
-            question.setOptionResponseList(optionRepository.getOptions(question.getId()));
-            duration += question.getDuration();
-        }
         return TestResponseGetTestByIdForClient.builder()
                 .id(test.getId())
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())
-                .duration(duration)
                 .questionResponses(questions)
                 .build();
+    }
+
+    public List<TestResponseForClient> getAllTestForClient() {
+        List<Test> tests = testRepository.findAllForClient();
+        List<TestResponseForClient> responses = new ArrayList<>();
+        for (Test t : tests) {
+            TestResponseForClient testResponseForClient = new TestResponseForClient();
+            testResponseForClient.setTitle(t.getTitle());
+            testResponseForClient.setShortDescription(t.getShortDescription());
+            testResponseForClient.setId(t.getId());
+            int a = 0;
+            for (Question q : t.getQuestions()) {
+                if (q.getIsActive()) {
+                    a += q.getDuration();
+                }
+            }
+            testResponseForClient.setDuration(a);
+            responses.add(testResponseForClient);
+        }
+        return responses;
     }
 
     public SimpleResponse deleteTest(Long id) {

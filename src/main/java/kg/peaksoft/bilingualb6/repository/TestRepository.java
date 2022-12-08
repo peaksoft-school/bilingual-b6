@@ -12,4 +12,7 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Query("select new kg.peaksoft.bilingualb6.dto.response.TestResponse(" +
             "t.id, t.title, t.shortDescription, t.isActive) from Test t")
     List<TestResponse> getAllTest();
+
+    @Query("select t from Test t where t.isActive = true")
+    List<Test> findAllForClient();
 }
