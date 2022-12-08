@@ -6,7 +6,6 @@ import kg.peaksoft.bilingualb6.entites.Question;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,6 @@ public class TestService {
     private final TestRepository testRepository;
 
     private final QuestionRepository questionRepository;
-
-    private final OptionRepository optionRepository;
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
@@ -64,16 +61,10 @@ public class TestService {
                 () -> new NotFoundException("Test not found!"));
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
-        Integer duration = 0;
-        for (QuestionResponse question : questions) {
-            question.setOptionResponseList(optionRepository.getOptions(question.getId()));
-            duration += question.getDuration();
-        }
         return TestResponseGetTestByIdForClient.builder()
                 .id(test.getId())
                 .title(test.getTitle())
                 .shortDescription(test.getShortDescription())
-                .duration(duration)
                 .questionResponses(questions)
                 .build();
     }
@@ -116,7 +107,9 @@ public class TestService {
             testResponseForClient.setId(t.getId());
             int a = 0;
             for (Question q : t.getQuestions()) {
-                a += q.getDuration();
+                if (q.getIsActive()) {
+                    a += q.getDuration();
+                }
             }
             testResponseForClient.setDuration(a);
             responses.add(testResponseForClient);
