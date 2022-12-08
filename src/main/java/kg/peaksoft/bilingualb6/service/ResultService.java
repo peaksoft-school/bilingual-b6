@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -45,5 +46,15 @@ public class ResultService {
         messageHelper.setText("Здраствуйте Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готова " + result.getFinalScore()+"",true);
         javaMailSender.send(mimeMessage);
         return email;
+    }
+
+    public List<ResultResponses> deleteResult(Long id, Principal principal) {
+        Result result = resultRepository.findById(id).orElseThrow();
+//        result.setClient(null);
+//        result.setTest(null);
+        resultRepository.delete(result);
+//        Client client = clientRepository.findClientByAuthInfoEmail(principal.getName());
+//        return resultRepository.findAll(client.getId());
+        return getAll(principal.getName());
     }
 }
