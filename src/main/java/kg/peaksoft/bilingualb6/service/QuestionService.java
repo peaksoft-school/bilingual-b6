@@ -242,14 +242,6 @@ public class QuestionService {
                     optionRepository.deleteById(requestId);
                 }
             }
-//            if (question.getQuestionType() == QuestionType.SELECT_BEST_TITLE ||
-//                    question.getQuestionType() == QuestionType.SELECT_MAIN_IDEA){
-//                for (Option o : question.getOptions()){
-//                    if (o.getIsTrue()){
-//                        o.setIsTrue(false);
-//                    }
-//                }
-//            }
                 for (Long requestId : questionUpdateRequest.getWillUpdate()) {
                     if (requestId.equals(optionId)) {
                         Option option1 = optionRepository.findById(requestId).orElseThrow(
