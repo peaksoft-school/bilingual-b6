@@ -139,7 +139,7 @@ public class QuestionService {
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!!!!");
         } else if (questionRequest.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT) {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getStatement(), questionRequest.getDuration(),
-                    questionRequest.getCorrectAnswer(), questionRequest.getQuestionType()));
+                    questionRequest.getCorrectAnswer(), questionRequest.getQuestionType(), new Content(ContentType.TEXT, "text")));
             question.setTest(test);
             return new SimpleResponse("Successfully saved", "SAVE");
         }
@@ -151,7 +151,7 @@ public class QuestionService {
             throw new BadRequestException("In this question, there should not be an empty or zero field <Minimum words>!!!");
         } else if (questionRequest.getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS) {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getQuestionType(),
-                    questionRequest.getStatement(), questionRequest.getMinNumberOfWords()));
+                    questionRequest.getStatement(), questionRequest.getMinNumberOfWords(), new Content(ContentType.TEXT, "text")));
             question.setTest(test);
             return new SimpleResponse("Successfully saved", "SAVE");
         }
@@ -166,7 +166,7 @@ public class QuestionService {
             throw new BadRequestException("The field <Highlight correct answer> should not be empty!");
         } else {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getStatement(),
-                    questionRequest.getPassage(), questionRequest.getDuration(), questionRequest.getCorrectAnswer(), questionRequest.getQuestionType()));
+                    questionRequest.getPassage(), questionRequest.getDuration(), questionRequest.getCorrectAnswer(), questionRequest.getQuestionType(), new Content(ContentType.TEXT, "text")));
             question.setTest(test);
         }
         return new SimpleResponse("Successfully saved", "SAVE");
