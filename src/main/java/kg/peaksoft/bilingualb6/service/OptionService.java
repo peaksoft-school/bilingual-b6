@@ -5,10 +5,12 @@ import kg.peaksoft.bilingualb6.entites.Option;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
 import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OptionService {
 
     private final OptionRepository optionRepository;

@@ -9,6 +9,7 @@ import kg.peaksoft.bilingualb6.repository.OptionRepository;
 import kg.peaksoft.bilingualb6.repository.QuestionRepository;
 import kg.peaksoft.bilingualb6.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class TestService {
 
     private final TestRepository testRepository;

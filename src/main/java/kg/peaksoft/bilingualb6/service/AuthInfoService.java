@@ -21,6 +21,7 @@ import kg.peaksoft.bilingualb6.repository.ClientRepository;
 import kg.peaksoft.bilingualb6.config.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +36,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class AuthInfoService {
 
 
@@ -69,13 +71,17 @@ public class AuthInfoService {
                         authInfoRequest.getPassword()));
 
         AuthInfo authInfo = authInfoRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new BadCredentialsException("Password or email not found!"));
-
+                .orElseThrow(() -> {
+                    log.error("Password or email not found!");
+                    throw new BadCredentialsException("Password or email not found!");
+                });
         if (authInfoRequest.getPassword().isBlank()) {
+            log.error("Write password!");
             throw new BadRequestException("Write password!");
         }
 
         if (!passwordEncoder.matches(authInfoRequest.getPassword(), authInfo.getPassword())) {
+            log.error("Password or email not found!");
             throw new BadCredentialsException("Password or email not found!");
         }
 
@@ -86,10 +92,12 @@ public class AuthInfoService {
     public ClientRegisterResponse register(ClientRegisterRequest clientRegisterRequest) {
 
     if (clientRegisterRequest.getPassword().isBlank()) {
+        log.error("Password cannot be empty!");
         throw new BadRequestException("Password cannot be empty!");
     }
 
     if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
+        log.error("This email: {} is not empty!", clientRegisterRequest.getEmail());
         throw new BadRequestException("This email: " +
                 clientRegisterRequest.getEmail() + " is not empty!");
     }
