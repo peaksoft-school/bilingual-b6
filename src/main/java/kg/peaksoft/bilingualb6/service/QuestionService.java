@@ -242,14 +242,13 @@ public class QuestionService {
                     optionRepository.deleteById(requestId);
                 }
             }
-
-            for (Long requestId : questionUpdateRequest.getWillUpdate()) {
-                if (requestId.equals(optionId)) {
-                    Option option1 = optionRepository.findById(requestId).orElseThrow(
-                            () -> new NotFoundException("Option not found!"));
-                    option1.setIsTrue(!option1.getIsTrue());
+                for (Long requestId : questionUpdateRequest.getWillUpdate()) {
+                    if (requestId.equals(optionId)) {
+                        Option option1 = optionRepository.findById(requestId).orElseThrow(
+                                () -> new NotFoundException("Option not found!"));
+                        option1.setIsTrue(!option1.getIsTrue());
+                    }
                 }
-            }
         }
 
         question.setTitle(questionUpdateRequest.getTitle());

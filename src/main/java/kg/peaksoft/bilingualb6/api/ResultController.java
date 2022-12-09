@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class ResultController {
     private final ResultService resultService;
 
     @Operation(summary = "Client results",
-            description = "Authenticate client test results")
+            description = "Authenticate client test results(for client)")
     @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping()
     public List<ResultResponses> getAll(Authentication authentication) {
@@ -37,5 +38,13 @@ public class ResultController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String sendEmail(@PathVariable Long id) throws MessagingException {
         return resultService.sendResult(id);
+    }
+
+    @Operation(summary = "Delete result",
+            description = "Client method that deletes its results(for client)")
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @DeleteMapping("/{id}")
+    public List<ResultResponses> delete(@PathVariable Long id, Principal principal){
+       return resultService.deleteResult(id,principal);
     }
 }
