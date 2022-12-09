@@ -79,7 +79,7 @@ public class TestService {
             testResponseForClient.setId(t.getId());
             int a = 0;
             for (Question q : t.getQuestions()) {
-                if (q.getIsActive()) {
+                if (q.getIsActive().equals(true)) {
                     a += q.getDuration();
                 }
             }

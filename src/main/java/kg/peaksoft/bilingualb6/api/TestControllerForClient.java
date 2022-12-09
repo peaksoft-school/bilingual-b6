@@ -35,7 +35,7 @@ public class TestControllerForClient {
 
     @Operation(summary = "Get test by id for client",
             description = "This endpoint returns test by id and their questions and options for CLIENT")
-    @GetMapping("/client{id}")
+    @GetMapping("/getQuestions/{id}")
     @PreAuthorize("hasAuthority('CLIENT')")
     public TestResponseGetTestByIdForClient getByIdForClient(@PathVariable Long id) {
         return testService.getTestByIdForClient(id);
