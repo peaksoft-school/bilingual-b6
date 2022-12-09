@@ -32,24 +32,24 @@ VALUES (1, null, 1, true, null, null, 'MULTIPLE_CHOICE', null, 'SELECT_REAL_ENGL
        (9, null, 1, true, null, null, 'SINGLE_CHOICE', 'A programming language is a system of notation for writing computer programs. Most programming languages are text-based formal languages, but they may also be graphical. They are a kind of computer language. The description of a programming language is usually split into the two components of syntax (form) and semantics (meaning), which are usually defined by a formal language. Some languages are defined by a specification document (for example, the C programming language is specified by an ISO Standard) while other languages (such as Perl) have a dominant implementation that is treated as a reference. Some languages have both, with the basic language defined by a standard and extensions taken from the dominant implementation being common. Programming language theory is a subfield of computer science that deals with the design, implementation, analysis, characterization, and classification of programming languages.',
         'SELECT_BEST_TITLE', null, 'Select the best title for the passage', 3, 1);
 
-INSERT INTO options (id, is_true, option)
-VALUES (1, true, 'string'),
-       (2, false, 'intejer'),
-       (3, true, 'boolean'),
-       (4, false, 'cshar'),
+INSERT INTO options (id, is_true, title, option)
+VALUES (1, true, 'string',null),
+       (2, false, 'intejer',null),
+       (3, true, 'boolean',null),
+       (4, false, 'cshar',null),
 
-       (5, true, 'word1'),
-       (6, true, 'word2'),
-       (7, false, 'word3'),
-       (8, false, 'word4'),
+       (5, true, 'word1','https://bilingual.s3.eu-central-1.amazonaws.com/1670280385813Запись.m4a'),
+       (6, true, 'word2','https://bilingual.s3.eu-central-1.amazonaws.com/1670280385813Запись.m4a'),
+       (7, false, 'word3','https://bilingual.s3.eu-central-1.amazonaws.com/1670280385813Запись.m4a'),
+       (8, false, 'word4','https://bilingual.s3.eu-central-1.amazonaws.com/1670280385813Запись.m4a'),
 
-       (9, true, 'This text is written about the English subject and shows that English is needed and relevant everywhere'),
-       (10, false, 'Drawing is an interesting subject, too. I''m fond of drawing and painting. When we draw, we make pictures with a pen or chalk.'),
-       (11, false, 'I do not understand this text!!!!'),
+       (9, true, 'This text is written about the English subject and shows that English is needed and relevant everywhere',null),
+       (10, false, 'Drawing is an interesting subject, too. I''m fond of drawing and painting. When we draw, we make pictures with a pen or chalk.',null),
+       (11, false, 'I do not understand this text!!!!',null),
 
-       (12, false, 'English language'),
-       (13, false, 'My family'),
-       (14, true, 'Programming language');
+       (12, false, 'English language',null),
+       (13, false, 'My family',null),
+       (14, true, 'Programming language',null);
 
 INSERT INTO questions_options(question_id, options_id)
 VALUES (1,1),

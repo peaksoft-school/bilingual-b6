@@ -39,7 +39,6 @@ import java.io.IOException;
 @Slf4j
 public class AuthInfoService {
 
-
     private final AuthInfoRepository authInfoRepository;
 
     private final AuthenticationManager authenticationManager;
