@@ -85,3 +85,11 @@ VALUES (1,1),
        (2,7),
        (8,11),
        (9,14);
+
+Insert into results (id, date_of_submission, final_score, status, client_id, test_id)
+VALUES (2, '2022-11-28', 100, 'EVALUATED', 1, 1),
+       (3, '2022-11-28', 100, 'NOT_EVALUATED', 1, 1),
+       (4, '2022-11-28', 100, 'NOT_EVALUATED', 1, 1),
+       (5, '2022-11-28', 100, 'NOT_EVALUATED', 1, 1),
+       (6, '2022-11-28', 100, 'EVALUATED', 1, 1),
+       (7, '2022-11-28', 100, 'EVALUATED', 1, 1);

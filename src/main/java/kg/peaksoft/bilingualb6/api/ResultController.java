@@ -2,7 +2,10 @@ package kg.peaksoft.bilingualb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.peaksoft.bilingualb6.dto.response.ResultResponses;
+import kg.peaksoft.bilingualb6.dto.response.QuestionAnswerResponse;
+import kg.peaksoft.bilingualb6.dto.response.ResultResponse;
+import kg.peaksoft.bilingualb6.dto.response.ViewAllResultResponse;
+import kg.peaksoft.bilingualb6.dto.response.ViewResultResponse;
 import kg.peaksoft.bilingualb6.entites.AuthInfo;
 import kg.peaksoft.bilingualb6.service.ResultService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +29,23 @@ public class ResultController {
             description = "Authenticate client test results")
     @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping()
-    public List<ResultResponses> getAll(Authentication authentication) {
+    public List<ResultResponse> getAll(Authentication authentication) {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
         return resultService.getAll(authInfo.getEmail());
+    }
+
+    @GetMapping("/view")
+    public List<ViewAllResultResponse> getAllResults(){
+        return resultService.viewAllResult();
+    }
+
+    @GetMapping("/{id}")
+    public ViewResultResponse getAnswersById(Long id){
+        return resultService.getQuestionAnswersByResultId(id);
+    }
+
+    @GetMapping("/get/{id}")
+    public QuestionAnswerResponse getAnswerById(Long id) {
+        return resultService.getQuestionAnswerById(id);
     }
 }

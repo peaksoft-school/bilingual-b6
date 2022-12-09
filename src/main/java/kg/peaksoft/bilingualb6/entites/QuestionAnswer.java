@@ -1,6 +1,7 @@
 package kg.peaksoft.bilingualb6.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kg.peaksoft.bilingualb6.entites.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,12 @@ public class QuestionAnswer {
 
     @Column
     private Integer score;
+
+    @Column
+    private Boolean seen;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne(cascade = {REFRESH,MERGE,DETACH,PERSIST})
     @JsonIgnore

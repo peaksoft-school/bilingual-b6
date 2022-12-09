@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class ResultResponses {
+public class ResultResponse {
 
     private Long id;
 
@@ -22,8 +22,8 @@ public class ResultResponses {
 
     private Long testId;
 
-    public ResultResponses(Long id, LocalDateTime dateOfSubmission,
-                           Status status, Integer finalScore, String testTitle, Long testId) {
+    public ResultResponse(Long id, LocalDateTime dateOfSubmission,
+                          Status status, Integer finalScore, String testTitle, Long testId) {
         this.id = id;
         this.dateOfSubmission = dateOfSubmission;
         this.status = status;
