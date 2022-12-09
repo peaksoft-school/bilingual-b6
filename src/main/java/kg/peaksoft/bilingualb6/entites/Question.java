@@ -115,7 +115,7 @@ public class Question {
         this.questionType = questionType;
     }
 
-    public Question(String title, String statement, String passage, Integer duration, String correctAnswer, QuestionType questionType) {
+    public Question(String title, String statement, String passage, Integer duration, String correctAnswer, QuestionType questionType, Content content) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
@@ -123,24 +123,27 @@ public class Question {
         this.duration = duration;
         this.correctAnswer = correctAnswer;
         this.questionType = questionType;
+        this.content = content;
     }
 
-    public Question(String title, String statement, Integer duration, String correctAnswer, QuestionType questionType) {
+    public Question(String title, String statement, Integer duration, String correctAnswer, QuestionType questionType, Content content) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
         this.duration = duration;
         this.correctAnswer = correctAnswer;
         this.questionType = questionType;
+        this.content = content;
     }
 
-    public Question(String title, Integer duration, QuestionType questionType, String statement, Integer minNumberOfWords) {
+    public Question(String title, Integer duration, QuestionType questionType, String statement, Integer minNumberOfWords, Content content) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
         this.duration = duration;
         this.minNumberOfWords = minNumberOfWords;
         this.questionType = questionType;
+        this.content = content;
     }
 
     public void addOption(Option option){
