@@ -36,12 +36,14 @@ public class QuestionResponse {
 
     private String statement;
 
+    private Integer questionNumber;
+
     private List<OptionResponse> optionResponseList;
 
     public QuestionResponse(Long id, String title, String passage, Boolean isActive,
                             Integer numberOfReplays, Integer duration, String content,
                             QuestionType questionType, String statement, Integer minNumberOfWords,
-                            String correctAnswer) {
+                            String correctAnswer,Integer questionNumber) {
         this.id = id;
         this.title = title;
         this.passage = passage;
@@ -53,5 +55,6 @@ public class QuestionResponse {
         this.statement = statement;
         this.minNumberOfWords = minNumberOfWords;
         this.correctAnswer = correctAnswer;
+        this.questionNumber = questionNumber;
     }
 }
