@@ -238,8 +238,7 @@ public class QuestionService {
     }
 
     public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
-        Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Question not found!"));
+        Question question = questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found!"));
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
 
@@ -256,13 +255,25 @@ public class QuestionService {
                     optionRepository.deleteById(requestId);
                 }
             }
-                for (Long requestId : questionUpdateRequest.getWillUpdate()) {
-                    if (requestId.equals(optionId)) {
-                        Option option1 = optionRepository.findById(requestId).orElseThrow(
-                                () -> new NotFoundException("Option not found!"));
-                        option1.setIsTrue(!option1.getIsTrue());
+
+            for (Long requestId : questionUpdateRequest.getWillUpdate()) {
+                if (question.getQuestionType() == QuestionType.SELECT_BEST_TITLE || question.getQuestionType() == QuestionType.SELECT_MAIN_IDEA) {
+                    for (Option o : question.getOptions()) {
+                        if (o.getIsTrue()) {
+                            o.setIsTrue(false);
+                        }
                     }
+                    Option option1 = optionRepository.findById(requestId).
+                            orElseThrow(() -> new NotFoundException("Option not found!"));
+                    option1.setIsTrue(true);
                 }
+
+                if (requestId.equals(optionId)) {
+                    Option option1 = optionRepository.findById(requestId).
+                            orElseThrow(() -> new NotFoundException("Option not found!"));
+                    option1.setIsTrue(!option1.getIsTrue());
+                }
+            }
         }
 
         question.setTitle(questionUpdateRequest.getTitle());
