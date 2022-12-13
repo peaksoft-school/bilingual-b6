@@ -43,6 +43,7 @@ public class QuestionService {
                 () -> new NotFoundException(String.format("Test not found"))
         );
         if (questionRequest.getDuration().equals(0) || questionRequest.getDuration() == null) {
+            log.error("The duration should not equal to zero or not be an empty!");
             throw new BadRequestException("The duration should not equal to zero or not be an empty!");
         }
 
@@ -50,10 +51,12 @@ public class QuestionService {
                 questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD && questionRequest.getOptions().isEmpty() & questionRequest.getOptions() == null ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA && questionRequest.getOptions().isEmpty() & questionRequest.getOptions() == null ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE && questionRequest.getOptions().isEmpty() & questionRequest.getOptions() == null) {
+            log.error("Add at least one option!");
             throw new BadRequestException("Add at least one option!");
         }
         if (questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA && questionRequest.getPassage().isEmpty() ||
                 questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE && questionRequest.getPassage().isEmpty()) {
+            log.error("There should be no empty passage in this question!");
             throw new BadRequestException("There should be no empty passage in this question!");
         }
         if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
@@ -63,9 +66,11 @@ public class QuestionService {
             if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
                     questionRequest.getQuestionType() == QuestionType.SELECT_MAIN_IDEA && questionRequest.getContentRequest().getContentType() != ContentType.TEXT ||
                     questionRequest.getQuestionType() == QuestionType.SELECT_BEST_TITLE && questionRequest.getContentRequest().getContentType() != ContentType.TEXT) {
+                log.error("The question option type should be the <TEXT> format!");
                 throw new BadRequestException("The question option type should be the <TEXT> format!");
             }
             if (questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD && questionRequest.getContentRequest().getContentType() != ContentType.AUDIO) {
+                log.error("The question option type should be the <AUDIO> format!");
                 throw new BadRequestException("The question option type should be the <AUDIO> format!");
             } else if (questionRequest.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
                     questionRequest.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
@@ -75,6 +80,7 @@ public class QuestionService {
                         numberOfTrueOptions++;
                     }
                     if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
+                        log.error("The option should not be empty!");
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -82,6 +88,7 @@ public class QuestionService {
                     Question question = questionRepository.save(new Question(questionRequest));
                     question.setOptionType(OptionType.MULTIPLE_CHOICE);
                     question.setTest(test);
+                    log.info("Successfully saved!");
                     return new SimpleResponse("Successfully saved", "SAVE");
                 } else throw new BadRequestException("Add at least two or more correct options!");
 
@@ -93,6 +100,7 @@ public class QuestionService {
                         numberOfTrueOption++;
                     }
                     if (optionRequest.getOption().isEmpty() || optionRequest.getOption() == null) {
+                        log.error("The option should not be empty!");
                         throw new BadRequestException("The option should not be empty!");
                     }
                 }
@@ -106,9 +114,11 @@ public class QuestionService {
         }
 
         if (questionRequest.getQuestionType() == QuestionType.TYPE_WHAT_YOU_HEAR && questionRequest.getNumberOfReplays() <= 0) {
+            log.error("In this question should not be an empty or equal to zero field <Number of replays>!");
             throw new BadRequestException("In this question should not be an empty or equal to zero field <Number of replays>!");
         }
         if (questionRequest.getQuestionType() == QuestionType.TYPE_WHAT_YOU_HEAR && questionRequest.getCorrectAnswer().isEmpty()) {
+            log.error("In this question should not be an empty field <Correct answer>!");
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!");
         }
         if (questionRequest.getQuestionType() == QuestionType.TYPE_WHAT_YOU_HEAR) {
@@ -123,6 +133,7 @@ public class QuestionService {
         }
 
         if (questionRequest.getQuestionType() == QuestionType.DESCRIBE_IMAGE && questionRequest.getCorrectAnswer().isEmpty()) {
+            log.error("In this question should not be an empty field <Correct answer>!");
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!");
         }
         if (questionRequest.getQuestionType() == QuestionType.DESCRIBE_IMAGE) {
@@ -135,14 +146,17 @@ public class QuestionService {
         }
 
         if (questionRequest.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT && questionRequest.getStatement().isEmpty()) {
+            log.error("In this question should not be an empty field <Statement>!!!");
             throw new BadRequestException("In this question should not be an empty field <Statement>!!!");
         }
         if (questionRequest.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT && questionRequest.getCorrectAnswer().isEmpty()) {
+            log.error("In this question should not be an empty field <Correct answer>!!!!");
             throw new BadRequestException("In this question should not be an empty field <Correct answer>!!!!");
         } else if (questionRequest.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT) {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getStatement(), questionRequest.getDuration(),
                     questionRequest.getCorrectAnswer(), questionRequest.getQuestionType()));
             question.setTest(test);
+            log.info("Successfully saved!");
             return new SimpleResponse("Successfully saved", "SAVE");
         }
 
@@ -155,28 +169,36 @@ public class QuestionService {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getQuestionType(),
                     questionRequest.getStatement(), questionRequest.getMinNumberOfWords()));
             question.setTest(test);
+            log.info("Successfully saved!");
             return new SimpleResponse("Successfully saved", "SAVE");
         }
 
         if (questionRequest.getQuestionType() == QuestionType.HIGHLIGHT_THE_ANSWER && questionRequest.getPassage().isEmpty()) {
+            log.error("There should be no an empty passage in this question!");
             throw new BadRequestException("There should be no an empty passage in this question!");
         }
         if (questionRequest.getQuestionType() == QuestionType.HIGHLIGHT_THE_ANSWER && questionRequest.getStatement().isEmpty()) {
+            log.error("In this question should not be an empty field <Question statement to the Passage>!!!");
             throw new BadRequestException("In this question should not be an empty field <Question statement to the Passage>!!!");
         }
         if (questionRequest.getQuestionType() == QuestionType.HIGHLIGHT_THE_ANSWER && questionRequest.getCorrectAnswer().isEmpty()) {
+            log.error("The field <Highlight correct answer> should not be empty!");
             throw new BadRequestException("The field <Highlight correct answer> should not be empty!");
         } else {
             Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getStatement(),
                     questionRequest.getPassage(), questionRequest.getDuration(), questionRequest.getCorrectAnswer(), questionRequest.getQuestionType()));
             question.setTest(test);
+            log.info("Successfully saved!");
         }
         return new SimpleResponse("Successfully saved", "SAVE");
     }
 
     public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Question not found!"));
+                () ->{
+                    log.error("Question with id:" + id + "not found!");
+                    throw new NotFoundException(("Question with id: " + id + "not found!"));
+                });
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
         QuestionResponse response = new QuestionResponse();
@@ -203,7 +225,10 @@ public class QuestionService {
 
     public SimpleResponse enableDisable(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Question not found!"));
+                () -> {
+                    log.error("Question with id: " + id + "not found!");
+                    throw new NotFoundException(("Question with id:" + id + "not found!"));
+                });
         question.setIsActive(!question.getIsActive());
         String a;
         if (question.getIsActive()) {
@@ -216,18 +241,25 @@ public class QuestionService {
 
     public SimpleResponse delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Question not found!"));
+                () -> {
+                    log.error("Question with id:" + id + "not found!");
+                    throw new NotFoundException("Question not found!");
+                });
         if (question != null) {
             questionRepository.updateByIdForDeleteQuestionToContentId(id);
             questionRepository.updateByIdForDeleteQuestionToTestId(id);
             questionRepository.delete(question);
+            log.info("deleted!");
         }
         return new SimpleResponse("deleted", "ok");
     }
 
     public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Question not found!"));
+                () -> {
+                    log.error("Question with id:" + id + "not found!");
+                    throw new NotFoundException("Question not found!");
+                });
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
 
@@ -247,7 +279,10 @@ public class QuestionService {
                 for (Long requestId : questionUpdateRequest.getWillUpdate()) {
                     if (requestId.equals(optionId)) {
                         Option option1 = optionRepository.findById(requestId).orElseThrow(
-                                () -> new NotFoundException("Option not found!"));
+                                () -> {
+                                    log.error("Option not found!");
+                                    throw new NotFoundException("Option not found!");
+                                });
                         option1.setIsTrue(!option1.getIsTrue());
                     }
                 }
@@ -264,6 +299,7 @@ public class QuestionService {
             question.setContent(null);
         } else {
             question.getContent().setContent(questionUpdateRequest.getContent());
+            log.info("Question is successfully updated!");
         }
         return new SimpleResponse("Question is successfully updated!", "ok");
     }

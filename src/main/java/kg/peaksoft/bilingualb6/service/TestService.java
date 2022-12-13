@@ -31,7 +31,10 @@ public class TestService {
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Test not found!"));
+                () -> {
+                    log.error("Test not found!");
+                    throw new NotFoundException("Test not found!");
+                });
         test.setIsActive(!test.getIsActive());
         String a;
         if (test.getIsActive()) {
@@ -45,7 +48,10 @@ public class TestService {
 
     public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Test not found!"));
+                () -> {
+                    log.error("Test not found!");
+                    throw new NotFoundException("Test not found!");
+                });
 
         List<QuestionResponseForGetByTestId> questions = questionRepository.getQuestionByTestId(id);
         Integer duration = 0;
@@ -63,7 +69,10 @@ public class TestService {
 
     public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Test not found!"));
+                () -> {
+                    log.error("Test not found!");
+                    throw new NotFoundException("Test not found!");
+                });
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
         for (QuestionResponse question : questions) {
@@ -98,15 +107,22 @@ public class TestService {
     }
 
     public SimpleResponse deleteTest(Long id) {
-        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException("Test not found!"));
+        Test test = testRepository.findById(id).orElseThrow(() -> {
+            log.error("Test not found!");
+            throw new NotFoundException("Test not found!");
+        });
         testRepository.delete(test);
+        log.info("Test successfully deleted!");
         return new SimpleResponse("Test successfully deleted!", "Ok");
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
-        Test test = testRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("Test not found!"));
+        Test test = testRepository.findById(id).orElseThrow(() -> {
+            log.error("Test not found!");
+                throw new NotFoundException(("Test not found!"));
+        });
         if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
+            log.error("The question title and description should not be an empty!");
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }
         test.setShortDescription(testRequest.getShortDescription());

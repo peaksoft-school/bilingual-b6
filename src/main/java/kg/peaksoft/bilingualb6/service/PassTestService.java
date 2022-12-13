@@ -10,6 +10,7 @@ import kg.peaksoft.bilingualb6.entites.enums.Status;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -18,6 +19,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class PassTestService {
 
     private final TestRepository testRepository;
@@ -51,12 +53,14 @@ public class PassTestService {
                 if (question.getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
                         question.getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD) {
                     if (answerRequest.getOptionAnswerId().isEmpty() || answerRequest.getOptionAnswerId() == null) {
+                        log.error("Choose the correct answer options!");
                         throw new BadRequestException("Choose the correct answer options!");
                     }
                 }
                 if (question.getQuestionType() == QuestionType.SELECT_MAIN_IDEA ||
                         question.getQuestionType() == QuestionType.SELECT_BEST_TITLE) {
                     if (answerRequest.getOptionAnswerId().isEmpty() || answerRequest.getOptionAnswerId() == null) {
+                        log.error("Choose the correct answer!");
                         throw new BadRequestException("Choose the correct answer");
                     }
                 }
@@ -95,6 +99,7 @@ public class PassTestService {
                     question.getQuestionType() == QuestionType.DESCRIBE_IMAGE ||
                     question.getQuestionType() == QuestionType.HIGHLIGHT_THE_ANSWER) {
                 if (answerRequest.getAnswer() == null || answerRequest.getAnswer().isEmpty()){
+                    log.error("Answer is empty!");
                     throw new BadRequestException("Answer is empty");
                 }
                 QuestionAnswer questionAnswer = new QuestionAnswer(answerRequest.getAnswer(),
@@ -105,6 +110,7 @@ public class PassTestService {
 
             if (question.getQuestionType() == QuestionType.RECORD_SAYING_STATEMENT) {
                 if (answerRequest.getAnswer() == null || answerRequest.getAnswer().isEmpty()){
+                    log.error("Answer is empty!");
                     throw new BadRequestException("Answer is empty");
                 }
                 QuestionAnswer questionAnswer = new QuestionAnswer(answerRequest.getAnswer(), 0f,
@@ -115,10 +121,12 @@ public class PassTestService {
 
             if (question.getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS) {
                 if (answerRequest.getAnswer() == null || answerRequest.getAnswer().isEmpty()){
+                    log.error("Answer is empty!");
                     throw new BadRequestException("Answer is empty");
                 }
                 StringTokenizer tokenizer = new StringTokenizer(answerRequest.getAnswer());
                 if (question.getMinNumberOfWords() > tokenizer.countTokens()) {
+                    log.error("Your answer should be minimum %d words");
                     throw new BadRequestException(String.format("Your answer should be minimum %d words",
                             question.getMinNumberOfWords()));
                 } else {
@@ -136,6 +144,7 @@ public class PassTestService {
         }
         result.setFinalScore(finalScore);
         resultRepository.save(result);
+        log.info("Test is complete!");
         return new SimpleResponse("Test is complete!", "PASS");
     }
 }

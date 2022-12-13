@@ -18,11 +18,15 @@ public class OptionService {
 
     public SimpleResponse deleteOption(Long id) {
         Option option = optionRepository.findById(id).orElseThrow(
-                ()->new NotFoundException(String.format("Option not found!")));
+                ()->{
+                    log.error("Option with id: " + id + "not found!");
+                   throw new NotFoundException(("Option with id: " + id + "not found!"));
+                });
         if (option != null) {
             optionRepository.updateByIdForDeleteInQuestion(id);
             optionRepository.deleteById(id);
+            log.error("Option with id: {} is successfully deleted!", "DELETE", id);
         }
-        return new SimpleResponse("Option is successfully deleted!","DELETE");
+        return new SimpleResponse("Option with id: " + id + "is successfully deleted!","DELETE");
     }
 }

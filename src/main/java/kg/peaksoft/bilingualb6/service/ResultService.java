@@ -36,7 +36,10 @@ public class ResultService {
 
     public String sendResult(Long id) throws MessagingException {
         Result result = resultRepository.findById(id).
-                orElseThrow(()->new NotFoundException("mail not found"));
+                orElseThrow(()->{
+                    log.error("mail not found!");
+                    throw new NotFoundException("mail not found");
+                });
         Client client = result.getClient();
         AuthInfo authInfo = client.getAuthInfo();
         String email = authInfo.getEmail();
@@ -45,7 +48,7 @@ public class ResultService {
         messageHelper.setSubject("[bilingual-b6] result");
         messageHelper.setFrom("bilingualbatch6@gmail.com");
         messageHelper.setTo(email);
-        messageHelper.setText("Здраствуйте, Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готова " + result.getFinalScore()+"",true);
+        messageHelper.setText("Здравствуйте, Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готов " + result.getFinalScore()+"",true);
         javaMailSender.send(mimeMessage);
         return email;
     }
