@@ -37,8 +37,8 @@ public class ResultService {
     public String sendResult(Long id) throws MessagingException {
         Result result = resultRepository.findById(id).
                 orElseThrow(()->{
-                    log.error("mail not found!");
-                    throw new NotFoundException("mail not found");
+                    log.error("mail with id: " + id + "not found!");
+                    throw new NotFoundException("mail with id: " + id + "not found");
                 });
         Client client = result.getClient();
         AuthInfo authInfo = client.getAuthInfo();

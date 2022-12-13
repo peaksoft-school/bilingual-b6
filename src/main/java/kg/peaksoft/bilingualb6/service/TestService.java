@@ -32,25 +32,28 @@ public class TestService {
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Test not found!");
-                    throw new NotFoundException("Test not found!");
+                    log.error("Test with id: " + id + "not found!");
+                    throw new NotFoundException("Test with id: " + id + "not found!");
                 });
         test.setIsActive(!test.getIsActive());
         String a;
         if (test.getIsActive()) {
             a = "enabled";
+            log.info("Test with id: " + id + "enabled");
         } else {
             a = "disabled" +
                     "";
+            log.info("Test with id:" + id + "disabled");
         }
+        log.info("Test with id:" + id + "successfully %s", a);
         return new SimpleResponse(String.format("Test successfully %s", a), "ok");
     }
 
     public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Test not found!");
-                    throw new NotFoundException("Test not found!");
+                    log.error("Test with id: " + id + "not found!");
+                    throw new NotFoundException("Test with id: " + id + "not found!");
                 });
 
         List<QuestionResponseForGetByTestId> questions = questionRepository.getQuestionByTestId(id);
@@ -70,8 +73,8 @@ public class TestService {
     public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Test not found!");
-                    throw new NotFoundException("Test not found!");
+                    log.error("Test with id: " + id + "not found!");
+                    throw new NotFoundException("Test with id: " + id + "not found!");
                 });
 
         List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
@@ -108,18 +111,18 @@ public class TestService {
 
     public SimpleResponse deleteTest(Long id) {
         Test test = testRepository.findById(id).orElseThrow(() -> {
-            log.error("Test not found!");
-            throw new NotFoundException("Test not found!");
+            log.error("Test with id: " + id + "not found!");
+            throw new NotFoundException("Test with id: " + id + "not found!");
         });
         testRepository.delete(test);
-        log.info("Test successfully deleted!");
-        return new SimpleResponse("Test successfully deleted!", "Ok");
+        log.info("Test with id: " + id + "successfully deleted!");
+        return new SimpleResponse("Test with id: " + id + "successfully deleted!", "Ok");
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() -> {
-            log.error("Test not found!");
-                throw new NotFoundException(("Test not found!"));
+            log.error("Test with id: " + id + "not found!");
+                throw new NotFoundException(("Test with id: " + id + "not found!"));
         });
         if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
             log.error("The question title and description should not be an empty!");
