@@ -17,4 +17,6 @@ public class QuestionAnswerRequest {
 
     private String answer;
 
+    private Integer numberOfPlays;
+
 }

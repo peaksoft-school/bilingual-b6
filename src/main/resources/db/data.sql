@@ -67,21 +67,24 @@ VALUES (1,1),
        (9,13),
        (9,14);
 
-INSERT INTO question_answers (id, number_of_words, score, content_id, question_id, result_id)
-VALUES (1, null, 5, 3, 1, null),
-       (2, null, 5, 1, 2, null),
-       (3, null, 5, 1, 3, null),
-       (4, null, 7, 2, 4, null),
-       (5, null, 4, 1, 5, null),
-       (6, 14, 9, 3, 6, null),
-       (7, null, 3, 3, 7, null),
-       (8, null, 10, 3, 8, null),
-       (9, null, 0, 3, 9, null);
+insert into results (id, date_of_submission, final_score, status, client_id, test_id)
+VALUES (1, '2022-12-10 20:04:44.794364', 43, 'NOT_EVALUATED', 1, 1);
+
+insert into question_answers (id, number_of_words, score, text_response_user, content_id, question_id, result_id, seen, status, number_of_plays)
+values (1, null, 5, null, 3, 1, 1, false, 'NOT_EVALUATED', null),
+       (2, null, 5, null, 1, 2, 1, false, 'NOT_EVALUATED', null),
+       (3, null, 5, 'I heard beautifully nature', 1, 3, 1, false, 'NOT_EVALUATED', 2),
+       (4, null, 7, 'I heard beautifully nature', 2, 4, 1, false, 'NOT_EVALUATED', null),
+       (5, null, 4, 'record1.mp3', 1, 5, 1, false, 'NOT_EVALUATED', null),
+       (6, 14, 9, 'As the most popular programming language for over 20 years, Java has a whole host of backend frameworks, but their reliability and versatility vary widely. Today’s most popular Java backend frameworks are:', 3, 6, 1, false, 'NOT_EVALUATED', null),
+       (7, null, 3, 'As the most popular programming language for over 20 years', 3, 7, 1, false, 'NOT_EVALUATED', null),
+       (8, null, 10, null, 3, 8, 1, false, 'NOT_EVALUATED', null),
+       (9, null, 0, null, 3, 9, 1, false, 'NOT_EVALUATED', null);
 
 INSERT INTO question_answers_options (question_answer_id, options_id)
 VALUES (1,1),
        (1,2),
        (2,5),
        (2,7),
-       (8,11),
+       (8,9),
        (9,14);

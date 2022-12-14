@@ -85,11 +85,11 @@ public class PassTestService {
                 }
                 QuestionAnswer questionAnswer;
                 if (countOfCorrectOptionsUserAnswer - countOfInCorrectOptionsUserAnswer <= 0) {
-                    questionAnswer = new QuestionAnswer(0f, question, new HashSet<>(options), result);
+                    questionAnswer = new QuestionAnswer(0f, question, new HashSet<>(options), result, false, Status.NOT_EVALUATED);
                 } else {
                     questionAnswer = new QuestionAnswer(
                             (countOfCorrectOptionsUserAnswer - countOfInCorrectOptionsUserAnswer) * scoreForCorrectOption,
-                            question, options, result);
+                            question, options, result,false, Status.NOT_EVALUATED);
                 }
                 questionAnswers.add(questionAnswer);
                 answerRepository.save(questionAnswer);
@@ -103,7 +103,7 @@ public class PassTestService {
                     throw new BadRequestException("Answer is empty");
                 }
                 QuestionAnswer questionAnswer = new QuestionAnswer(answerRequest.getAnswer(),
-                        0f, question, result);
+                        0f, question, result, false, Status.NOT_EVALUATED);
                 answerRepository.save(questionAnswer);
                 questionAnswers.add(questionAnswer);
             }
@@ -113,8 +113,8 @@ public class PassTestService {
                     log.error("Answer is empty!");
                     throw new BadRequestException("Answer is empty");
                 }
-                QuestionAnswer questionAnswer = new QuestionAnswer(answerRequest.getAnswer(), 0f,
-                        new Content(ContentType.AUDIO, answerRequest.getAnswer()), question, result);
+                QuestionAnswer questionAnswer = new QuestionAnswer(answerRequest.getAnswer(), 0f, answerRequest.getNumberOfPlays(),
+                        new Content(ContentType.AUDIO, answerRequest.getAnswer()), question, result, false, Status.NOT_EVALUATED);
                 answerRepository.save(questionAnswer);
                 questionAnswers.add(questionAnswer);
             }
@@ -132,7 +132,7 @@ public class PassTestService {
                 } else {
                     Integer length = tokenizer.countTokens();
                     QuestionAnswer questionAnswer = new QuestionAnswer(length, answerRequest.getAnswer(),
-                            0f, question, result);
+                            0f, question, result, false, Status.NOT_EVALUATED);
                     answerRepository.save(questionAnswer);
                     questionAnswers.add(questionAnswer);
                 }
