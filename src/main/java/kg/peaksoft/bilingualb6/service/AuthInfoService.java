@@ -90,16 +90,16 @@ public class AuthInfoService {
 
     public ClientRegisterResponse register(ClientRegisterRequest clientRegisterRequest) {
 
-    if (clientRegisterRequest.getPassword().isBlank()) {
-        log.error("Password cannot be empty!");
-        throw new BadRequestException("Password cannot be empty!");
-    }
+        if (clientRegisterRequest.getPassword().isBlank()) {
+            log.error("Password cannot be empty!");
+            throw new BadRequestException("Password cannot be empty!");
+        }
 
-    if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
-        log.error("This email: {} is not empty!", clientRegisterRequest.getEmail());
-        throw new BadRequestException("This email: " +
-                clientRegisterRequest.getEmail() + " is not empty!");
-    }
+        if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
+            log.error("This email: {} is not empty!", clientRegisterRequest.getEmail());
+            throw new BadRequestException("This email: " +
+                    clientRegisterRequest.getEmail() + " is not empty!");
+        }
 
         clientRegisterRequest.setPassword(passwordEncoder.encode(clientRegisterRequest.getPassword()));
 
@@ -134,7 +134,7 @@ public class AuthInfoService {
             clientRepository.save(newClient);
         }
 
-            client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
+        client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
 
         return new AuthInfoResponse(client.getAuthInfo().getEmail(),
                 jwtUtils.generateToken(client.getAuthInfo().getEmail()),
