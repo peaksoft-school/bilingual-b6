@@ -110,6 +110,7 @@ public class AuthInfoService {
     }
 
     public AuthInfoResponse authWithGoogleAccount(String tokenId) throws FirebaseAuthException {
+
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(tokenId);
 
         Client client;
@@ -122,11 +123,11 @@ public class AuthInfoService {
 
             newClient.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
 
-            client = clientRepository.save(newClient);
-        }else {
+            clientRepository.save(newClient);
+        }
 
             client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
-        }
+
         return new AuthInfoResponse(client.getAuthInfo().getEmail(),
                 jwtUtils.generateToken(client.getAuthInfo().getEmail()),
                 client.getAuthInfo().getRole());
