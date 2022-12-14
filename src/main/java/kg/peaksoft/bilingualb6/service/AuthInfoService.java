@@ -84,14 +84,14 @@ public class AuthInfoService {
 
     public ClientRegisterResponse register(ClientRegisterRequest clientRegisterRequest) {
 
-    if (clientRegisterRequest.getPassword().isBlank()) {
-        throw new BadRequestException("Password cannot be empty!");
-    }
+        if (clientRegisterRequest.getPassword().isBlank()) {
+            throw new BadRequestException("Password cannot be empty!");
+        }
 
-    if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
-        throw new BadRequestException("This email: " +
-                clientRegisterRequest.getEmail() + " is not empty!");
-    }
+        if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
+            throw new BadRequestException("This email: " +
+                    clientRegisterRequest.getEmail() + " is not empty!");
+        }
 
         clientRegisterRequest.setPassword(passwordEncoder.encode(clientRegisterRequest.getPassword()));
 
@@ -110,23 +110,24 @@ public class AuthInfoService {
     }
 
     public AuthInfoResponse authWithGoogleAccount(String tokenId) throws FirebaseAuthException {
+
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(tokenId);
 
         Client client;
 
         if (!authInfoRepository.existsAuthInfoByEmail(firebaseToken.getEmail())) {
 
-            Client newClient = new Client();
+            client = new Client();
 
-            newClient.setFirstName(firebaseToken.getName());
+            client.setFirstName(firebaseToken.getName());
 
-            newClient.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
+            client.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
 
-            client = clientRepository.save(newClient);
-        }else {
-
-            client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
+            clientRepository.save(client);
         }
+
+        client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
+
         return new AuthInfoResponse(client.getAuthInfo().getEmail(),
                 jwtUtils.generateToken(client.getAuthInfo().getEmail()),
                 client.getAuthInfo().getRole());
