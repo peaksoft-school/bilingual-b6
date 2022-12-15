@@ -77,15 +77,15 @@ public class ResultController {
             description = "Evaluate client question answer and give a score (for admin)")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/evaluate-client-answer")
-    public ViewResultResponse viewResultResponse(@RequestBody EvaluationRequest request){
+    public SimpleResponse viewResultResponse(@RequestBody EvaluationRequest request){
         return resultService.giveScoreForQuestion(request);
     }
 
     @Operation(summary = "Delete result",
-            description = "Client method that deletes its results(for client)")
+            description = "Client method that deletes its results(for admin)")
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/client-results/{id}")
-    public List<ViewAllResultResponse> delete(@PathVariable Long id){
+    public SimpleResponse delete(@PathVariable Long id){
         return resultService.delete(id);
     }
 }

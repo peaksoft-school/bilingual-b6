@@ -146,7 +146,7 @@ public class ResultService {
     }
 
     @Transactional
-    public ViewResultResponse giveScoreForQuestion(EvaluationRequest request) {
+    public SimpleResponse giveScoreForQuestion(EvaluationRequest request) {
         QuestionAnswer questionAnswer = questionAnswerRepository.findById(request.getQuestionAnswerId()).orElseThrow();
         if (questionAnswer.getQuestion().getQuestionType() == QuestionType.SELECT_REAL_ENGLISH_WORDS ||
                 questionAnswer.getQuestion().getQuestionType() == QuestionType.LISTEN_AND_SELECT_WORD ||
@@ -158,11 +158,11 @@ public class ResultService {
         }
         questionAnswer.setStatus(Status.EVALUATED);
         questionAnswer.setSeen(true);
-        return getResultResponse(questionAnswer.getResult().getId());
+        return new SimpleResponse("Checked the question!","CHECK");
     }
 
-    public List<ViewAllResultResponse> delete(Long id){
+    public SimpleResponse delete(Long id){
         resultRepository.deleteById(id);
-        return viewResults();
+        return new SimpleResponse("Result with id="+id+" deleted","DELETE");
     }
 }
