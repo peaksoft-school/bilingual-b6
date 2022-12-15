@@ -82,7 +82,7 @@ public class ResultController {
     }
 
     @Operation(summary = "Delete result",
-            description = "Client method that deletes its results(for admin)")
+            description = "Delete the result of a specific client (for admin)")
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/client-results/{id}")
     public SimpleResponse delete(@PathVariable Long id){
