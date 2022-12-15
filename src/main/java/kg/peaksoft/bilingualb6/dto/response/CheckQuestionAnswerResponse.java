@@ -67,10 +67,10 @@ public class CheckQuestionAnswerResponse {
         this.userAnswer = userAnswer;
     }
 
-    public CheckQuestionAnswerResponse(Float scoreOfQuestion, String correctAnswer, String statement, String userAnswer) {
+    public CheckQuestionAnswerResponse(Float scoreOfQuestion, String link, String correctAnswer, String userAnswer) {
         this.scoreOfQuestion = scoreOfQuestion;
+        this.link = link;
         this.correctAnswer = correctAnswer;
-        this.statement = statement;
         this.userAnswer = userAnswer;
     }
 
