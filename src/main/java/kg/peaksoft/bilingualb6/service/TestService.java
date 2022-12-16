@@ -3,12 +3,11 @@ package kg.peaksoft.bilingualb6.service;
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
 import kg.peaksoft.bilingualb6.dto.response.*;
 import kg.peaksoft.bilingualb6.entites.Question;
+import kg.peaksoft.bilingualb6.entites.Result;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.OptionRepository;
-import kg.peaksoft.bilingualb6.repository.QuestionRepository;
-import kg.peaksoft.bilingualb6.repository.TestRepository;
+import kg.peaksoft.bilingualb6.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,8 @@ public class TestService {
     private final QuestionRepository questionRepository;
 
     private final OptionRepository optionRepository;
+
+    private final ResultRepository resultRepository;
 
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
@@ -97,6 +98,7 @@ public class TestService {
 
     public SimpleResponse deleteTest(Long id) {
         Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException("Test not found!"));
+        resultRepository.deleteAll(resultRepository.getResultsByTestId(id));
         testRepository.delete(test);
         return new SimpleResponse("Test successfully deleted!", "Ok");
     }
