@@ -56,6 +56,7 @@ public class ResultService {
         messageHelper.setTo(email);
         messageHelper.setText("Здравствуйте, Уважаемый "+client.getFirstName()+" "+client.getLastName()+" Ваш результат готов " + result.getFinalScore()+"",true);
         javaMailSender.send(mimeMessage);
+        log.info("The result was successfully sent to the client's mail");
         return email;
     }
 

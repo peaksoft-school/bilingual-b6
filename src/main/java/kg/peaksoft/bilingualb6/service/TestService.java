@@ -45,8 +45,8 @@ public class TestService {
                     "";
             log.info("Test with id:" + id + "disabled");
         }
-        log.info("Test with id:" + id + "successfully %s", a);
-        return new SimpleResponse(String.format("Test successfully %s", a), "ok");
+        log.info("Test with id: {}" + id + "successfully %s", a);
+        return new SimpleResponse(String.format("Test with id: " + id + "successfully %s", a), "ok");
     }
 
     public TestInnerPageResponse getTestById(Long id) {
@@ -115,7 +115,7 @@ public class TestService {
             throw new NotFoundException("Test with id: " + id + "not found!");
         });
         testRepository.delete(test);
-        log.info("Test with id: " + id + "successfully deleted!");
+        log.info("Test with id:" + id + "successfully deleted!");
         return new SimpleResponse("Test with id: " + id + "successfully deleted!", "Ok");
     }
 
@@ -131,6 +131,7 @@ public class TestService {
         test.setShortDescription(testRequest.getShortDescription());
         test.setTitle(testRequest.getTitle());
         test.setIsActive(test.getIsActive());
+        log.info("Test with id:" + id + "Successfully updated!");
         return new TestResponse(test.getId(), test.getTitle(), test.getShortDescription(), test.getIsActive());
     }
 

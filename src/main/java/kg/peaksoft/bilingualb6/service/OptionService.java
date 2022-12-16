@@ -25,7 +25,7 @@ public class OptionService {
         if (option != null) {
             optionRepository.updateByIdForDeleteInQuestion(id);
             optionRepository.deleteById(id);
-            log.error("Option with id: {} " + id + "is successfully deleted!", "DELETE");
+            log.info("Option with id: {} " + id + "is successfully deleted!", "DELETE");
         }
         return new SimpleResponse("Option with id: " + id + "is successfully deleted!","DELETE");
     }

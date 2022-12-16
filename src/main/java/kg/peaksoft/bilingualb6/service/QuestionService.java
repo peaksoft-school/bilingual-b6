@@ -157,6 +157,7 @@ public class QuestionService {
                 Question question = questionRepository.save(new Question(questionRequest.getTitle(), questionRequest.getDuration(), questionRequest.getCorrectAnswer(),
                         new Content(questionRequest.getContentRequest().getContentType(), questionRequest.getContentRequest().getContent()), questionRequest.getQuestionType(), 4));
                 question.setTest(test);
+                log.info("Successfully saved!");
                 return new SimpleResponse("Successfully saved", "SAVE");
             } else throw new BadRequestException("The questions content type should be <IMAGE>!");
         }
@@ -214,8 +215,8 @@ public class QuestionService {
     public QuestionResponse getQuestionById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Question not found!");
-                    throw new NotFoundException("Question not found!");
+                    log.error("Question with id: " + id + "not found!");
+                    throw new NotFoundException("Question with id: " + id + "not found!");
                 });
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
@@ -238,14 +239,15 @@ public class QuestionService {
         response.setQuestionType(question.getQuestionType());
         response.setStatement(question.getStatement());
         response.setOptionResponseList(optionsList);
+        log.info("GetQuestion ById!");
         return response;
     }
 
     public SimpleResponse enableDisable(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Question not found!");
-                    throw new NotFoundException("Question not found!");
+                    log.error("Question with id: " + id + "not found!");
+                    throw new NotFoundException("Question with id: " + id + "not found!");
                 });
         question.setIsActive(!question.getIsActive());
         String a;
@@ -256,29 +258,29 @@ public class QuestionService {
             a = "disabled";
             log.info("Question with id: " + id + "disabled");
         }
-        log.info("Question with id:" + id + "successfully is %s", a);
-        return new SimpleResponse(String.format("Question successfully is %s", a), "ok");
+        log.info("Question with id: {}" + id + "successfully is %s", a);
+        return new SimpleResponse(String.format("Question with id: " + id + "successfully is %s", a), "ok");
     }
 
     public SimpleResponse delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> {
-                    log.error("Question not found!");
-                    throw new NotFoundException("Question not found!");
+                    log.error("Question with id: " +id + "not found!");
+                    throw new NotFoundException("Question with id: " + id + "not found!");
                 });
         if (question != null) {
             questionRepository.updateByIdForDeleteQuestionToContentId(id);
             questionRepository.updateByIdForDeleteQuestionToTestId(id);
             questionRepository.delete(question);
         }
-        log.info("Question with id: "+ id + "deleted");
+        log.info("Question with id: "+ id + "Successfully deleted");
         return new SimpleResponse("deleted", "ok");
     }
 
     public SimpleResponse update(Long id, QuestionUpdateRequest questionUpdateRequest) {
         Question question = questionRepository.findById(id).orElseThrow(() -> {
             log.error("Question with id: " + id + "not found!");
-           throw new NotFoundException("Question not found!");
+           throw new NotFoundException("Question with id: " + id + "not found!");
         });
 
         List<OptionResponse> optionsList = optionRepository.getAllOptionsByQuestionId(id);
@@ -335,7 +337,7 @@ public class QuestionService {
         } else {
             question.getContent().setContent(questionUpdateRequest.getContent());
         }
-        log.info("Question is successfully updated!");
-        return new SimpleResponse("Question is successfully updated!", "ok");
+        log.info("Question with id: " + id + "is successfully updated!");
+        return new SimpleResponse("Question with id: " + id + "is successfully updated!", "ok");
     }
 }
