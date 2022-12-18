@@ -37,7 +37,6 @@ import java.io.IOException;
 @Transactional
 public class AuthInfoService {
 
-
     private final AuthInfoRepository authInfoRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -69,14 +68,14 @@ public class AuthInfoService {
                         authInfoRequest.getPassword()));
 
         AuthInfo authInfo = authInfoRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new BadCredentialsException("bad credentials"));
+                .orElseThrow(() -> new BadCredentialsException("Password or email not found!"));
 
         if (authInfoRequest.getPassword().isBlank()) {
-            throw new BadRequestException("password cannot be empty");
+            throw new BadRequestException("Write password!");
         }
 
         if (!passwordEncoder.matches(authInfoRequest.getPassword(), authInfo.getPassword())) {
-            throw new BadCredentialsException("incorrect password");
+            throw new BadCredentialsException("Password or email not found!");
         }
 
         String token = jwtUtils.generateToken(authInfo.getEmail());
@@ -91,7 +90,7 @@ public class AuthInfoService {
 
     if (authInfoRepository.existsAuthInfoByEmail(clientRegisterRequest.getEmail())) {
         throw new BadRequestException("This email: " +
-                clientRegisterRequest.getEmail() + " is already in use!");
+                clientRegisterRequest.getEmail() + " is not empty!");
     }
 
         clientRegisterRequest.setPassword(passwordEncoder.encode(clientRegisterRequest.getPassword()));
@@ -111,6 +110,7 @@ public class AuthInfoService {
     }
 
     public AuthInfoResponse authWithGoogleAccount(String tokenId) throws FirebaseAuthException {
+
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(tokenId);
 
         Client client;
@@ -119,15 +119,19 @@ public class AuthInfoService {
 
             Client newClient = new Client();
 
-            newClient.setFirstName(firebaseToken.getName());
+            String[] name = firebaseToken.getName().split(" ");
+
+            newClient.setFirstName(name[0]);
+
+            newClient.setLastName(name[1]);
 
             newClient.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
 
-            client = clientRepository.save(newClient);
-        }else {
+            clientRepository.save(newClient);
+        }
 
             client = clientRepository.findClientByAuthInfoEmail(firebaseToken.getEmail());
-        }
+
         return new AuthInfoResponse(client.getAuthInfo().getEmail(),
                 jwtUtils.generateToken(client.getAuthInfo().getEmail()),
                 client.getAuthInfo().getRole());

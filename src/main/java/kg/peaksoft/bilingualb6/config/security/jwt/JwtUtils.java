@@ -8,9 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -21,7 +18,6 @@ import java.util.Date;
 public class JwtUtils {
 
     private String secret;
-
     private String issuer;
 
     private Long expires;
@@ -39,6 +35,7 @@ public class JwtUtils {
     }
 
     public String validateJWTToken(String jwt) {
+
         DecodedJWT verify = getDecodedJWT(jwt);
 
         return verify.getClaim("email").asString();

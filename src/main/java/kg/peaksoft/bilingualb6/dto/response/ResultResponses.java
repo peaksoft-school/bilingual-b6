@@ -16,14 +16,14 @@ public class ResultResponses {
 
     private Status status;
 
-    private Integer finalScore;
+    private Float finalScore;
 
     private String testTitle;
 
     private Long testId;
 
     public ResultResponses(Long id, LocalDateTime dateOfSubmission,
-                           Status status, Integer finalScore, String testTitle, Long testId) {
+                           Status status, Float finalScore, String testTitle, Long testId) {
         this.id = id;
         this.dateOfSubmission = dateOfSubmission;
         this.status = status;

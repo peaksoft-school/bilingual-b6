@@ -40,12 +40,17 @@ public class S3Service {
                 .bucket(BUCKET_NAME)
                 .contentType("jpeg")
                 .contentType("png")
-                .contentType("pdf")
+                .contentType("ogg")
+                .contentType("mp3")
+                .contentType("mpeg")
+                .contentType("ogg")
+                .contentType("m4a")
+                .contentType("oga")
                 .contentLength(file.getSize())
                 .key(key)
                 .build();
         s3.putObject(put, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
-        log.info("Upload completed");
+        log.info("Upload successfully deleted!");
         return Map.of(
                 "link", BUCKET_PATH + key);
     }

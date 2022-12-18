@@ -1,20 +1,18 @@
 package kg.peaksoft.bilingualb6.service;
 
 import kg.peaksoft.bilingualb6.dto.request.TestRequest;
-import kg.peaksoft.bilingualb6.dto.response.QuestionResponse;
-import kg.peaksoft.bilingualb6.dto.response.SimpleResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestInnerPageResponse;
-import kg.peaksoft.bilingualb6.dto.response.TestResponse;
+import kg.peaksoft.bilingualb6.dto.response.*;
+import kg.peaksoft.bilingualb6.entites.Question;
+import kg.peaksoft.bilingualb6.entites.Result;
 import kg.peaksoft.bilingualb6.entites.Test;
 import kg.peaksoft.bilingualb6.exceptions.BadRequestException;
 import kg.peaksoft.bilingualb6.exceptions.NotFoundException;
-import kg.peaksoft.bilingualb6.repository.OptionRepository;
-import kg.peaksoft.bilingualb6.repository.QuestionRepository;
-import kg.peaksoft.bilingualb6.repository.TestRepository;
+import kg.peaksoft.bilingualb6.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,10 +26,11 @@ public class TestService {
 
     private final OptionRepository optionRepository;
 
+    private final ResultRepository resultRepository;
+
     public SimpleResponse enableDisable(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Test with =%s id not " +
-                        "found", id)));
+                () -> new NotFoundException("Test not found!"));
         test.setIsActive(!test.getIsActive());
         String a;
         if (test.getIsActive()) {
@@ -40,17 +39,16 @@ public class TestService {
             a = "disabled" +
                     "";
         }
-        return new SimpleResponse(String.format("Test with = %s id is = %s", id, a), "ok");
+        return new SimpleResponse(String.format("Test successfully %s", a), "ok");
     }
 
     public TestInnerPageResponse getTestById(Long id) {
         Test test = testRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Test with =%s id not " + "found", id)));
+                () -> new NotFoundException("Test not found!"));
 
-        List<QuestionResponse> questions = questionRepository.getQuestionByTestId(id);
+        List<QuestionResponseForGetByTestId> questions = questionRepository.getQuestionByTestId(id);
         Integer duration = 0;
-        for (QuestionResponse question : questions) {
-            question.setOptionResponseList(optionRepository.getAllOptionsByQuestionId(question.getId()));
+        for (QuestionResponseForGetByTestId question : questions) {
             duration += question.getDuration();
         }
         return TestInnerPageResponse.builder()
@@ -62,18 +60,53 @@ public class TestService {
                 .build();
     }
 
+    public TestResponseGetTestByIdForClient getTestByIdForClient(Long id) {
+        Test test = testRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Test not found!"));
+
+        List<QuestionResponse> questions = questionRepository.getQuestionByTestIdForClient(id);
+        for (QuestionResponse question : questions) {
+            question.setOptionResponseList(optionRepository.getOptions(question.getId()));
+        }
+        return TestResponseGetTestByIdForClient.builder()
+                .id(test.getId())
+                .title(test.getTitle())
+                .shortDescription(test.getShortDescription())
+                .questionResponses(questions)
+                .build();
+    }
+
+    public List<TestResponseForClient> getAllTestForClient() {
+        List<Test> tests = testRepository.findAllForClient();
+        List<TestResponseForClient> responses = new ArrayList<>();
+        for (Test t : tests) {
+            TestResponseForClient testResponseForClient = new TestResponseForClient();
+            testResponseForClient.setTitle(t.getTitle());
+            testResponseForClient.setShortDescription(t.getShortDescription());
+            testResponseForClient.setId(t.getId());
+            int a = 0;
+            for (Question q : t.getQuestions()) {
+                if (q.getIsActive().equals(true)) {
+                    a += q.getDuration();
+                }
+            }
+            testResponseForClient.setDuration(a);
+            responses.add(testResponseForClient);
+        }
+        return responses;
+    }
+
     public SimpleResponse deleteTest(Long id) {
-        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format(
-                "Test with id=%d not found! ", id)));
+        Test test = testRepository.findById(id).orElseThrow(() -> new NotFoundException("Test not found!"));
+        resultRepository.deleteAll(resultRepository.getResultsByTestId(id));
         testRepository.delete(test);
-        return new SimpleResponse(" DELETED ", String.format(" Test with %d id successfully deleted", id));
+        return new SimpleResponse("Test successfully deleted!", "Ok");
     }
 
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format(
-                        "Test with %d id not found", id)));
-        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()){
+                new NotFoundException("Test not found!"));
+        if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
             throw new BadRequestException("The question title and description should not be an empty!!!");
         }
         test.setShortDescription(testRequest.getShortDescription());
@@ -85,7 +118,6 @@ public class TestService {
     public List<TestResponse> getAll() {
         return testRepository.getAllTest();
     }
-
 
     public TestResponse save(TestRequest request) {
         Test test = new Test(request);

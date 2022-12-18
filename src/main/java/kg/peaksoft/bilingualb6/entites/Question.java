@@ -61,6 +61,9 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
+    @Column
+    private Integer questionNumber;
+
     @ManyToOne(cascade = {DETACH, MERGE, REFRESH}, fetch = FetchType.LAZY)
     private Test test;
 
@@ -70,7 +73,7 @@ public class Question {
     @OneToOne(cascade = ALL,mappedBy = "question")
     private QuestionAnswer questionAnswer;
 
-    public Question(QuestionRequest request) {
+    public Question(QuestionRequest request, Integer questionNumber) {
         this.title = request.getTitle();
         this.duration = request.getDuration();
         this.questionType = request.getQuestionType();
@@ -80,9 +83,10 @@ public class Question {
         for (OptionRequest o : request.getOptions()){
             this.options.add(new Option(o));
         }
+        this.questionNumber = questionNumber;
     }
 
-    public Question(QuestionRequest request, QuestionType questionType) {
+    public Question(QuestionRequest request, QuestionType questionType, Integer questionNumber) {
         this.title = request.getTitle();
         this.duration = request.getDuration();
         this.questionType = questionType;
@@ -93,9 +97,10 @@ public class Question {
         for (OptionRequest o : request.getOptions()){
             this.options.add(new Option(o));
         }
+        this.questionNumber = questionNumber;
     }
 
-    public Question(String title, Integer duration, String statement, Integer numberOfReplays, String correctAnswer, Content content, QuestionType questionType) {
+    public Question(String title, Integer duration, String statement, Integer numberOfReplays, String correctAnswer, Content content, QuestionType questionType, Integer questionNumber) {
         this.title = title;
         this.duration = duration;
         this.statement = statement;
@@ -104,18 +109,20 @@ public class Question {
         this.correctAnswer = correctAnswer;
         this.content = content;
         this.questionType = questionType;
+        this.questionNumber = questionNumber;
     }
 
-    public Question(String title, Integer duration, String correctAnswer, Content content, QuestionType questionType) {
+    public Question(String title, Integer duration, String correctAnswer, Content content, QuestionType questionType, Integer questionNumber) {
         this.title = title;
         this.duration = duration;
         this.isActive = true;
         this.correctAnswer = correctAnswer;
         this.content = content;
         this.questionType = questionType;
+        this.questionNumber = questionNumber;
     }
 
-    public Question(String title, String statement, String passage, Integer duration, String correctAnswer, QuestionType questionType) {
+    public Question(String title, String statement, String passage, Integer duration, String correctAnswer, QuestionType questionType, Content content, Integer questionNumber) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
@@ -123,23 +130,36 @@ public class Question {
         this.duration = duration;
         this.correctAnswer = correctAnswer;
         this.questionType = questionType;
+        this.content = content;
+        this.questionNumber = questionNumber;
     }
 
-    public Question(String title, String statement, Integer duration, String correctAnswer, QuestionType questionType) {
+    public Question(String title, String statement, Integer duration, String correctAnswer, QuestionType questionType, Content content, Integer questionNumber) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
         this.duration = duration;
         this.correctAnswer = correctAnswer;
         this.questionType = questionType;
+        this.content = content;
+        this.questionNumber = questionNumber;
     }
 
-    public Question(String title, Integer duration, QuestionType questionType, String statement, Integer minNumberOfWords) {
+    public Question(String title, Integer duration, QuestionType questionType, String statement, Integer minNumberOfWords, Content content, Integer questionNumber) {
         this.title = title;
         this.isActive = true;
         this.statement = statement;
         this.duration = duration;
         this.minNumberOfWords = minNumberOfWords;
         this.questionType = questionType;
+        this.content = content;
+        this.questionNumber = questionNumber;
+    }
+
+    public void addOption(Option option){
+        if (options==null){
+            options=new ArrayList<>();
+        }
+        options.add(option);
     }
 }

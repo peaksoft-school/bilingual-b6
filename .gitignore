@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/application-aziza.yml
+src/main/resources/application-adilet.properties
