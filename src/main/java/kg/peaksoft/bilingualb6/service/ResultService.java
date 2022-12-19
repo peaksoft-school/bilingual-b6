@@ -116,7 +116,7 @@ public class ResultService {
             response = new CheckQuestionAnswerResponse(questionAnswer.getQuestion().getContent().getContent(), questionAnswer.getQuestion().getCorrectAnswer(), questionAnswer.getTextResponseUser());
         }
         if (questionAnswer.getQuestion().getQuestionType() == QuestionType.DESCRIBE_IMAGE){
-            response = new CheckQuestionAnswerResponse(questionAnswer.getScore(), questionAnswer.getQuestion().getCorrectAnswer(), questionAnswer.getQuestion().getStatement(), questionAnswer.getQuestion().getContent().getContent());
+            response = new CheckQuestionAnswerResponse(questionAnswer.getScore(), questionAnswer.getQuestion().getContent().getContent(), questionAnswer.getQuestion().getCorrectAnswer(), questionAnswer.getTextResponseUser());
         }
         if (questionAnswer.getQuestion().getQuestionType() == QuestionType.RESPOND_IN_AT_LEAST_N_WORDS){
             response = new CheckQuestionAnswerResponse(questionAnswer.getQuestion().getStatement(), questionAnswer.getQuestion().getMinNumberOfWords(), questionAnswer.getTextResponseUser(), questionAnswer.getNumberOfWords());

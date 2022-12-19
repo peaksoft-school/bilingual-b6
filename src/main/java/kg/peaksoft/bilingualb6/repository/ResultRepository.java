@@ -39,4 +39,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
             "q.seen" +
             ") from QuestionAnswer q where q.result.id = ?1 order by q.status desc, q.score")
     List<QuestionAnswerResponse> getResultQuestions(Long id);
+
+    @Query("select r from Result r where r.test.id = ?1")
+    List<Result> getResultsByTestId(Long id);
 }

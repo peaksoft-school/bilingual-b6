@@ -127,7 +127,11 @@ public class AuthInfoService {
 
             Client newClient = new Client();
 
-            newClient.setFirstName(firebaseToken.getName());
+            String[] name = firebaseToken.getName().split(" ");
+
+            newClient.setFirstName(name[0]);
+
+            newClient.setLastName(name[1]);
 
             newClient.setAuthInfo(new AuthInfo(firebaseToken.getEmail(), firebaseToken.getEmail(), Role.CLIENT));
 
