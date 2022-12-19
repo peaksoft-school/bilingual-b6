@@ -122,7 +122,7 @@ public class TestService {
     public TestResponse updateTest(Long id, TestRequest testRequest) {
         Test test = testRepository.findById(id).orElseThrow(() -> {
             log.error("Test with id: " + id + "not found!");
-                throw new NotFoundException(("Test with id: " + id + "not found!"));
+            throw new NotFoundException(("Test with id: " + id + "not found!"));
         });
         if (testRequest.getTitle().isEmpty() || testRequest.getShortDescription().isEmpty()) {
             log.error("The question title and description should not be an empty!");
