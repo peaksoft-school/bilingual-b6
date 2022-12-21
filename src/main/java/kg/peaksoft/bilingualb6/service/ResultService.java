@@ -79,7 +79,7 @@ public class ResultService {
         if (status == 0){
             result.setStatus(Status.EVALUATED);
         }
-        return new ViewResultResponse(result.getId(), result.getClient().getLastName() + " " + result.getClient().getLastName(),
+        return new ViewResultResponse(result.getId(), result.getClient().getLastName() + " " + result.getClient().getFirstName(),
                 result.getTest().getTitle(), result.getDateOfSubmission(), result.getFinalScore(), result.getStatus(), resultRepository.getResultQuestions(id));
     }
 
