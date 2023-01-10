@@ -24,5 +24,4 @@ public class OptionController {
     public SimpleResponse delete(@PathVariable Long id) {
         return optionService.deleteOption(id);
     }
-
 }

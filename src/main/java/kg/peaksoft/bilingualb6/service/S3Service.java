@@ -32,7 +32,6 @@ public class S3Service {
         this.s3 = s3;
     }
 
-
     public Map<String, String> upload(MultipartFile file) throws IOException {
         log.info("Uploading file ...");
         String key = System.currentTimeMillis() + file.getOriginalFilename();
@@ -74,4 +73,3 @@ public class S3Service {
                 "message", fileLink + " has been deleted");
     }
 }
-
